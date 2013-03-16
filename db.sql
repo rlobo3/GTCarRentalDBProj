@@ -1,11 +1,11 @@
 create table employee(
 	username varchar(20),
-	pass varchar(20) not null,
+	passwd varchar(20) not null,
 	primary key (username));
 	
 create table administrator(
 	username varchar(20),
-	pass varchar(20) not null,
+	passwd varchar(20) not null,
 	primary key (username));
 	
 create table driving_plan(
@@ -25,7 +25,7 @@ create table credit_card(
 	
 create table member(
 	username varchar(20),
-	pass varchar(20) not null,
+	passwd varchar(20) not null,
 	fname varchar(20) not null,
 	mi	varchar(1),
 	lname varchar(20) not null,
