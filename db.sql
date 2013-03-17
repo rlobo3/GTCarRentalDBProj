@@ -34,5 +34,5 @@ create table member(
 	dptype varchar(20) not null,
 	cardno int(20) not null,
 	primary key (username)
-	foreign key (dptype, driving_plan)
-	foreign key (cardno, credit_card));
+	foreign key (dptype) references driving_plan(dptype)
+	foreign key (cardno) references credit_card(cardno);
