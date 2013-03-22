@@ -1,9 +1,16 @@
 package rentalcar;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class MainFrame {
     static JFrame main;
@@ -41,7 +48,10 @@ public class MainFrame {
         }
     }
     public static void main(String[] args){
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         main = new JFrame("GT Car Rental");
+        main.setBounds(0, 0, screenSize.width, screenSize.height);
+        main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         init();
         main.setContentPane(mainPanel);
         main.setVisible(true);

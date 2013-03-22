@@ -8,7 +8,7 @@ import javax.swing.*;
 public class LoginPanel extends JPanel implements ActionListener {
     JLabel userN, passw;
     JTextField userName, password;
-    JButton signIn, register, cancel;
+    JButton signIn, cancel;
     
     public LoginPanel() {
         userN = new JLabel("Username");
@@ -19,27 +19,24 @@ public class LoginPanel extends JPanel implements ActionListener {
         
         signIn = new JButton("Sign in");
         signIn.addActionListener(this);
-        register = new JButton("Register");
         cancel = new JButton("Cancel and Exit");
+        cancel.addActionListener(this);
         
         this.add(userN);
         this.add(userName);
         this.add(passw);
         this.add(password);
         this.add(signIn);
-        this.add(register);
+        this.add(cancel);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == signIn) {
-            
-        }
-        else if(e.getSource() == register) {
-            
+            //TODO
         }
         else {
-            System.exit(0);
+            //TODO
         }
     }
 }
