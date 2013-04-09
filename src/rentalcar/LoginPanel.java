@@ -30,7 +30,6 @@ public class LoginPanel extends JPanel implements ActionListener {
         this.add(cancel);
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == signIn) {
             //TODO

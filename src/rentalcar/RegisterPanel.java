@@ -43,7 +43,6 @@ public class RegisterPanel extends JPanel implements ActionListener{
         this.add(register);
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == register) {
             //TODO
