@@ -4,8 +4,6 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,20 +15,22 @@ public class MainFrame {
     static JPanel mainPanel;
     static JButton login;
     static JButton register;
-    
+
     public static void init(){
         mainPanel = new JPanel();
-        
+
         login = new JButton("Login");
         login.addActionListener(new ButtonListener());
-        
+        login.setSize(login.getPreferredSize());
+
         register = new JButton("Register");
         register.addActionListener(new ButtonListener());
+        register.setSize(register.getPreferredSize());
         
         mainPanel.add(login);
         mainPanel.add(register);
     }
-    
+
     private static class ButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
             if(e.getSource() == login){
