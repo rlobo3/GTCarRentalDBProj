@@ -1,4 +1,5 @@
 package rentalcar;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,7 +21,8 @@ public class RegisterPanel extends JPanel implements ActionListener{
     JButton register, cancel;
     @SuppressWarnings("rawtypes")
 	JComboBox userType;
-        
+    private final int WIDTH = 400, HEIGHT = 500;
+
     public RegisterPanel() {
         userN = new JLabel("Username: ");
         userName = new JTextField(20);
@@ -46,6 +48,7 @@ public class RegisterPanel extends JPanel implements ActionListener{
         this.add(confirmP);
         this.add(type);
         this.add(register);
+		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
     }
 
     @Override

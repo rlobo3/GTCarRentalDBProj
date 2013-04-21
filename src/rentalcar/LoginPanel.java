@@ -1,4 +1,5 @@
 package rentalcar;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -15,6 +16,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	JLabel userN, passw;
     JTextField userName, password;
     JButton signIn, cancel;
+    private final int WIDTH = 400, HEIGHT = 500;
     
     public LoginPanel() {
         userN = new JLabel("Username");
@@ -34,6 +36,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         this.add(password);
         this.add(signIn);
         this.add(cancel);
+		this.setSize(new Dimension(WIDTH, HEIGHT));
     }
 
     @Override
