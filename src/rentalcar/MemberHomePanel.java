@@ -29,7 +29,7 @@ public class MemberHomePanel extends JPanel {
 	 */
 	public MemberHomePanel() {
 		heading = new JLabel(headingString);
-		heading.setFont(new Font("Helvetica", Font.BOLD, 24));
+		heading.setFont(new Font("Helvetica", Font.BOLD, 40));
 
 		carRental = new JRadioButton(carRentalString);
 		carRental.setBackground(Color.green);
