@@ -1,12 +1,18 @@
 package rentalcar;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ *	This class is the login screen where the user enters the system.
+ */
+
 public class LoginPanel extends JPanel implements ActionListener {
-    JLabel userN, passw;
+	private static final long serialVersionUID = 1L;
+	
+	JLabel userN, passw;
     JTextField userName, password;
     JButton signIn, cancel;
     

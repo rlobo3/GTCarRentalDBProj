@@ -1,5 +1,4 @@
 package rentalcar;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,11 +8,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * @author Rochelle Lobo
+ * This class helps the user in register in the system.
+ */
+
 public class RegisterPanel extends JPanel implements ActionListener{
-    JLabel userN, passw, confPwd, type;
+	private static final long serialVersionUID = 1L;
+	JLabel userN, passw, confPwd, type;
     JTextField userName, password, confirmP;
     JButton register, cancel;
-    JComboBox userType;
+    @SuppressWarnings("rawtypes")
+	JComboBox userType;
         
     public RegisterPanel() {
         userN = new JLabel("Username: ");
@@ -31,7 +37,6 @@ public class RegisterPanel extends JPanel implements ActionListener{
         cancel.addActionListener(this);
         register = new JButton("Register");
         register.addActionListener(this);
-        
         
         this.add(userN);
         this.add(userName);
