@@ -1,8 +1,13 @@
 package rentalcar;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  * 
@@ -10,13 +15,12 @@ import javax.swing.*;
  *	This class is the login screen where the user enters the system.
  */
 
-public class LoginPanel extends JPanel implements ActionListener {
+public class LoginPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	JLabel userN, passw;
     JTextField userName, password;
     JButton signIn, cancel;
-    private final int WIDTH = 400, HEIGHT = 500;
     
     public LoginPanel() {
         userN = new JLabel("Username");
@@ -26,9 +30,9 @@ public class LoginPanel extends JPanel implements ActionListener {
         password = new JTextField(20);
         
         signIn = new JButton("Sign in");
-        signIn.addActionListener(this);
+        signIn.addActionListener(new SignInButtonListener());
         cancel = new JButton("Cancel and Exit");
-        cancel.addActionListener(this);
+        cancel.addActionListener(new CancelButtonListener());
         
         this.add(userN);
         this.add(userName);
@@ -36,16 +40,27 @@ public class LoginPanel extends JPanel implements ActionListener {
         this.add(password);
         this.add(signIn);
         this.add(cancel);
-		this.setSize(new Dimension(WIDTH, HEIGHT));
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == signIn) {
-            //TODO
-        }
-        else {
-            //TODO
-        }
-    }
+	private class SignInButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			String usernameEntered, passwordEntered;
+			usernameEntered = userName.getText();
+			passwordEntered = password.getText();
+			if(usernameEntered == null || passwordEntered == null){
+                JDialog lDialog = new JDialog(new JFrame(), "Login in Error");
+                lDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                //lDialog.add(new LoginPanel());
+                lDialog.setVisible(true);
+			}else{
+				
+			}
+		}
+	}
+	
+	private class CancelButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			
+		}
+	}
 }

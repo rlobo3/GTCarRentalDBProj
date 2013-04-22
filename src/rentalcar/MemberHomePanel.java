@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
- * @author Sahil Gupta This class is the home page for students and
+ * @author Sahil Gupta This class is the home page for students and georgia tech staff/faculty
  */
 
 public class MemberHomePanel extends JPanel {
