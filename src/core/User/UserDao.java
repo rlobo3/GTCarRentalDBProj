@@ -1,4 +1,4 @@
-package rentalcar;
+package core.User;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
