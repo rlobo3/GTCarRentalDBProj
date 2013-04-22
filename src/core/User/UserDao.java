@@ -2,8 +2,8 @@ package core.User;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.mysql.jdbc.ResultSet;
@@ -12,7 +12,7 @@ public class UserDao {
     String connStr, user, password, driverName;
     
     public UserDao() {
-        connStr = "jdbc:mysql://academicmysql.cc.gatech.edu/cs4400_Group_24";
+        connStr = "jdbc:mysql://academic-mysql.cc.gatech.edu/cs4400_Group_24";
         user = "cs4400_Group_24";
         password = "JZpQT_7j";
         driverName = "com.mysql.jdbc.Driver";
@@ -47,13 +47,69 @@ public class UserDao {
         return false; 
     }
     
-    public boolean addUser(String username, String password) {
+    public AdminUser addAdminUser(String username, String password) {
         if(isUsernameExistent(username)) {
-            return false;
+            return null;
         }
         else {
-            return true;
-//            Connection conn = createConnection();
+            Connection conn = createConnection();
+            try {
+                String statement = "INSERT INTO Administrator(Username,Pass) VALUES(?,?)";
+                PreparedStatement prep = conn.prepareStatement(statement);
+                prep.setString(1, username);
+                prep.setString(2, password);
+                prep.executeUpdate();
+                prep.close();
+                closeConnection(conn);
+                return new AdminUser(username, password);
+            }
+            catch (SQLException e) {}
+            closeConnection(conn);
+            return null;
+        }
+    }
+    
+    public MemberUser addMemberUser(String username, String password) {
+        if(isUsernameExistent(username)) {
+            return null;
+        }
+        else {
+            Connection conn = createConnection();
+            try {
+                String statement = "INSERT INTO Administrator(Username,Pass) VALUES(?,?)";
+                PreparedStatement prep = conn.prepareStatement(statement);
+                prep.setString(1, username);
+                prep.setString(2, password);
+                prep.executeUpdate();
+                prep.close();
+                closeConnection(conn);
+                return new MemberUser(username, password);
+            }
+            catch (SQLException e) {}
+            closeConnection(conn);
+            return null;
+        }
+    }
+    
+    public EmployeeUser addEmployeeUser(String username, String password) {
+        if(isUsernameExistent(username)) {
+            return null;
+        }
+        else {
+            Connection conn = createConnection();
+            try {
+                String statement = "INSERT INTO Administrator(Username,Pass) VALUES(?,?)";
+                PreparedStatement prep = conn.prepareStatement(statement);
+                prep.setString(1, username);
+                prep.setString(2, password);
+                prep.executeUpdate();
+                prep.close();
+                closeConnection(conn);
+                return new EmployeeUser(username, password);
+            }
+            catch (SQLException e) {}
+            closeConnection(conn);
+            return null;
         }
     }
     
@@ -66,23 +122,34 @@ public class UserDao {
 //            Statement stmt = conn.createStatement();
             ResultSet rs = (ResultSet) prep.executeQuery();
             while(rs.next()){
-                if(username.equals(rs.getString("Username"))){
+                String s = rs.getString("Username");
+                if(username.equals(s)){
+                    prep.close();
+                    closeConnection(conn);
                     return true;
                 }
-                return false;
             }
-            
+            prep.close();
+            closeConnection(conn);
+            return false;
         }
         catch (SQLException e) {}
+        closeConnection(conn);
         return false;
     }
     
     public static void main(String[] args) {
         UserDao acc = new UserDao();
+        AdminUser admin1 = acc.addAdminUser("hvu", "1A");
+        AdminUser admin2 = acc.addAdminUser("rlobo", "pass123");
+        if(admin1 != null)
+            System.out.println("Added");
+        else
+            System.out.println("Failed");
         
-//        if(acc.addUser("hvu", "1A"))
-//            System.out.println("true");
-//        else
-//            System.out.println("false");
+        if(admin2 != null)
+            System.out.println("Added");
+        else
+            System.out.println("Failed");
     }
 } 
