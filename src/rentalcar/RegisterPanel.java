@@ -9,6 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * @author Rochelle Lobo
+ * This class helps the user in register in the system.
+ */
+ 
 public class RegisterPanel extends JPanel implements ActionListener{
     JLabel userN, passw, confPwd, type;
     JTextField userName, password, confirmP;
@@ -43,6 +48,7 @@ public class RegisterPanel extends JPanel implements ActionListener{
         this.add(register);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == register) {
             //TODO
