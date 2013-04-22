@@ -8,10 +8,10 @@ import java.sql.Statement;
 
 import com.mysql.jdbc.ResultSet;
 
-public class SQLAccess {
+public class UserDao {
     String connStr, user, password, driverName;
     
-    public SQLAccess() {
+    public UserDao() {
         connStr = "jdbc:mysql://academicmysql.cc.gatech.edu/cs4400_Group_24";
         user = "cs4400_Group_24";
         password = "JZpQT_7j";
@@ -78,10 +78,11 @@ public class SQLAccess {
     }
     
     public static void main(String[] args) {
-        SQLAccess acc = new SQLAccess();
-        if(acc.addUser("hvu", "1A"))
-            System.out.println("true");
-        else
-            System.out.println("false");
+        UserDao acc = new UserDao();
+        
+//        if(acc.addUser("hvu", "1A"))
+//            System.out.println("true");
+//        else
+//            System.out.println("false");
     }
 } 
