@@ -38,7 +38,7 @@ public class MemberHomePanel extends JPanel {
         this.setBackground(Color.green);
         this.setLayout(new FlowLayout());
         setBounds(screenSize.width/2-200, screenSize.height/2-100, 
-                300, 200);
+                250, 225);
 
         heading = new JLabel(headingString);
         heading.setFont(new Font("Helvetica", Font.BOLD, 40));
@@ -57,6 +57,7 @@ public class MemberHomePanel extends JPanel {
         this.add(carRental);
         this.add(enterViewPI);
         this.add(ViewRentalInfo);
+        this.add(nextButton);
     }
 
     private class NextButtonListener implements ActionListener {
