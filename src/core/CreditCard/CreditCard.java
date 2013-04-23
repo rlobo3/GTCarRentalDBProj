@@ -16,6 +16,10 @@ public class CreditCard {
         this.expiryDate = expiryDate;
         this.billingAddress = billingAddress;
     }
+    
+    public CreditCard() {
+        this(0, null, 0, null, null);
+    }
 
     /**
      * @return the cardNumber

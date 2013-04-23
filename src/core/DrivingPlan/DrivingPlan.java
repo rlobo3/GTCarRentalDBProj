@@ -76,6 +76,4 @@ public class DrivingPlan {
     public void setDiscount(Float discount) {
         this.discount = discount;
     }
-    
-    
 }

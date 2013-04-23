@@ -12,9 +12,6 @@ import core.User.MemberUser;
 
 public class DrivingPlanDao {
     DBConnection connection = new DBConnection();
-    String drivingPlan;
-    Float discout;
-    Integer monthlyPayment, annualFees;
     ArrayList<DrivingPlan> tableElement = new ArrayList<DrivingPlan>();
     
     public ArrayList<DrivingPlan> getDrivingPlans(MemberUser member){
@@ -25,10 +22,6 @@ public class DrivingPlanDao {
             PreparedStatement prep = conn.prepareStatement(statement);
             ResultSet rs = (ResultSet) prep.executeQuery();
             while(rs.next()){
-//                drivingPlan = rs.getString("Plan_Type");
-//                monthlyPayment = rs.getFloat("Monthly_Payment");
-//                discout = rs.getString("Discount");
-//                annualFees = rs.getString("Annual_Fees");
                 DrivingPlan plan = new DrivingPlan(rs.getString("Plan_Type"),
                         Integer.parseInt(rs.getString("Annual_Fees")),
                         Integer.parseInt(rs.getString("Monthly_Payment")),
