@@ -1,8 +1,8 @@
 package rentalcar;
 
 import java.awt.Color;
+import java.awt.Dialog;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -23,20 +24,17 @@ import javax.swing.JTextField;
 
 import core.DBConnection;
 import core.User.MemberUser;
-import core.User.UserDao;
 
 /**
  * @author Sahil Gupta This class displays the Personal Information of the user.
  */
 public class MemberPInfoPanel extends JPanel {
-
 	private static final long serialVersionUID = 1L;
+	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	
 	private MemberUser member;
-	private JFrame mainFrame;
 	DBConnection connection = new DBConnection();
 
-	private final int WIDTH = 400, HEIGHT = 1000;
-    final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	JLabel PersonalInformation, GeneralInformation, MembershipInformation,
 			PaymentInformation;
 	JLabel FirstName, MiddleInitial, LastName, EmailAddress, PhoneNumber,
@@ -59,15 +57,14 @@ public class MemberPInfoPanel extends JPanel {
 	String username, password;
 
 	public MemberPInfoPanel(MemberUser member) {
-		this.mainFrame = MainFrame.getMain();
 		this.member = member;
+                
 		username = member.getUsername();
 		password = member.getPassword();
 		
 		this.setBackground(Color.green);
-	        this.setLayout(new FlowLayout());
-	        setBounds(screenSize.width/2, screenSize.height, 
-	                200, 0);
+	        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+	        setBounds(300, 0, screenSize.width/2, screenSize.height-40);
 
 		PersonalInformation = new JLabel("Personal Information");
 		PersonalInformation.setFont(new Font("Helvetica", Font.BOLD, 70));
@@ -147,11 +144,11 @@ public class MemberPInfoPanel extends JPanel {
                 if(member.getAddress() != null)
                     AddressField.setText(member.getAddress());
                 if(member.getDrivingPlan() != null){
-                    if (member.getDrivingPlan().getPlanType().equals("Occasional Driving")) {
+                    if (member.getDrivingPlan().getName().equals("Occasional Driving")) {
                         OccasionalDriving.setSelected(true);
-                    } else if (member.getDrivingPlan().getPlanType().equals("Frequent Driving")) {
+                    } else if (member.getDrivingPlan().getName().equals("Frequent Driving")) {
                         FrequentDriving.setSelected(true);
-                    } else if (member.getDrivingPlan().getPlanType().equals("Daily Driving")) {
+                    } else if (member.getDrivingPlan().getName().equals("Daily Driving")) {
                         DailyDriving.setSelected(true);
                     }
                 }
@@ -198,18 +195,15 @@ public class MemberPInfoPanel extends JPanel {
 		this.add(BillingAddress);
 		this.add(BillingAddressField);
 		this.add(Done);
-
 	}
 
 	private class ViewPlanDetailsButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
-			JDialog regDialog = new JDialog(new JFrame(), "Register");
-			regDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			regDialog.setBounds(screenSize.width / 3, screenSize.height / 3,
-					DIALOGWIDTH, DIALOGHEIGHT);
-			regDialog.add(new PlanDetailsPanel(member));
+			JDialog regDialog = new JDialog(new JFrame(), "Driving Plans", Dialog.ModalityType.APPLICATION_MODAL);
+			PlanDetailsPanel pDetails = new PlanDetailsPanel(member);
+			regDialog.setContentPane(pDetails);
+			regDialog.setBounds(regDialog.getContentPane().getBounds());
+                        regDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			regDialog.setVisible(true);
 		}
 	}

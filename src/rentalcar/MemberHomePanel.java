@@ -18,7 +18,6 @@ public class MemberHomePanel extends JPanel {
     final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     private MemberUser member;
-    private JFrame mainFrame;
     private ButtonGroup group;
     private JLabel heading;
     private JRadioButton carRental, enterViewPI, viewRentalInfo;
@@ -32,7 +31,6 @@ public class MemberHomePanel extends JPanel {
      * text.
      */
     public MemberHomePanel(MemberUser member) {
-        this.mainFrame = MainFrame.getMain();
         this.member = member;
 
         this.setBackground(Color.green);
@@ -68,16 +66,22 @@ public class MemberHomePanel extends JPanel {
     private class NextButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             if (carRental.isSelected()) {
+                JFrame mainFrame = MainFrame.getMain();
                 mainFrame.setContentPane(new RentCarPanel(member));
                 mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                 mainFrame.setVisible(true);
                 mainFrame.repaint();
             } else if (enterViewPI.isSelected()) {
-                mainFrame.setContentPane(new MemberPInfoPanel(member));
+                JFrame mainFrame = MainFrame.getMain();
+                MemberPInfoPanel pInfoPanel = new MemberPInfoPanel(member);
+                JScrollPane scrollPane = new JScrollPane(pInfoPanel);
+                scrollPane.setBounds(pInfoPanel.getBounds());
+                mainFrame.setContentPane(scrollPane);
                 mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                 mainFrame.setVisible(true);
                 mainFrame.repaint();
             } else if (viewRentalInfo.isSelected()) {
+                JFrame mainFrame = MainFrame.getMain();
                 mainFrame.setContentPane(new RentInfoPanel(member));
                 mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                 mainFrame.setVisible(true);
