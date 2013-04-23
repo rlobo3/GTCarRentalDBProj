@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -31,7 +32,7 @@ public class RentCarPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private MemberUser member;
 	private JFrame mainFrame;
-    static DBConnection connection = new DBConnection();
+	static DBConnection connection = new DBConnection();
 
 	private final int WIDTH = 400, HEIGHT = 500;
 
@@ -41,28 +42,43 @@ public class RentCarPanel extends JPanel {
 	JLabel PickUpTime, ReturnTime, Location, Cars;
 
 	@SuppressWarnings("rawtypes")
-	JComboBox PickUpTimeCombo, ReturnTimeCombo, LocationCombo, CarsCombo, CarTypesCombo;
-	
+	JComboBox PickUpTimeCombo, ReturnTimeCombo, LocationCombo, CarsCombo,
+			CarTypesCombo;
 	JXDatePicker PickUpDateCombo, ReturnDateCombo;
 
-	//Had to hard code it because there was no way out.
-	private String[] pickUpTimeStrings = { "12:00 AM", "12:30 AM", "1:00 AM", "1:30 AM", "2:00 AM","02:30 AM","03:00 AM","3:30 AM",
-			"04:00 AM","04:30 AM","05:00 AM","05:30 AM", "06:00 AM", "06:30 AM", "07:00 AM", "07:30 AM", "08:00 AM", "08:30 AM", "09:00 AM", 
-			"09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM","02:30 PM","03:00 PM","3:30 PM",
-			"04:00 PM","04:30 PM","05:00 PM","05:30 PM", "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM", "09:00 PM", 
-			"09:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM"};
-	
-	private String[] returnTimeStrings = { "12:00 AM", "12:30 AM", "1:00 AM", "1:30 AM", "2:00 AM","02:30 AM","03:00 AM","3:30 AM",
-			"04:00 AM","04:30 AM","05:00 AM","05:30 AM", "06:00 AM", "06:30 AM", "07:00 AM", "07:30 AM", "08:00 AM", "08:30 AM", "09:00 AM", 
-			"09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM","02:30 PM","03:00 PM","3:30 PM",
-			"04:00 PM","04:30 PM","05:00 PM","05:30 PM", "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM", "09:00 PM", 
-			"09:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM"};
-	
+	// Had to hard code it because there was no way out.
+	private String[] pickUpTimeStrings = { "12:00 AM", "12:30 AM", "1:00 AM",
+			"1:30 AM", "2:00 AM", "02:30 AM", "03:00 AM", "3:30 AM",
+			"04:00 AM", "04:30 AM", "05:00 AM", "05:30 AM", "06:00 AM",
+			"06:30 AM", "07:00 AM", "07:30 AM", "08:00 AM", "08:30 AM",
+			"09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM",
+			"11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM",
+			"2:00 PM", "02:30 PM", "03:00 PM", "3:30 PM", "04:00 PM",
+			"04:30 PM", "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM",
+			"07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM", "09:00 PM",
+			"09:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM" };
+
+	private String[] returnTimeStrings = { "12:00 AM", "12:30 AM", "1:00 AM",
+			"1:30 AM", "2:00 AM", "02:30 AM", "03:00 AM", "3:30 AM",
+			"04:00 AM", "04:30 AM", "05:00 AM", "05:30 AM", "06:00 AM",
+			"06:30 AM", "07:00 AM", "07:30 AM", "08:00 AM", "08:30 AM",
+			"09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM",
+			"11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM",
+			"2:00 PM", "02:30 PM", "03:00 PM", "3:30 PM", "04:00 PM",
+			"04:30 PM", "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM",
+			"07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM", "09:00 PM",
+			"09:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM" };
+
 	private String[] locationStrings;
 	private String[] carTypesStrings;
 	private String[] carsModelStrings;
 
 	JButton Search;
+
+	java.sql.Date PickUpTimeDate, ReturnTimeDate;
+	String pickUpTimeString, returnTimeString;
+
+	String locationString, carTypeString, carModelString;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public RentCarPanel(MemberUser member) {
@@ -81,105 +97,96 @@ public class RentCarPanel extends JPanel {
 		java.util.Date returndate = new java.util.Date();
 		PickUpDateCombo = new JXDatePicker(returndate);
 		ReturnTimeCombo = new JComboBox(returnTimeStrings);
-		
-        Connection conn = connection.createConnection();
-        try {
-        	
-            String statement = "SELECT distinct Car_Type FROM Car";
-            PreparedStatement prep = conn.prepareStatement(statement);
-            ResultSet rs = (ResultSet) prep.executeQuery();
-            
-            int rowcount = 0;
-            if (rs.last()) {
-              rowcount = rs.getRow();
-              rs.beforeFirst();
-            }
-            carTypesStrings = new String[rowcount];
-            
-            int i = 0;
-            while(rs.next()){
-            	carTypesStrings[i++] = rs.getString("Car_Type");
-            }
-            prep.close();
-            
-            String statement1 = "SELECT distinct Model FROM Car";
-            PreparedStatement prep1 = conn.prepareStatement(statement1);
-            ResultSet rs1 = (ResultSet) prep1.executeQuery();
-            
-            rowcount = 0;
-            if (rs1.last()) {
-              rowcount = rs1.getRow();
-              rs1.beforeFirst();
-            }
-            carsModelStrings = new String[rowcount];
-            
-            i = 0;
-            while(rs1.next()){
-            	carsModelStrings[i++] = rs1.getString("Car_Type");
-            }
-            prep1.close();
 
-            String statement2 = "SELECT distinct Location_Name FROM Car";
-            PreparedStatement prep2 = conn.prepareStatement(statement2);
-            ResultSet rs2 = (ResultSet) prep2.executeQuery();
-            
-            rowcount = 0;
-            if (rs2.last()) {
-              rowcount = rs2.getRow();
-              rs2.beforeFirst();
-            }
-            locationStrings = new String[rowcount];
-            
-            i = 0;
-            while(rs2.next()){
-            	locationStrings[i++] = rs2.getString("Car_Type");
-            }
-            prep2.close();
+		Connection conn = connection.createConnection();
+		try {
 
-            connection.closeConnection(conn);
-        }
-        catch (SQLException e) {
-        connection.closeConnection(conn);
-        }
+			String statement = "SELECT distinct Car_Type FROM Car";
+			PreparedStatement prep = conn.prepareStatement(statement);
+			ResultSet rs = (ResultSet) prep.executeQuery();
 
-		Location = new JLabel("Location:");
-		if(carsModelStrings != null){
-			LocationCombo = new JComboBox(carsModelStrings);
+			int rowcount = 0;
+			if (rs.last()) {
+				rowcount = rs.getRow();
+				rs.beforeFirst();
+			}
+			carTypesStrings = new String[rowcount];
+
+			int i = 0;
+			while (rs.next()) {
+				carTypesStrings[i++] = rs.getString("Car_Type");
+			}
+			prep.close();
+
+			String statement1 = "SELECT distinct Model FROM Car";
+			PreparedStatement prep1 = conn.prepareStatement(statement1);
+			ResultSet rs1 = (ResultSet) prep1.executeQuery();
+
+			rowcount = 0;
+			if (rs1.last()) {
+				rowcount = rs1.getRow();
+				rs1.beforeFirst();
+			}
+			carsModelStrings = new String[rowcount];
+
+			i = 0;
+			while (rs1.next()) {
+				carsModelStrings[i++] = rs1.getString("Car_Type");
+			}
+			prep1.close();
+
+			String statement2 = "SELECT distinct Location_Name FROM Car";
+			PreparedStatement prep2 = conn.prepareStatement(statement2);
+			ResultSet rs2 = (ResultSet) prep2.executeQuery();
+
+			rowcount = 0;
+			if (rs2.last()) {
+				rowcount = rs2.getRow();
+				rs2.beforeFirst();
+			}
+			locationStrings = new String[rowcount];
+
+			i = 0;
+			while (rs2.next()) {
+				locationStrings[i++] = rs2.getString("Car_Type");
+			}
+			prep2.close();
+
+			connection.closeConnection(conn);
+		} catch (SQLException e) {
+			connection.closeConnection(conn);
 		}
-
-		Cars = new JLabel("Cars:");
-		if(carTypesStrings != null){
-			CarTypesCombo = new JComboBox(carTypesStrings);
-		}
-		if(carsModelStrings != null){
-			CarsCombo = new JComboBox(carsModelStrings);
-		}
-
-		Search = new JButton("Search");
-		Search.addActionListener(new SearchButtonListener());
 
 		rentCarPanel = new JPanel();
-
 		rentCarPanel.add(RentACar);
-		
+
 		rentCarPanel.add(PickUpTime);
 		rentCarPanel.add(PickUpDateCombo);
 		rentCarPanel.add(PickUpTimeCombo);
-		
+
 		rentCarPanel.add(ReturnTime);
-		rentCarPanel.add(PickUpDateCombo);
+		rentCarPanel.add(ReturnDateCombo);
 		rentCarPanel.add(ReturnTimeCombo);
-		
+
+		Location = new JLabel("Location:");
 		rentCarPanel.add(Location);
+		LocationCombo = new JComboBox(carsModelStrings);
 		rentCarPanel.add(LocationCombo);
+
+		Cars = new JLabel("Cars:");
 		rentCarPanel.add(Cars);
+		CarTypesCombo = new JComboBox(carTypesStrings);
+		rentCarPanel.add(CarTypesCombo);
+
+		CarsCombo = new JComboBox(carsModelStrings);
 		rentCarPanel.add(CarsCombo);
 
+		Search = new JButton("Search");
+		Search.addActionListener(new SearchButtonListener());
 		rentCarPanel.add(Search);
 
 		rentCarPanel.setBackground(Color.green);
 		rentCarPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-
 	}
 
 	public JPanel getPanel() {
@@ -188,6 +195,41 @@ public class RentCarPanel extends JPanel {
 
 	private class SearchButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
+			PickUpTimeDate = new java.sql.Date(PickUpDateCombo.getDate()
+					.getTime());
+			ReturnTimeDate = new java.sql.Date(ReturnDateCombo.getDate()
+					.getTime());
+			pickUpTimeString = (String) PickUpTimeCombo.getSelectedItem();
+			returnTimeString = (String) ReturnTimeCombo.getSelectedItem();
+
+			locationString = (String) LocationCombo.getSelectedItem();
+			carTypeString = (String) CarTypesCombo.getSelectedItem();
+			carModelString = (String) CarsCombo.getSelectedItem();
+
+			String statement = "CREATE VIEW CAR_INFO AS SELECT Model_Name, Car_Type, Location_Name, "
+					+ "Color, Hourly_Rate, Daily_Rate, Seating_Cap, Transmission_Type, Bluetooth, "
+					+ "Auxiliary_Cable FROM Car NATURAL JOIN Reservation WHERE Car_Type = ? "
+					+ "AND Model_Name = ? AND Car.Location_Name = ? AND "
+					+ "? > ?";
+			// ////////////////////////TAKE CARE of date
+			Connection conn = connection.createConnection();
+
+			try {
+				PreparedStatement prep = conn.prepareStatement(statement);
+				prep.setString(1, carTypeString);
+				prep.setString(2, carModelString);
+				prep.setString(3, locationString);
+				prep.setDate(4, PickUpTimeDate);
+				prep.setDate(5, ReturnTimeDate);
+				ResultSet rs2 = (ResultSet) prep.executeQuery();
+				while (rs2.next()) {
+					
+				}
+				prep.close();
+				connection.closeConnection(conn);
+			} catch (SQLException e) {
+				connection.closeConnection(conn);
+			}
 
 		}
 	}
