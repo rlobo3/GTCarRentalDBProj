@@ -177,6 +177,7 @@ public class MemberPInfoPanel extends JPanel {
 		public void actionPerformed(ActionEvent event) {
 			Object source = event.getSource();
 			if (source == OccasionalDriving) {
+				
 			} else if (source == FrequentDriving) {
 
 			} else if (source == DailyDriving) {

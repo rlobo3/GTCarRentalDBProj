@@ -84,7 +84,7 @@ public class MemberHomePanel extends JPanel {
 	            mainFrame.setVisible(true);
 	            mainFrame.repaint();
 			} else if (source == ViewRentalInfo) {
-				mainFrame.setContentPane(new RentCarPanel(member));
+				mainFrame.setContentPane(new RentInfoPanel(member));
 	            mainFrame.setBounds(mainFrame.getContentPane().getBounds());
 	            mainFrame.setVisible(true);
 	            mainFrame.repaint();
