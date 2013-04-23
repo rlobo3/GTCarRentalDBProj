@@ -11,10 +11,13 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import core.User.*;
+import core.User.User;
+import core.User.UserDao;
+import core.User.UserType;
 
 /**
  * @author Rochelle Lobo
@@ -74,20 +77,20 @@ public class RegisterPanel extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == register) {
             if(!confirmP.getText().equals(password.getText())){
-                JDialog lDialog = new JDialog(new JFrame(), "Login in Error");
-                lDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                //lDialog.add(new LoginPanel());
-                lDialog.setVisible(true);
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "Passwords do not match",
+                        "Inane error",
+                        JOptionPane.ERROR_MESSAGE);
             }
             else {
                 UserDao userDao = new UserDao();
                 User userObj = userDao.addUser(userName.getText(),
                         password.getText(), UserType.values()[userType.getSelectedIndex()]);
                 if(userObj == null) {
-                    JDialog lDialog = new JDialog(new JFrame(), "Username already exists");
-                    lDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    //lDialog.add(new LoginPanel());
-                    lDialog.setVisible(true);
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Username already exists",
+                            "Inane error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
                 else if(userObj.getType() == UserType.MEMBER) {
                     JFrame mainFrame = MainFrame.getMain();
