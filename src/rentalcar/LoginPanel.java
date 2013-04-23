@@ -59,17 +59,17 @@ public class LoginPanel extends JPanel{
 
     private class LoginButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            String usernameEntered, passwordEntered;
-            usernameEntered = userName.getText();
-            passwordEntered = password.getText();
-            if(usernameEntered == null || passwordEntered == null){
+            String username, pword;
+            username = userName.getText();
+            pword = password.getText();
+            if(username == null || password == null){
                 JOptionPane.showMessageDialog(new JFrame(),
                         "Username or Password not entered",
                         "Inane error",
                         JOptionPane.ERROR_MESSAGE);
             }else{
                 UserDao userDao = new UserDao();
-                User userObj = userDao.login(userName.getText(), password.getText());
+                User userObj = userDao.login(username, pword);
                 if(userObj == null) {
                     JOptionPane.showMessageDialog(new JFrame(),
                             "Incorrect Login",

@@ -14,8 +14,8 @@ import core.User.MemberUser;
  */
 
 public class MemberHomePanel extends JPanel {
-
 	private static final long serialVersionUID = 1L;
+	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
 	private MemberUser member;
 	private JFrame mainFrame;
@@ -34,9 +34,13 @@ public class MemberHomePanel extends JPanel {
 	 * text.
 	 */
 	public MemberHomePanel(MemberUser member) {
-
 		this.mainFrame = MainFrame.getMain();
 		this.member = member;
+		
+		this.setBackground(Color.green);
+	        this.setLayout(new FlowLayout());
+	        setBounds(screenSize.width/2-200, screenSize.height/2-100, 
+	                300, 200);
 
 		heading = new JLabel(headingString);
 		heading.setFont(new Font("Helvetica", Font.BOLD, 40));
@@ -56,14 +60,11 @@ public class MemberHomePanel extends JPanel {
 		carRental.addActionListener(listener);
 		enterViewPI.addActionListener(listener);
 		ViewRentalInfo.addActionListener(listener);
-		memberHomePanel = new JPanel();
 
-		memberHomePanel.add(heading);
-		memberHomePanel.add(carRental);
-		memberHomePanel.add(enterViewPI);
-		memberHomePanel.add(ViewRentalInfo);
-		memberHomePanel.setBackground(Color.green);
-		memberHomePanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		this.add(heading);
+		this.add(carRental);
+		this.add(enterViewPI);
+		this.add(ViewRentalInfo);
 	}
 
 	public JPanel getPanel() {
