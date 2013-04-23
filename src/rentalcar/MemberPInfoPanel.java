@@ -1,7 +1,7 @@
 package rentalcar;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -20,8 +20,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import core.DBConnection;
@@ -66,7 +64,7 @@ public class MemberPInfoPanel extends JPanel {
 		
 		this.setBackground(Color.green);
 	        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-	        setBounds(100, 0, screenSize.width/2, screenSize.height-40);
+	        setBounds(300, 0, screenSize.width/2, screenSize.height-40);
 
 		PersonalInformation = new JLabel("Personal Information");
 		PersonalInformation.setFont(new Font("Helvetica", Font.BOLD, 70));
@@ -146,11 +144,11 @@ public class MemberPInfoPanel extends JPanel {
                 if(member.getAddress() != null)
                     AddressField.setText(member.getAddress());
                 if(member.getDrivingPlan() != null){
-                    if (member.getDrivingPlan().getPlanType().equals("Occasional Driving")) {
+                    if (member.getDrivingPlan().getName().equals("Occasional Driving")) {
                         OccasionalDriving.setSelected(true);
-                    } else if (member.getDrivingPlan().getPlanType().equals("Frequent Driving")) {
+                    } else if (member.getDrivingPlan().getName().equals("Frequent Driving")) {
                         FrequentDriving.setSelected(true);
-                    } else if (member.getDrivingPlan().getPlanType().equals("Daily Driving")) {
+                    } else if (member.getDrivingPlan().getName().equals("Daily Driving")) {
                         DailyDriving.setSelected(true);
                     }
                 }
@@ -201,13 +199,11 @@ public class MemberPInfoPanel extends JPanel {
 
 	private class ViewPlanDetailsButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
-			JDialog regDialog = new JDialog(new JFrame(), "Register");
-			regDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			regDialog.setBounds(screenSize.width / 3, screenSize.height / 3,
-					DIALOGWIDTH, DIALOGHEIGHT);
-			regDialog.add(new PlanDetailsPanel(member));
+			JDialog regDialog = new JDialog(new JFrame(), "Driving Plans", Dialog.ModalityType.APPLICATION_MODAL);
+			PlanDetailsPanel pDetails = new PlanDetailsPanel(member);
+			regDialog.setContentPane(pDetails);
+			regDialog.setBounds(regDialog.getContentPane().getBounds());
+                        regDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			regDialog.setVisible(true);
 		}
 	}

@@ -18,7 +18,6 @@ public class MemberHomePanel extends JPanel {
     final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     private MemberUser member;
-    private JFrame mainFrame;
     private ButtonGroup group;
     private JLabel heading;
     private JRadioButton carRental, enterViewPI, viewRentalInfo;

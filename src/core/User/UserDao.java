@@ -117,7 +117,7 @@ public class UserDao {
                                 phone = rs.getString("Phone");
                                 address = rs.getString("Address");
                                 plan_Type = rs.getString("Plan_Type");
-                                DrivingPlan drivingPlan = new DrivingPlan(PlanType.OCCASIONAL);
+                                DrivingPlan drivingPlan = new DrivingPlan();
                                 if(PlanType.OCCASIONAL.toString().equals(plan_Type)) 
                                     drivingPlan = new DrivingPlan(PlanType.OCCASIONAL);
                                 else if(PlanType.FREQUENT.toString().equals(plan_Type))
