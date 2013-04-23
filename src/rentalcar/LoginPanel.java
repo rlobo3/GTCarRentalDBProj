@@ -1,19 +1,23 @@
 package rentalcar;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+
+import core.User.AdminUser;
+import core.User.EmployeeUser;
+import core.User.MemberUser;
+import core.User.User;
+import core.User.UserDao;
+import core.User.UserType;
 
 /**
  * 
@@ -59,12 +63,47 @@ public class LoginPanel extends JPanel{
             usernameEntered = userName.getText();
             passwordEntered = password.getText();
             if(usernameEntered == null || passwordEntered == null){
-                JDialog lDialog = new JDialog(new JFrame(), "Login in Error");
-                lDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                //lDialog.add(new LoginPanel());
-                lDialog.setVisible(true);
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "Username or Password not entered",
+                        "Inane error",
+                        JOptionPane.ERROR_MESSAGE);
             }else{
-
+                UserDao userDao = new UserDao();
+                User userObj = userDao.login(userName.getText(), password.getText());
+                if(userObj == null) {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Incorrect Login",
+                            "Inane error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+                else if(userObj.getType() == UserType.MEMBER) {
+                    JFrame mainFrame = MainFrame.getMain();
+                    MemberUser memUser = (MemberUser) userObj;
+                    MemberHomePanel panel = new MemberHomePanel(memUser);
+                    mainFrame.setContentPane(panel);
+                    mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+                    mainFrame.setVisible(true);
+                    mainFrame.repaint();
+                }
+                else if(userObj.getType() == UserType.EMPLOYEE) {
+                    JFrame mainFrame = MainFrame.getMain();
+                    EmployeeUser empUser = (EmployeeUser) userObj;
+//                    EmployeeHomePanel panel = new EmployeeHomePanel(empUser);
+//                    mainFrame.setContentPane(panel);
+                    mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+                    mainFrame.setVisible(true);
+                    mainFrame.repaint();
+                }
+                else if(userObj.getType() == UserType.ADMIN) {
+                    JFrame mainFrame = MainFrame.getMain();
+                    AdminUser adminUser = (AdminUser) userObj;
+//                    AdminRevenuePanel panel = new AdminRevenuePanel(adminUser);
+//                    mainFrame.setContentPane(panel);
+                    mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+                    mainFrame.setVisible(true);
+                    mainFrame.repaint();
+                }
+                    
             }
         }
     }

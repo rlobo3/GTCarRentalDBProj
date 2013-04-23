@@ -9,7 +9,7 @@ import com.mysql.jdbc.ResultSet;
 import core.DBConnection;
 
 public class UserDao {
-    DBConnection connection = new DBConnection();
+    static DBConnection connection = new DBConnection();
          
     public User addUser(String username, String password, UserType type) {
         if(isUsernameExistent(username)) {
@@ -91,6 +91,7 @@ public class UserDao {
                     String s = rs.getString("Username");
                     if(s.equals(username)){
                         if(rs.getString("Pass").equals(password)){
+                            prep.close();
                             return new MemberUser(username, password);
                         }
                     }
@@ -102,6 +103,7 @@ public class UserDao {
                     String s = rs.getString("Username");
                     if(s.equals(username)){
                         if(rs.getString("Pass").equals(password)){
+                            prep.close();
                             return new EmployeeUser(username, password);
                         }
                     }
@@ -113,28 +115,31 @@ public class UserDao {
                     String s = rs.getString("Username");
                     if(s.equals(username)){
                         if(rs.getString("Pass").equals(password)){
+                            prep.close();
                             return new AdminUser(username, password);
                         }
                     }
                 }
+                prep.close();
             }
             catch (Exception e) {}
+            
             connection.closeConnection(conn);
             return null;
         }
         return null;
     }
     
-    public static void main(String[] args) {
-        UserDao acc = new UserDao();
-        AdminUser admin1 = (AdminUser) acc.login("Bohr", "electron1");
-        AdminUser admin2 = (AdminUser) acc.login("Newton", "secret");
-        AdminUser admin3 = (AdminUser) acc.login("rlobo", "pass123");
+//    public static void main(String[] args) {
+//        UserDao acc = new UserDao();       
+//        AdminUser admin1 = (AdminUser) acc.login("Bohr", "electron1");
+//        AdminUser admin2 = (AdminUser) acc.login("Newton", "secret");
+//        AdminUser admin3 = (AdminUser) acc.login("rlobo3", "pass123");
 //        MemberUser mem1 = (MemberUser) acc.login("mem1", "M1");
 //        MemberUser mem2 = (MemberUser) acc.login("mem2", "M3");
 //        MemberUser mem3 = (MemberUser) acc.login("rlobo", "pass123");
-//        EmployeeUser emp1 = (EmployeeUser) acc.login("emp1", "E1");
-//        EmployeeUser emp2 = (EmployeeUser) acc.login("emp2", "E3");
+//        EmployeeUser emp1 = (EmployeeUser) acc.login("emp1", "pass1");
+//        EmployeeUser emp2 = (EmployeeUser) acc.login("emp2", "pass3");
 //        EmployeeUser emp3 = (EmployeeUser) acc.login("rlobo", "pass123");
 //        AdminUser admin1 = (AdminUser) acc.addUser("hvu", "1A", UserType.ADMIN);
 //        AdminUser admin2 = (AdminUser) acc.addUser("rlobo", "pass123", UserType.ADMIN);
@@ -142,31 +147,25 @@ public class UserDao {
 //        MemberUser mem2 = (MemberUser) acc.addUser("rlobo", "pass123", UserType.MEMBER);
 //        EmployeeUser emp1 = acc.addUser("Emp1", "pass");
 //        EmployeeUser emp2 = acc.addUser("rlobo", "pass123");
-        if(admin1 != null)
+//        if(admin1 != null)
 //        if(mem1 != null)
 //        if(emp1 != null)
-            System.out.println("Added");
-        else
-            System.out.println("Failed");
+//            System.out.println("Found");
+//        else
+//            System.out.println("Failed");
 //        
-        if(admin2 != null)
+//        if(admin2 != null)
 //        if(mem2 != null)
 //        if(emp2 != null)
-            System.out.println("Added");
-        else
-            System.out.println("Failed");
-        if(admin1 != null)
-//          if(mem1 != null)
-//          if(emp1 != null)
-            System.out.println("Added");
-          else
-            System.out.println("Failed");
+//            System.out.println("Found");
+//        else
+//            System.out.println("Failed");
 //          
-        if(admin3 != null)
+//        if(admin3 != null)
 //          if(mem3 != null)
 //          if(emp3 != null)
-            System.out.println("Added");
-        else
-            System.out.println("Failed");
-    }
+//            System.out.println("Added");
+//        else
+//            System.out.println("Failed");
+//    }
 } 
