@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,7 +31,7 @@ import core.User.MemberUser;
 public class RentCarPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private MemberUser member;
+	protected MemberUser member;
 	private JFrame mainFrame;
 	static DBConnection connection = new DBConnection();
 
@@ -208,11 +209,13 @@ public class RentCarPanel extends JPanel {
 
 			String statement = "CREATE VIEW CAR_INFO AS SELECT Model_Name, Car_Type, Location_Name, "
 					+ "Color, Hourly_Rate, Daily_Rate, Seating_Cap, Transmission_Type, Bluetooth, "
-					+ "Auxiliary_Cable FROM Car NATURAL JOIN Reservation WHERE Car_Type = ? "
+					+ "Auxiliary_Cable Estimated_Cost FROM Car NATURAL JOIN Reservation WHERE Car_Type = ? "
 					+ "AND Model_Name = ? AND Car.Location_Name = ? AND "
 					+ "? > ?";
-			// ////////////////////////TAKE CARE of date
+			// /////////////////////////TAKE CARE of date
 			Connection conn = connection.createConnection();
+			Object[][] rowDataArr = null;
+			int rowcount = 0;
 
 			try {
 				PreparedStatement prep = conn.prepareStatement(statement);
@@ -221,15 +224,84 @@ public class RentCarPanel extends JPanel {
 				prep.setString(3, locationString);
 				prep.setDate(4, PickUpTimeDate);
 				prep.setDate(5, ReturnTimeDate);
-				ResultSet rs2 = (ResultSet) prep.executeQuery();
-				while (rs2.next()) {
-					
+				ResultSet rsCarAvailability = (ResultSet) prep.executeQuery();
+				if (rsCarAvailability.last()) {
+					rowcount = rsCarAvailability.getRow();
+					rsCarAvailability.beforeFirst();
+				}
+				rowDataArr = new Object[rowcount][15];
+				rowcount = 0;
+				int i = 0;
+				while (rsCarAvailability.next()) {
+					rowDataArr[i][0] = rsCarAvailability
+							.getString("Model_Name");
+					rowDataArr[i][1] = rsCarAvailability.getString("Car_Type");
+					rowDataArr[i][2] = rsCarAvailability
+							.getString("Location_Name");
+					rowDataArr[i][3] = rsCarAvailability.getString("Color");
+					rowDataArr[i][4] = rsCarAvailability
+							.getString("Hourly_Rate");
+					// rowDataElement[5] =
+					// rsCarAvailability.getString("Model_Name");
+					// rowDataElement[6] =
+					// rsCarAvailability.getString("Model_Name");
+					rowDataArr[i][7] = rsCarAvailability
+							.getString("Daily_Rate");
+					rowDataArr[i][8] = rsCarAvailability
+							.getString("Seating_Cap");
+					rowDataArr[i][9] = rsCarAvailability
+							.getString("Model_Name");
+					rowDataArr[i][10] = rsCarAvailability
+							.getString("Transmission_Type");
+					rowDataArr[i][11] = rsCarAvailability
+							.getString("Bluetooth");
+					rowDataArr[i][12] = rsCarAvailability
+							.getString("Auxiliary_Cable");
+					rowDataArr[i][14] = rsCarAvailability
+							.getString("Estimated_Cost");
+					rowDataArr[i][15] = new JButton();
+					i++;
 				}
 				prep.close();
 				connection.closeConnection(conn);
 			} catch (SQLException e) {
 				connection.closeConnection(conn);
 			}
+
+			String statement1 = "CREATE VIEW TILL AS SELECT Pick_Up_Date_Time AS Available_till, "
+					+ "FROM Car NATURAL JOIN Reservation WHERE Car_Type = ? AND "
+					+ "Model_Name = ? AND Car.Location_Name = ? AND " + "? > ?";
+			try {
+				PreparedStatement prep1 = conn.prepareStatement(statement1);
+				prep1.setString(1, carTypeString);
+				prep1.setString(2, carModelString);
+				prep1.setString(3, locationString);
+				prep1.setDate(4, PickUpTimeDate);
+				prep1.setDate(5, ReturnTimeDate);
+				ResultSet rsCarAvailableTill = (ResultSet) prep1.executeQuery();
+				if (rsCarAvailableTill.last()) {
+					rowcount = rsCarAvailableTill.getRow();
+					rsCarAvailableTill.beforeFirst();
+				}
+				int j = 0;
+				while (rsCarAvailableTill.next()) {
+					rowDataArr[j][13] = rsCarAvailableTill
+							.getString("Available_till");
+					j++;
+				}
+
+				prep1.close();
+				connection.closeConnection(conn);
+			} catch (SQLException e) {
+				connection.closeConnection(conn);
+			}
+			
+            JFrame mainFrame = MainFrame.getMain();
+            CarAvailPanel panel = new CarAvailPanel(member, rowDataArr);
+            mainFrame.setContentPane(panel);
+            mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+            mainFrame.setVisible(true);
+            mainFrame.repaint();
 
 		}
 	}
