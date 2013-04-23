@@ -30,13 +30,6 @@ import core.User.MemberUser;
  */
 public class MemberPInfoPanel extends JPanel {
 
-	// See if you should make a query to the database and see that if the user
-	// exits
-	// then you should display their current information fetched from the
-	// database
-	// so the user can edit it and update their information based on the changes
-	// they might make. This can be seen from the GUI given in project.
-
 	private static final long serialVersionUID = 1L;
 	private MemberUser member;
 	private JFrame mainFrame;
@@ -144,27 +137,26 @@ public class MemberPInfoPanel extends JPanel {
 
 		Connection conn = connection.createConnection();
 		try {
-			String statement = 
-					"SELECT First_Name, Middle_Initial, Last_Name, Email_Address, "
+			String statement = "SELECT First_Name, Middle_Initial, Last_Name, Email_Address, "
 					+ "Phone, Address, Plan_Type, Card_No, Name_on_card, CVV, Expiry_Date, Billing_Address "
 					+ "FROM Member NATURAL JOIN Credit_Card "
 					+ "WHERE Username = ?";
-			
+
 			PreparedStatement prep = conn.prepareStatement(statement);
 			prep.setString(1, member.getUsername());
 			ResultSet rs = (ResultSet) prep.executeQuery();
-				firstName = rs.getString("First_Name");
-				middleInitial = rs.getString("Middle_Initial");
-				lastName = rs.getString("Last_Name");
-				emailAddress = rs.getString("Email_Address");
-				Phone = rs.getString("Phone");
-				address = rs.getString("Address");
-				Plan_Type = rs.getString("Plan_Type");
-				cardNo = rs.getInt("Card_No");
-				cvv = rs.getInt("CVV");
-				expiryDate = rs.getDate("Expiry_Date");
-				nameOnCard = rs.getString("Name_on_card");
-				billingAddress = rs.getString("Billing_Address");
+			firstName = rs.getString("First_Name");
+			middleInitial = rs.getString("Middle_Initial");
+			lastName = rs.getString("Last_Name");
+			emailAddress = rs.getString("Email_Address");
+			Phone = rs.getString("Phone");
+			address = rs.getString("Address");
+			Plan_Type = rs.getString("Plan_Type");
+			cardNo = rs.getInt("Card_No");
+			cvv = rs.getInt("CVV");
+			expiryDate = rs.getDate("Expiry_Date");
+			nameOnCard = rs.getString("Name_on_card");
+			billingAddress = rs.getString("Billing_Address");
 			prep.close();
 
 			connection.closeConnection(conn);
@@ -271,20 +263,21 @@ public class MemberPInfoPanel extends JPanel {
 			}
 			nameOnCardN = NameCardField.getText();
 			billingAddressN = BillingAddressField.getText();
-			Integer mm = Integer.parseInt(ExpiryDateField.getText().substring(0, 1));
-			Integer yyyy =  Integer.parseInt(ExpiryDateField.getText().substring(3, 6));
+			Integer mm = Integer.parseInt(ExpiryDateField.getText().substring(
+					0, 1));
+			Integer yyyy = Integer.parseInt(ExpiryDateField.getText()
+					.substring(3, 6));
 			expiryDateN = new Date(yyyy, mm, 01);
 			cardNoN = Integer.parseInt(CardNumberField.getText());
 			cvvN = Integer.parseInt(CVVField.getText());
-			//Update operations if anything changes
+			// Update operations if anything changes
 			Connection conn = connection.createConnection();
 			try {
-				String statement = 
-						"UPDATE Member SET First_Name = ?, Middle_Initial = ?, " +
-						"Last_Name = ?,Email_Address = ?, Phone= ?," +
-						"Address= ?, Plan_Type= ?, Card_No=? " +
-						"WHERE Username= ?";
-				
+				String statement = "UPDATE Member SET First_Name = ?, Middle_Initial = ?, "
+						+ "Last_Name = ?,Email_Address = ?, Phone= ?,"
+						+ "Address= ?, Plan_Type= ?, Card_No=? "
+						+ "WHERE Username= ?";
+
 				PreparedStatement prep = conn.prepareStatement(statement);
 				prep.setString(1, firstNameN);
 				prep.setString(2, middleInitialN);
@@ -295,19 +288,18 @@ public class MemberPInfoPanel extends JPanel {
 				prep.setString(7, Plan_TypeN);
 				prep.setInt(8, cardNoN);
 				prep.setString(9, member.getUsername());
-                prep.executeUpdate();
+				prep.executeUpdate();
 				prep.close();
-				
+
 				String statement1 = "INSERT INTO Credit_Card(Card_No) VALUES ?";
 				PreparedStatement prep1 = conn.prepareStatement(statement1);
 				prep1.setString(1, firstNameN);
-                prep1.executeUpdate();
+				prep1.executeUpdate();
 				prep1.close();
 
-				String statement2 = 
-						"UPDATE Credit_Card SET Name_on_card= ?, " +
-						"CVV= ?, Expiry_Date= ?, Billing_Address= ? " +
-						"WHERE Card_No = ( SELECT Card_No FROM Member WHERE Username= ?)";
+				String statement2 = "UPDATE Credit_Card SET Name_on_card= ?, "
+						+ "CVV= ?, Expiry_Date= ?, Billing_Address= ? "
+						+ "WHERE Card_No = ( SELECT Card_No FROM Member WHERE Username= ?)";
 				PreparedStatement prep2 = conn.prepareStatement(statement2);
 				prep2.setString(1, nameOnCardN);
 				prep2.setInt(2, cvvN);
@@ -318,7 +310,7 @@ public class MemberPInfoPanel extends JPanel {
 			} catch (SQLException e) {
 				connection.closeConnection(conn);
 			}
-			
+
 		}
 	}
 }
