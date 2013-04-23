@@ -69,6 +69,8 @@ public class EmployeeHomePanel extends JPanel {
         rentalChangeRequest.setBackground(Color.green);
         viewReports = new JRadioButton(viewReportsString);
         viewReports.setBackground(Color.green);
+        
+      
 
         chooseReport = new JComboBox(reportStrings);
 
@@ -88,36 +90,36 @@ public class EmployeeHomePanel extends JPanel {
         public void actionPerformed(ActionEvent event) {
             Object source = event.getSource();
             if (source == manageCars) {
-//                mainFrame.setContentPane(new ManageCarsPanel(employee));
+                mainFrame.setContentPane(new ManageCarsPanel(employee));
                 mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                 mainFrame.setVisible(true);
                 mainFrame.repaint();
             } else if (source == maintainanceRequests) {
-//                mainFrame.setContentPane(new MainteRequestPanel(employee));
+                mainFrame.setContentPane(new MainteRequestPanel(employee));
                 mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                 mainFrame.setVisible(true);
                 mainFrame.repaint();
             } else if (source == rentalChangeRequest) {
-//                mainFrame.setContentPane(new RentChangePanel(employee));
+                mainFrame.setContentPane(new RentChangePanel(employee));
                 mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                 mainFrame.setVisible(true);
                 mainFrame.repaint();
             } else if (source == viewReports) {
                 String reportSelection = reportStrings[chooseReport.getSelectedIndex()];
                 if(reportSelection.equals("Location Preferance Report")) {
-//                    mainFrame.setContentPane(new LocPreferReportPanel(employee));
+                    mainFrame.setContentPane(new LocPreferReportPanel(employee));
                     mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                     mainFrame.setVisible(true);
                     mainFrame.repaint();
                 }
                 else if(reportSelection.equals("Frequent Users Report")) {
-//                    mainFrame.setContentPane(new FreqUserReportPanel(employee));
+                    mainFrame.setContentPane(new FreqUserReportPanel(employee));
                     mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                     mainFrame.setVisible(true);
                     mainFrame.repaint();
                 }
                 else if(reportSelection.equals("Maintenance History Report")) {
-//                    mainFrame.setContentPane(new MainHistoryReportPanel(employee));
+                    mainFrame.setContentPane(new MainHistoryReportPanel(employee));
                     mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                     mainFrame.setVisible(true);
                     mainFrame.repaint();

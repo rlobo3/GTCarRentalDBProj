@@ -1,7 +1,5 @@
 package core.User;
 
-import java.util.Comparator;
-
 public enum UserType {
     MEMBER("Georgia Tech Students/Faculty"),
     EMPLOYEE("GTCR Employee"),
