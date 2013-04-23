@@ -1,5 +1,7 @@
 package core.User;
 
+import java.util.Comparator;
+
 public enum UserType {
     MEMBER("Georgia Tech Students/Faculty"),
     EMPLOYEE("GTCR Employee"),
@@ -13,5 +15,11 @@ public enum UserType {
     @Override
     public String toString() {
         return s;
+    }
+    
+    public boolean equals(UserType type) {
+        if(s.equals(type.s))
+            return true;
+        return false;
     }
 }
