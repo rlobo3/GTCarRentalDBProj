@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import core.User.EmployeeUser;
+import core.User.MemberUser;
 import core.User.User;
 import core.User.UserDao;
 import core.User.UserType;
@@ -94,14 +96,18 @@ public class RegisterPanel extends JPanel implements ActionListener{
                 }
                 else if(userObj.getType() == UserType.MEMBER) {
                     JFrame mainFrame = MainFrame.getMain();
-                    mainFrame.setContentPane(new MemberHomePanel());
+                    MemberUser memUser = (MemberUser) userObj;
+                    MemberHomePanel panel = new MemberHomePanel(memUser);
+                    mainFrame.setContentPane(panel);
                     mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                     mainFrame.setVisible(true);
                     mainFrame.repaint();
                 }
                 else if(userObj.getType() == UserType.EMPLOYEE) {
                     JFrame mainFrame = MainFrame.getMain();
-                    mainFrame.setContentPane(new EmployeeHomePanel());
+                    EmployeeUser empUser = (EmployeeUser) userObj;
+//                    EmployeeHomePanel panel = new EmployeeHomePanel(empUser);
+//                    mainFrame.setContentPane(panel);
                     mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                     mainFrame.setVisible(true);
                     mainFrame.repaint();

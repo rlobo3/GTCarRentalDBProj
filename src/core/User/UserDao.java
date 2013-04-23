@@ -1,7 +1,6 @@
 package core.User;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -44,7 +43,7 @@ public class UserDao {
                     PreparedStatement prep = conn.prepareStatement(statement);
                     prep.setString(1, username);
                     prep.setString(2, password);
-                    prep.executeUpdate();
+                    prep.execute();
                     prep.close();
                     connection.closeConnection(conn);
                     return new MemberUser(username, password);
@@ -62,7 +61,6 @@ public class UserDao {
             String statement = "SELECT Username from Administrator union " +
             		"SELECT Username from Employee union SELECT Username from Member";
             PreparedStatement prep = conn.prepareStatement(statement);
-//            Statement stmt = conn.createStatement();
             ResultSet rs = (ResultSet) prep.executeQuery();
             while(rs.next()){
                 String s = rs.getString("Username");
@@ -81,26 +79,94 @@ public class UserDao {
         return false;
     }
     
-//    public static void main(String[] args) {
-//        UserDao acc = new UserDao();
-//        AdminUser admin1 = acc.addAdminUser("hvu", "1A");
-//        AdminUser admin2 = acc.addAdminUser("rlobo", "pass123");
-//        MemberUser mem1 = acc.addMemberUser("m1", "pass");
-//        MemberUser mem2 = acc.addMemberUser("rlobo", "pass123");
-//        EmployeeUser emp1 = acc.addEmployeeUser("Emp1", "pass");
-//        EmployeeUser emp2 = acc.addEmployeeUser("rlobo", "pass123");
-//        if(admin1 != null)
+    public User login(String username, String password){
+        Connection conn = null;
+        if(isUsernameExistent(username)) {
+            try {
+                conn = connection.createConnection();
+                String statement = "SELECT Username,Pass from Member";
+                PreparedStatement prep = conn.prepareStatement(statement);
+                ResultSet rs = (ResultSet) prep.executeQuery();
+                while(rs.next()) {
+                    String s = rs.getString("Username");
+                    if(s.equals(username)){
+                        if(rs.getString("Pass").equals(password)){
+                            return new MemberUser(username, password);
+                        }
+                    }
+                }
+                statement = "SELECT Username,Pass from Employee";
+                prep = conn.prepareStatement(statement);
+                rs = (ResultSet) prep.executeQuery();
+                while(rs.next()) {
+                    String s = rs.getString("Username");
+                    if(s.equals(username)){
+                        if(rs.getString("Pass").equals(password)){
+                            return new EmployeeUser(username, password);
+                        }
+                    }
+                }
+                statement = "SELECT Username,Pass from Administrator";
+                prep = conn.prepareStatement(statement);
+                rs = (ResultSet) prep.executeQuery();
+                while(rs.next()) {
+                    String s = rs.getString("Username");
+                    if(s.equals(username)){
+                        if(rs.getString("Pass").equals(password)){
+                            return new AdminUser(username, password);
+                        }
+                    }
+                }
+            }
+            catch (Exception e) {}
+            connection.closeConnection(conn);
+            return null;
+        }
+        return null;
+    }
+    
+    public static void main(String[] args) {
+        UserDao acc = new UserDao();
+        AdminUser admin1 = (AdminUser) acc.login("Bohr", "electron1");
+        AdminUser admin2 = (AdminUser) acc.login("Newton", "secret");
+        AdminUser admin3 = (AdminUser) acc.login("rlobo", "pass123");
+//        MemberUser mem1 = (MemberUser) acc.login("mem1", "M1");
+//        MemberUser mem2 = (MemberUser) acc.login("mem2", "M3");
+//        MemberUser mem3 = (MemberUser) acc.login("rlobo", "pass123");
+//        EmployeeUser emp1 = (EmployeeUser) acc.login("emp1", "E1");
+//        EmployeeUser emp2 = (EmployeeUser) acc.login("emp2", "E3");
+//        EmployeeUser emp3 = (EmployeeUser) acc.login("rlobo", "pass123");
+//        AdminUser admin1 = (AdminUser) acc.addUser("hvu", "1A", UserType.ADMIN);
+//        AdminUser admin2 = (AdminUser) acc.addUser("rlobo", "pass123", UserType.ADMIN);
+//        MemberUser mem1 = (MemberUser) acc.addUser("m1", "pass", UserType.MEMBER);
+//        MemberUser mem2 = (MemberUser) acc.addUser("rlobo", "pass123", UserType.MEMBER);
+//        EmployeeUser emp1 = acc.addUser("Emp1", "pass");
+//        EmployeeUser emp2 = acc.addUser("rlobo", "pass123");
+        if(admin1 != null)
 //        if(mem1 != null)
 //        if(emp1 != null)
-//            System.out.println("Added");
-//        else
-//            System.out.println("Failed");
+            System.out.println("Added");
+        else
+            System.out.println("Failed");
 //        
-//        if(admin2 != null)
+        if(admin2 != null)
 //        if(mem2 != null)
 //        if(emp2 != null)
-//            System.out.println("Added");
-//        else
-//            System.out.println("Failed");
-//    }
+            System.out.println("Added");
+        else
+            System.out.println("Failed");
+        if(admin1 != null)
+//          if(mem1 != null)
+//          if(emp1 != null)
+            System.out.println("Added");
+          else
+            System.out.println("Failed");
+//          
+        if(admin3 != null)
+//          if(mem3 != null)
+//          if(emp3 != null)
+            System.out.println("Added");
+        else
+            System.out.println("Failed");
+    }
 } 
