@@ -2,16 +2,21 @@ package rentalcar;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+
+import core.User.EmployeeUser;
 
 /**
  * @author Sahil Gupta
@@ -20,95 +25,104 @@ import javax.swing.JRadioButton;
  */
 
 public class EmployeeHomePanel extends JPanel {
+    private static final long serialVersionUID = 1L;
+    final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-        private static final long serialVersionUID = 1L;
+    JFrame mainFrame;
+    private JLabel heading;
+    private JButton Next;
+    @SuppressWarnings({ "rawtypes" })
+    private JComboBox chooseReport;
+    private EmployeeUser employee;
+    private JRadioButton manageCars, maintainanceRequests, rentalChangeRequest, viewReports;
+    private String headingString = "Homepage";
+    private String manageCarsString = "Manage Cars";
+    private String maintainanceRequestsString = "Maintainance requests";
+    private String rentalChangeRequestString = "Rental Change Request";
+    private String viewReportsString = "View Reports";
 
-        private final int WIDTH = 400, HEIGHT = 500;
-        private JPanel employeeHomePanel;
-        private JLabel heading;
-        private JButton Next;
-        @SuppressWarnings({ "rawtypes" })
-        private JComboBox locationPreferenceReport;
-        
-        private JRadioButton manageCars, maintainanceRequests, rentalChangeRequest, viewReports;
-        private String headingString = "Homepage";
-        private String manageCarsString = "Manage Cars";
-        private String maintainanceRequestsString = "Maintainance requests";
-        private String rentalChangeRequestString = "Rental Change Request";
-        private String viewReportsString = "View Reports";
-        
-        private String[] locationPreferenceReportStrings = { "Location Preferance Report", "1/17/2013", "1/17/2013", "1/17/2013", "1/17/2013" };//GARBAGE VALUES!!! PLEASE CHANGE!!!
-        
-        
-        /**
-         * Sets up a panel with a label and a set of radio buttons that control its
-         * text.
-         */
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        public EmployeeHomePanel() {
-                heading = new JLabel(headingString);
-                heading.setFont(new Font("Helvetica", Font.BOLD, 40));
+    private String[] reportStrings = { "Location Preferance Report", "Frequent Users Report", "Maintenance History Report" };
 
-                manageCars = new JRadioButton(manageCarsString);
-                manageCars.setBackground(Color.green);
-                maintainanceRequests = new JRadioButton(maintainanceRequestsString);
-                maintainanceRequests.setBackground(Color.green);
-                rentalChangeRequest = new JRadioButton(rentalChangeRequestString);
-                rentalChangeRequest.setBackground(Color.green);
-                viewReports = new JRadioButton(viewReportsString);
-                viewReports.setBackground(Color.green);
 
-                ButtonGroup group = new ButtonGroup();
-                group.add(manageCars);
-                group.add(maintainanceRequests);
-                group.add(rentalChangeRequest);
-                group.add(viewReports);
-                
-                employeeHomePanelListener listener = new employeeHomePanelListener();
-                
-                manageCars.addActionListener(listener);
-                maintainanceRequests.addActionListener(listener);
-                rentalChangeRequest.addActionListener(listener);
-                viewReports.addActionListener(listener);
-                
-                locationPreferenceReport = new JComboBox(locationPreferenceReportStrings);
-                
-                Next = new JButton("Next >>");
-                Next.addActionListener(new NextButtonListener());
-                
-                employeeHomePanel = new JPanel();
+    /**
+     * Sets up a panel with a label and a set of radio buttons that control its
+     * text.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public EmployeeHomePanel(EmployeeUser employee) {
+        mainFrame = MainFrame.getMain();
+        this.employee = employee;
 
-                employeeHomePanel.add(heading);
-                employeeHomePanel.add(manageCars);
-                employeeHomePanel.add(maintainanceRequests);
-                employeeHomePanel.add(rentalChangeRequest);
-                employeeHomePanel.add(viewReports);
-                employeeHomePanel.add(locationPreferenceReport);
-                employeeHomePanel.add(Next);
-                employeeHomePanel.setBackground(Color.green);
-                employeeHomePanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        }
+        this.setBackground(Color.green);
+        this.setLayout(new FlowLayout());
+        setBounds(screenSize.width/2-200, screenSize.height/2-100, 
+                300, 200);
 
-        public JPanel getPanel() {
-                return employeeHomePanel;
-        }
-        private class employeeHomePanelListener implements ActionListener {
-                public void actionPerformed(ActionEvent event) {
-                        Object source = event.getSource();
-                        if (source == manageCars) {
+        heading = new JLabel(headingString);
+        heading.setFont(new Font("Helvetica", Font.BOLD, 40));
 
-                        } else if (source == maintainanceRequests) {
+        manageCars = new JRadioButton(manageCarsString);
+        manageCars.setBackground(Color.green);
+        maintainanceRequests = new JRadioButton(maintainanceRequestsString);
+        maintainanceRequests.setBackground(Color.green);
+        rentalChangeRequest = new JRadioButton(rentalChangeRequestString);
+        rentalChangeRequest.setBackground(Color.green);
+        viewReports = new JRadioButton(viewReportsString);
+        viewReports.setBackground(Color.green);
 
-                        } else if (source == rentalChangeRequest) {
+        chooseReport = new JComboBox(reportStrings);
 
-                        } else if (source == viewReports) {
+        Next = new JButton("Next >>");
+        Next.addActionListener(new NextButtonListener());
 
-                        }
+        this.add(heading);
+        this.add(manageCars);
+        this.add(maintainanceRequests);
+        this.add(rentalChangeRequest);
+        this.add(viewReports);
+        this.add(chooseReport);
+        this.add(Next);
+    }
+
+    private class NextButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            Object source = event.getSource();
+            if (source == manageCars) {
+//                mainFrame.setContentPane(new ManageCarsPanel(employee));
+                mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+                mainFrame.setVisible(true);
+                mainFrame.repaint();
+            } else if (source == maintainanceRequests) {
+//                mainFrame.setContentPane(new MainteRequestPanel(employee));
+                mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+                mainFrame.setVisible(true);
+                mainFrame.repaint();
+            } else if (source == rentalChangeRequest) {
+//                mainFrame.setContentPane(new RentChangePanel(employee));
+                mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+                mainFrame.setVisible(true);
+                mainFrame.repaint();
+            } else if (source == viewReports) {
+                String reportSelection = reportStrings[chooseReport.getSelectedIndex()];
+                if(reportSelection.equals("Location Preferance Report")) {
+//                    mainFrame.setContentPane(new LocPreferReportPanel(employee));
+                    mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+                    mainFrame.setVisible(true);
+                    mainFrame.repaint();
                 }
-        }
-        private class NextButtonListener implements ActionListener {
-                public void actionPerformed(ActionEvent event) {
-                        
+                else if(reportSelection.equals("Frequent Users Report")) {
+//                    mainFrame.setContentPane(new FreqUserReportPanel(employee));
+                    mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+                    mainFrame.setVisible(true);
+                    mainFrame.repaint();
                 }
+                else if(reportSelection.equals("Maintenance History Report")) {
+//                    mainFrame.setContentPane(new MainHistoryReportPanel(employee));
+                    mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+                    mainFrame.setVisible(true);
+                    mainFrame.repaint();
+                }
+            }
         }
+    }
 }
