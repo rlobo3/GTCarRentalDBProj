@@ -2,6 +2,7 @@ package rentalcar;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -36,6 +37,7 @@ public class MemberPInfoPanel extends JPanel {
 	DBConnection connection = new DBConnection();
 
 	private final int WIDTH = 400, HEIGHT = 1000;
+    final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
 	private JPanel memberPInfoPanel;
 	JLabel PersonalInformation, GeneralInformation, MembershipInformation,
@@ -145,18 +147,20 @@ public class MemberPInfoPanel extends JPanel {
 			PreparedStatement prep = conn.prepareStatement(statement);
 			prep.setString(1, member.getUsername());
 			ResultSet rs = (ResultSet) prep.executeQuery();
-			firstName = rs.getString("First_Name");
-			middleInitial = rs.getString("Middle_Initial");
-			lastName = rs.getString("Last_Name");
-			emailAddress = rs.getString("Email_Address");
-			Phone = rs.getString("Phone");
-			address = rs.getString("Address");
-			Plan_Type = rs.getString("Plan_Type");
-			cardNo = rs.getInt("Card_No");
-			cvv = rs.getInt("CVV");
-			expiryDate = rs.getDate("Expiry_Date");
-			nameOnCard = rs.getString("Name_on_card");
-			billingAddress = rs.getString("Billing_Address");
+			while (rs.next()) {
+				firstName = rs.getString("First_Name");
+				middleInitial = rs.getString("Middle_Initial");
+				lastName = rs.getString("Last_Name");
+				emailAddress = rs.getString("Email_Address");
+				Phone = rs.getString("Phone");
+				address = rs.getString("Address");
+				Plan_Type = rs.getString("Plan_Type");
+				cardNo = rs.getInt("Card_No");
+				cvv = rs.getInt("CVV");
+				expiryDate = rs.getDate("Expiry_Date");
+				nameOnCard = rs.getString("Name_on_card");
+				billingAddress = rs.getString("Billing_Address");
+			}
 			prep.close();
 
 			connection.closeConnection(conn);
@@ -165,6 +169,10 @@ public class MemberPInfoPanel extends JPanel {
 		}
 
 		memberPInfoPanel = new JPanel();
+        this.setBackground(Color.green);
+        this.setLayout(new FlowLayout());
+        setBounds(screenSize.width/2, screenSize.height, 
+                250, 225);
 
 		memberPInfoPanel.add(PersonalInformation);
 		memberPInfoPanel.add(GeneralInformation);
@@ -219,8 +227,6 @@ public class MemberPInfoPanel extends JPanel {
 		BillingAddressField.setText(billingAddress);
 		memberPInfoPanel.add(Done);
 
-		memberPInfoPanel.setBackground(Color.green);
-		memberPInfoPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 	}
 
 	public JPanel getPanel() {
