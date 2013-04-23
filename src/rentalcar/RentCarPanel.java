@@ -6,17 +6,16 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
 import org.jdesktop.swingx.JXDatePicker;
 
 import com.mysql.jdbc.ResultSet;
@@ -241,25 +240,19 @@ public class RentCarPanel extends JPanel {
 					rowDataArr[i][3] = rsCarAvailability.getString("Color");
 					rowDataArr[i][4] = rsCarAvailability
 							.getString("Hourly_Rate");
-					// rowDataElement[5] =
-					// rsCarAvailability.getString("Model_Name");
-					// rowDataElement[6] =
-					// rsCarAvailability.getString("Model_Name");
 					rowDataArr[i][7] = rsCarAvailability
 							.getString("Daily_Rate");
 					rowDataArr[i][8] = rsCarAvailability
 							.getString("Seating_Cap");
 					rowDataArr[i][9] = rsCarAvailability
-							.getString("Model_Name");
-					rowDataArr[i][10] = rsCarAvailability
 							.getString("Transmission_Type");
-					rowDataArr[i][11] = rsCarAvailability
+					rowDataArr[i][10] = rsCarAvailability
 							.getString("Bluetooth");
-					rowDataArr[i][12] = rsCarAvailability
+					rowDataArr[i][11] = rsCarAvailability
 							.getString("Auxiliary_Cable");
-					rowDataArr[i][14] = rsCarAvailability
+					rowDataArr[i][13] = rsCarAvailability
 							.getString("Estimated_Cost");
-					rowDataArr[i][15] = new JButton();
+					rowDataArr[i][14] = new JRadioButton();
 					i++;
 				}
 				prep.close();
@@ -285,7 +278,7 @@ public class RentCarPanel extends JPanel {
 				}
 				int j = 0;
 				while (rsCarAvailableTill.next()) {
-					rowDataArr[j][13] = rsCarAvailableTill
+					rowDataArr[j][12] = rsCarAvailableTill
 							.getString("Available_till");
 					j++;
 				}
@@ -296,8 +289,33 @@ public class RentCarPanel extends JPanel {
 				connection.closeConnection(conn);
 			}
 			
-            JFrame mainFrame = MainFrame.getMain();
-            CarAvailPanel panel = new CarAvailPanel(member, rowDataArr);
+			String statement2 = "CREATE VIEW DISCOUNTED AS " +
+					"SELECT  f.Discount AS Frequent_DRate, d.Discount as Daily_DRate " +
+					"FROM Driving_Plan AS f, Driving_Plan AS d WHERE  " +
+					"f.Plan_Type = \"Frequent Driving\" AND " +
+					"d.Plan_Type = \"Daily Driving\"";
+			try {
+				PreparedStatement prep2 = conn.prepareStatement(statement2);
+				ResultSet rsDiscountedRate = (ResultSet) prep2.executeQuery();
+				if (rsDiscountedRate.last()) {
+					rowcount = rsDiscountedRate.getRow();
+					rsDiscountedRate.beforeFirst();
+				}
+				int j = 0;
+				while (rsDiscountedRate.next()) {
+					rowDataArr[j][5] = rsDiscountedRate
+							.getString("Frequent_DRate");
+					rowDataArr[j][6] = rsDiscountedRate
+							.getString("Daily_DRate");
+					j++;
+				}
+				prep2.close();
+				connection.closeConnection(conn);
+			} catch (SQLException e) {
+				connection.closeConnection(conn);
+			}
+			
+            CarAvailPanel panel = new CarAvailPanel(member, rowDataArr, rowcount);
             mainFrame.setContentPane(panel);
             mainFrame.setBounds(mainFrame.getContentPane().getBounds());
             mainFrame.setVisible(true);
