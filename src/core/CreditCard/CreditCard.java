@@ -1,12 +1,20 @@
 package core.CreditCard;
 
+import java.sql.Date;
+
 public class CreditCard {
-    int cardNumber;
-    String nameOnCard;
+    private Integer cardNumber, cvv;
+    private String nameOnCard, billingAddress;
+    private Date expiryDate;
     
-    public CreditCard(int cardNumber, String nameOnCard){
+    
+    public CreditCard(int cardNumber, String nameOnCard, int cvv, Date expiryDate,
+            String billingAddress){
         this.cardNumber = cardNumber;
         this.nameOnCard = nameOnCard;
+        this.cvv = cvv;
+        this.expiryDate = expiryDate;
+        this.billingAddress = billingAddress;
     }
 
     /**
@@ -35,5 +43,47 @@ public class CreditCard {
      */
     public void setNameOnCard(String nameOnCard) {
         this.nameOnCard = nameOnCard;
+    }
+
+    /**
+     * @return the cvv
+     */
+    public int getCvv() {
+        return cvv;
+    }
+
+    /**
+     * @param cvv the cvv to set
+     */
+    public void setCvv(int cvv) {
+        this.cvv = cvv;
+    }
+
+    /**
+     * @return the billingAddress
+     */
+    public String getBillingAddress() {
+        return billingAddress;
+    }
+
+    /**
+     * @param billingAddress the billingAddress to set
+     */
+    public void setBillingAddress(String billingAddress) {
+        this.billingAddress = billingAddress;
+    }
+
+    /**
+     * @return the expiryDate
+     */
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    /**
+     * @param expiryDate the expiryDate to set
+     */
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
     }
 }

@@ -21,10 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import com.mysql.jdbc.ResultSet;
-
 import core.DBConnection;
 import core.User.MemberUser;
+import core.User.UserDao;
 
 /**
  * @author Sahil Gupta This class displays the Personal Information of the user.
@@ -38,8 +37,6 @@ public class MemberPInfoPanel extends JPanel {
 
 	private final int WIDTH = 400, HEIGHT = 1000;
     final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-	private JPanel memberPInfoPanel;
 	JLabel PersonalInformation, GeneralInformation, MembershipInformation,
 			PaymentInformation;
 	JLabel FirstName, MiddleInitial, LastName, EmailAddress, PhoneNumber,
@@ -59,18 +56,18 @@ public class MemberPInfoPanel extends JPanel {
 			BillingAddressField;
 
 	JButton ViewPlanDetail, Done;
-
-	String username, password, firstName, middleInitial, lastName,
-			emailAddress, Phone, address, Plan_Type;
-	Date expiryDate;
-	Integer cardNo, cvv;
-	String nameOnCard, billingAddress;
+	String username, password;
 
 	public MemberPInfoPanel(MemberUser member) {
 		this.mainFrame = MainFrame.getMain();
 		this.member = member;
 		username = member.getUsername();
 		password = member.getPassword();
+		
+		this.setBackground(Color.green);
+	        this.setLayout(new FlowLayout());
+	        setBounds(screenSize.width/2, screenSize.height, 
+	                200, 0);
 
 		PersonalInformation = new JLabel("Personal Information");
 		PersonalInformation.setFont(new Font("Helvetica", Font.BOLD, 70));
@@ -137,100 +134,71 @@ public class MemberPInfoPanel extends JPanel {
 		Done = new JButton("Done");
 		Done.addActionListener(new DoneButtonListener());
 
-		Connection conn = connection.createConnection();
-		try {
-			String statement = "SELECT First_Name, Middle_Initial, Last_Name, Email_Address, "
-					+ "Phone, Address, Plan_Type, Card_No, Name_on_card, CVV, Expiry_Date, Billing_Address "
-					+ "FROM Member NATURAL JOIN Credit_Card "
-					+ "WHERE Username = ?";
+		if(member.getFirstName() != null)		
+                    FirstNameField.setText(member.getFirstName());
+                if (member.getMiddleInit() != null)
+                    MiddleInitialField.setText(member.getMiddleInit());
+                if(member.getLastName() != null)
+                    LastNameField.setText(member.getLastName());
+                if(member.getEmail() != null)
+                    EmailAddressField.setText(member.getEmail());
+                if(member.getPhone() != null)
+                    PhoneNumberField.setText(member.getPhone());
+                if(member.getAddress() != null)
+                    AddressField.setText(member.getAddress());
+                if(member.getDrivingPlan() != null){
+                    if (member.getDrivingPlan().getPlanType().equals("Occasional Driving")) {
+                        OccasionalDriving.setSelected(true);
+                    } else if (member.getDrivingPlan().getPlanType().equals("Frequent Driving")) {
+                        FrequentDriving.setSelected(true);
+                    } else if (member.getDrivingPlan().getPlanType().equals("Daily Driving")) {
+                        DailyDriving.setSelected(true);
+                    }
+                }
+                if(member.getCreditCard().getNameOnCard() != null)
+                    NameCardField.setText(member.getCreditCard().getNameOnCard());
+                if(""+member.getCreditCard().getCardNumber() != "")
+                    CardNumberField.setText(""+member.getCreditCard().getCardNumber());
+                if(""+member.getCreditCard().getCvv() != "")
+                    CVVField.setText(""+member.getCreditCard().getCvv());
+                if(member.getCreditCard().getExpiryDate().toString() != null)
+                    ExpiryDateField.setText(member.getCreditCard().getExpiryDate().toString());
+                if(member.getCreditCard().getBillingAddress() != null)
+                    BillingAddressField.setText(member.getCreditCard().getBillingAddress());
 
-			PreparedStatement prep = conn.prepareStatement(statement);
-			prep.setString(1, member.getUsername());
-			ResultSet rs = (ResultSet) prep.executeQuery();
-			while (rs.next()) {
-				firstName = rs.getString("First_Name");
-				middleInitial = rs.getString("Middle_Initial");
-				lastName = rs.getString("Last_Name");
-				emailAddress = rs.getString("Email_Address");
-				Phone = rs.getString("Phone");
-				address = rs.getString("Address");
-				Plan_Type = rs.getString("Plan_Type");
-				cardNo = rs.getInt("Card_No");
-				cvv = rs.getInt("CVV");
-				expiryDate = rs.getDate("Expiry_Date");
-				nameOnCard = rs.getString("Name_on_card");
-				billingAddress = rs.getString("Billing_Address");
-			}
-			prep.close();
+		this.add(PersonalInformation);
+		this.add(GeneralInformation);
+		this.add(FirstName);
+		this.add(FirstNameField);
+		this.add(MiddleInitial);
+		this.add(MiddleInitialField);
+		this.add(LastName);
+		this.add(LastNameField);
+		this.add(EmailAddress);
+		this.add(EmailAddressField);
+		this.add(PhoneNumber);
+		this.add(PhoneNumberField);
+		this.add(Address);
+		this.add(AddressField);
+		this.add(MembershipInformation);
+		this.add(choosePlan);
+		this.add(ViewPlanDetail);
+		this.add(OccasionalDriving);
+		this.add(FrequentDriving);
+		this.add(DailyDriving);
+		this.add(PaymentInformation);
+		this.add(NameCard);
+		this.add(NameCardField);
+		this.add(CardNumber);
+		this.add(CardNumberField);
+		this.add(CVV);
+		this.add(CVVField);
+		this.add(ExpiryDate);
+		this.add(ExpiryDateField);
+		this.add(BillingAddress);
+		this.add(BillingAddressField);
+		this.add(Done);
 
-			connection.closeConnection(conn);
-		} catch (SQLException e) {
-			connection.closeConnection(conn);
-		}
-
-		memberPInfoPanel = new JPanel();
-        this.setBackground(Color.green);
-        this.setLayout(new FlowLayout());
-        setBounds(screenSize.width/2, screenSize.height, 
-                250, 225);
-
-		memberPInfoPanel.add(PersonalInformation);
-		memberPInfoPanel.add(GeneralInformation);
-		memberPInfoPanel.add(FirstName);
-		memberPInfoPanel.add(FirstNameField);
-		FirstNameField.setText(firstName);
-		memberPInfoPanel.add(MiddleInitial);
-		memberPInfoPanel.add(MiddleInitialField);
-		if (middleInitial != null) {
-			MiddleInitialField.setText(middleInitial);
-		}
-		memberPInfoPanel.add(LastName);
-		memberPInfoPanel.add(LastNameField);
-		LastNameField.setText(lastName);
-		memberPInfoPanel.add(EmailAddress);
-		memberPInfoPanel.add(EmailAddressField);
-		EmailAddressField.setText(emailAddress);
-		memberPInfoPanel.add(PhoneNumber);
-		memberPInfoPanel.add(PhoneNumberField);
-		PhoneNumberField.setText(Phone);
-		memberPInfoPanel.add(Address);
-		memberPInfoPanel.add(AddressField);
-		AddressField.setText(address);
-		memberPInfoPanel.add(MembershipInformation);
-		memberPInfoPanel.add(choosePlan);
-		memberPInfoPanel.add(ViewPlanDetail);
-		memberPInfoPanel.add(OccasionalDriving);
-		memberPInfoPanel.add(FrequentDriving);
-		memberPInfoPanel.add(DailyDriving);
-		if (Plan_Type.equals("Occasional Driving")) {
-			OccasionalDriving.setSelected(true);
-		} else if (Plan_Type.equals("Frequent Driving")) {
-			FrequentDriving.setSelected(true);
-		} else if (Plan_Type.equals("Daily Driving")) {
-			DailyDriving.setSelected(true);
-		}
-		memberPInfoPanel.add(PaymentInformation);
-		memberPInfoPanel.add(NameCard);
-		memberPInfoPanel.add(NameCardField);
-		NameCardField.setText(nameOnCard);
-		memberPInfoPanel.add(CardNumber);
-		memberPInfoPanel.add(CardNumberField);
-		CardNumberField.setText(cardNo.toString());
-		memberPInfoPanel.add(CVV);
-		memberPInfoPanel.add(CVVField);
-		CVVField.setText(cvv.toString());
-		memberPInfoPanel.add(ExpiryDate);
-		memberPInfoPanel.add(ExpiryDateField);
-		ExpiryDateField.setText(expiryDate.toString());
-		memberPInfoPanel.add(BillingAddress);
-		memberPInfoPanel.add(BillingAddressField);
-		BillingAddressField.setText(billingAddress);
-		memberPInfoPanel.add(Done);
-
-	}
-
-	public JPanel getPanel() {
-		return memberPInfoPanel;
 	}
 
 	private class ViewPlanDetailsButtonListener implements ActionListener {

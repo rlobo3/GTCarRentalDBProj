@@ -93,22 +93,22 @@ public class EmployeeHomePanel extends JPanel {
 
     private class NextButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-              if (group.getSelection().getSelectedObjects()[0].equals(manageCars)) {
+              if (manageCars.isSelected()) {
                 mainFrame.setContentPane(new ManageCarsPanel(employee));
                 mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                 mainFrame.setVisible(true);
                 mainFrame.repaint();
-            } else if (group.getSelection().getSelectedObjects()[0].equals(maintainanceRequests)) {
+            } else if (maintainanceRequests.isSelected()) {
                 mainFrame.setContentPane(new MainteRequestPanel(employee));
                 mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                 mainFrame.setVisible(true);
                 mainFrame.repaint();
-            } else if (group.getSelection().getSelectedObjects()[0].equals(rentalChangeRequest)) {
+            } else if (rentalChangeRequest.isSelected()) {
                 mainFrame.setContentPane(new RentChangePanel(employee));
                 mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                 mainFrame.setVisible(true);
                 mainFrame.repaint();
-            } else if (group.getSelection().getSelectedObjects()[0].equals(viewReports)) {
+            } else if (viewReports.isSelected()) {
                 String reportSelection = reportStrings[chooseReport.getSelectedIndex()];
                 if(reportSelection.equals("Location Preferance Report")) {
                     mainFrame.setContentPane(new LocPreferReportPanel(employee));
