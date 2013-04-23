@@ -88,8 +88,8 @@ public class LoginPanel extends JPanel{
                 else if(userObj.getType() == UserType.EMPLOYEE) {
                     JFrame mainFrame = MainFrame.getMain();
                     EmployeeUser empUser = (EmployeeUser) userObj;
-//                    EmployeeHomePanel panel = new EmployeeHomePanel(empUser);
-//                    mainFrame.setContentPane(panel);
+                    EmployeeHomePanel panel = new EmployeeHomePanel(empUser);
+                    mainFrame.setContentPane(panel);
                     mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                     mainFrame.setVisible(true);
                     mainFrame.repaint();

@@ -31,6 +31,7 @@ public class EmployeeHomePanel extends JPanel {
     JFrame mainFrame;
     private JLabel heading;
     private JButton Next;
+    private ButtonGroup group;
     @SuppressWarnings({ "rawtypes" })
     private JComboBox chooseReport;
     private EmployeeUser employee;
@@ -56,7 +57,7 @@ public class EmployeeHomePanel extends JPanel {
         this.setBackground(Color.green);
         this.setLayout(new FlowLayout());
         setBounds(screenSize.width/2-200, screenSize.height/2-100, 
-                300, 200);
+                250, 300);
 
         heading = new JLabel(headingString);
         heading.setFont(new Font("Helvetica", Font.BOLD, 40));
@@ -70,7 +71,11 @@ public class EmployeeHomePanel extends JPanel {
         viewReports = new JRadioButton(viewReportsString);
         viewReports.setBackground(Color.green);
         
-      
+        group = new ButtonGroup();
+        group.add(manageCars);
+        group.add(maintainanceRequests);
+        group.add(rentalChangeRequest);
+        group.add(viewReports);
 
         chooseReport = new JComboBox(reportStrings);
 
@@ -88,23 +93,22 @@ public class EmployeeHomePanel extends JPanel {
 
     private class NextButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            Object source = event.getSource();
-            if (source == manageCars) {
+              if (group.getSelection().getSelectedObjects()[0].equals(manageCars)) {
                 mainFrame.setContentPane(new ManageCarsPanel(employee));
                 mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                 mainFrame.setVisible(true);
                 mainFrame.repaint();
-            } else if (source == maintainanceRequests) {
+            } else if (group.getSelection().getSelectedObjects()[0].equals(maintainanceRequests)) {
                 mainFrame.setContentPane(new MainteRequestPanel(employee));
                 mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                 mainFrame.setVisible(true);
                 mainFrame.repaint();
-            } else if (source == rentalChangeRequest) {
+            } else if (group.getSelection().getSelectedObjects()[0].equals(rentalChangeRequest)) {
                 mainFrame.setContentPane(new RentChangePanel(employee));
                 mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                 mainFrame.setVisible(true);
                 mainFrame.repaint();
-            } else if (source == viewReports) {
+            } else if (group.getSelection().getSelectedObjects()[0].equals(viewReports)) {
                 String reportSelection = reportStrings[chooseReport.getSelectedIndex()];
                 if(reportSelection.equals("Location Preferance Report")) {
                     mainFrame.setContentPane(new LocPreferReportPanel(employee));
