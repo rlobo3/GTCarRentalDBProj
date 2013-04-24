@@ -220,7 +220,6 @@ public class RentCarPanel extends JPanel {
 				e1.printStackTrace();
 			}
             
-            
         	StringBuilder sb1 = new StringBuilder();
             String date1 = ReturnDateCombo.getDate().toString();
             sb1.append(date1.substring(24, 28));
@@ -253,7 +252,6 @@ public class RentCarPanel extends JPanel {
                 + "Auxiliary_Cable, Estimated_Cost FROM Car NATURAL JOIN Reservation WHERE Car_Type = ? "
                 + "AND Model_Name = ? AND Car.Location_Name = ? AND "
                 + "? > ?";
-            ////////////////////TAKE CARE of Date
             Connection conn = connection.createConnection();
             Object[][] rowDataArr = null;
             int rowcount = 0;
