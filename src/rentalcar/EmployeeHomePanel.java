@@ -1,5 +1,6 @@
 package rentalcar;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -15,6 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import core.User.EmployeeUser;
 
@@ -49,17 +52,33 @@ public class EmployeeHomePanel extends JPanel {
      * text.
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public EmployeeHomePanel(EmployeeUser employee) {
+    public EmployeeHomePanel(final EmployeeUser employee) {
         mainFrame = MainFrame.getMain();
         this.employee = employee;
 
         this.setBackground(Color.green);
         this.setLayout(new FlowLayout());
         setBounds(screenSize.width/2-200, screenSize.height/2-100, 
-                250, 300);
+                280, 300);
 
+        JPanel subPanel = new JPanel();
+        subPanel.setLayout(new BorderLayout());
         heading = new JLabel(headingString);
-        heading.setFont(new Font("Helvetica", Font.BOLD, 40));
+        heading.setFont(new Font("Helvetica", Font.BOLD, 35));
+        JButton logout = new JButton("Logout");
+        logout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame mainFrame = MainFrame.getMain();
+                mainFrame.setContentPane(new LoginPanel());
+                mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+                mainFrame.setVisible(true);
+                mainFrame.repaint();
+            }
+        });
+        subPanel.add(heading, BorderLayout.WEST);
+        subPanel.add(logout, BorderLayout.EAST);
+        subPanel.setBackground(Color.green);
 
         manageCars = new JRadioButton(manageCarsString);
         manageCars.setBackground(Color.green);
@@ -69,6 +88,15 @@ public class EmployeeHomePanel extends JPanel {
         rentalChangeRequest.setBackground(Color.green);
         viewReports = new JRadioButton(viewReportsString);
         viewReports.setBackground(Color.green);
+        viewReports.addChangeListener(new ChangeListener() {   
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if(viewReports.isSelected())
+                    chooseReport.setEnabled(true);
+                else
+                    chooseReport.setEnabled(false);
+            }
+        });
         
         group = new ButtonGroup();
         group.add(manageCars);
@@ -77,11 +105,12 @@ public class EmployeeHomePanel extends JPanel {
         group.add(viewReports);
 
         chooseReport = new JComboBox(reportStrings);
+        chooseReport.setEnabled(false);
 
         Next = new JButton("Next >>");
         Next.addActionListener(new NextButtonListener());
 
-        this.add(heading);
+        this.add(subPanel);
         this.add(manageCars);
         this.add(maintainanceRequests);
         this.add(rentalChangeRequest);

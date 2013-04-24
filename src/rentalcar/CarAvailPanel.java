@@ -23,78 +23,78 @@ import core.DBConnection;
 import core.User.MemberUser;
 
 public class CarAvailPanel extends JPanel {
-	private static final long serialVersionUID = 1L;
-	MemberUser member;
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
-	static DBConnection connection = new DBConnection();
+    private static final long serialVersionUID = 1L;
+    MemberUser member;
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
+    static DBConnection connection = new DBConnection();
 
-	Object[][] rowData;
+    Object[][] rowData;
 
-	Object[] columnNames = { "Model_Name", "Car_Type", "Location_Name",
-			"Color", "Hourly_Rate", "Daily_Rate", "Seating_Cap",
-			"Transmission_Type", "Bluetooth", "Auxiliary_Cable",
-			"Estimated_Cost", "Annual_Fees" };
-	JTable table;
-	ButtonGroup group;
+    Object[] columnNames = { "Model_Name", "Car_Type", "Location_Name",
+            "Color", "Hourly_Rate", "Daily_Rate", "Seating_Cap",
+            "Transmission_Type", "Bluetooth", "Auxiliary_Cable",
+            "Estimated_Cost", "Annual_Fees" };
+    JTable table;
+    ButtonGroup group;
 
-	JLabel pageHeading;
-	JButton reserveButton;
-	String ReservationTime;
-	JRadioButton Selected;
-	
-	int numRows;
+    JLabel pageHeading;
+    JButton reserveButton;
+    String ReservationTime;
+    JRadioButton Selected;
 
-	public CarAvailPanel(MemberUser member, Object[][] rowData, int numRows) {
-		this.member = member;
-		this.numRows = numRows;
-		this.rowData = rowData;
-		this.setBounds(screenSize.width / 3, screenSize.height / 3,
-				DIALOGWIDTH, DIALOGHEIGHT);
+    int numRows;
 
-		pageHeading = new JLabel("Car Availability");
-		pageHeading.setFont(new Font("Helvetica", Font.BOLD, 70));
+    public CarAvailPanel(MemberUser member, Object[][] rowData, int numRows) {
+        this.member = member;
+        this.numRows = numRows;
+        this.rowData = rowData;
+        this.setBounds(screenSize.width / 3, screenSize.height / 3,
+                DIALOGWIDTH, DIALOGHEIGHT);
 
-		table = new JTable(rowData, columnNames);
-		
-		for(int i = 0; i < numRows; i++){
-			group.add((JRadioButton) rowData[i][14]);
-		}
+        pageHeading = new JLabel("Car Availability");
+        pageHeading.setFont(new Font("Helvetica", Font.BOLD, 70));
 
-		reserveButton = new JButton("Reserve");
-		reserveButton.addActionListener(new ReserveButtonListener());
-		
-		this.setLayout(new BorderLayout());
-		this.add(pageHeading, BorderLayout.NORTH);
-		this.add(new JScrollPane(table), BorderLayout.CENTER);
+        table = new JTable(rowData, columnNames);
 
-		this.setBackground(Color.green);
-		this.setBounds(400, 300, 500, 200);
-	}
-	
+        for(int i = 0; i < numRows; i++){
+            group.add((JRadioButton) rowData[i][14]);
+        }
+
+        reserveButton = new JButton("Reserve");
+        reserveButton.addActionListener(new ReserveButtonListener());
+
+        this.setLayout(new BorderLayout());
+        this.add(pageHeading, BorderLayout.NORTH);
+        this.add(new JScrollPane(table), BorderLayout.CENTER);
+
+        this.setBackground(Color.green);
+        this.setBounds(400, 300, 500, 200);
+    }
+
     private class ReserveButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-        	for(int i = 0; i < numRows; i++){
-        		Selected = (JRadioButton) rowData[i][14];
-        		if(Selected.isSelected()){
-        			String statement = "INSERT INTO Reservation VALUES( ? , ? , ? , ? , ? , 0 , 0 , 0 , 0 )";
-        			// /////////////////////////TAKE CARE of date
-        			Connection conn = connection.createConnection();
-        			try {
-        				PreparedStatement prep = conn.prepareStatement(statement);
-        				prep.setString(1, (String) member.getUsername());
-//        				prep.setDate(2, (java.sql.Date) rowData[i][14]);
-//        				prep.setDate(3, (java.sql.Date) rowData[i][14]);
-//        				prep.setInt(4, (Integer) rowData[i][14]);
-//        				prep.setString(5, (String) rowData[i][2]);
-        				prep.close();
-        				connection.closeConnection(conn);
-        			} catch (SQLException e) {
-        				connection.closeConnection(conn);
-        			}
+            for(int i = 0; i < numRows; i++){
+                Selected = (JRadioButton) rowData[i][14];
+                if(Selected.isSelected()){
+                    String statement = "INSERT INTO Reservation VALUES( ? , ? , ? , ? , ? , 0 , 0 , 0 , 0 )";
+                    // /////////////////////////TAKE CARE of date
+                    Connection conn = connection.createConnection();
+                    try {
+                        PreparedStatement prep = conn.prepareStatement(statement);
+                        prep.setString(1, (String) member.getUsername());
+                        //        				prep.setDate(2, (java.sql.Date) rowData[i][14]);
+                        //        				prep.setDate(3, (java.sql.Date) rowData[i][14]);
+                        //        				prep.setInt(4, (Integer) rowData[i][14]);
+                        //        				prep.setString(5, (String) rowData[i][2]);
+                        prep.close();
+                        connection.closeConnection(conn);
+                    } catch (SQLException e) {
+                        connection.closeConnection(conn);
+                    }
 
-        		}
-        	}
+                }
+            }
         }
     }
 
