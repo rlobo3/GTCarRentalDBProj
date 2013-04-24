@@ -44,7 +44,6 @@ public class EmployeeHomePanel extends JPanel {
 
     private String[] reportStrings = { "Location Preferance Report", "Frequent Users Report", "Maintenance History Report" };
 
-
     /**
      * Sets up a panel with a label and a set of radio buttons that control its
      * text.

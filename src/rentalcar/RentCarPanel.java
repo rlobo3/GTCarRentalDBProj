@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -192,23 +194,66 @@ public class RentCarPanel extends JPanel {
 
     private class SearchButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            PickUpTimeDate = new java.sql.Date(PickUpDateCombo.getDate()
-                    .getTime());
-            ReturnTimeDate = new java.sql.Date(ReturnDateCombo.getDate()
-                    .getTime());
             pickUpTimeString = (String) PickUpTimeCombo.getSelectedItem();
             returnTimeString = (String) ReturnTimeCombo.getSelectedItem();
 
+            StringBuilder sb = new StringBuilder();
+            String date = PickUpDateCombo.getDate().toString();
+        	sb.append(date.substring(24, 28));
+        	sb.append('-');
+        	String month = new Integer(PickUpDateCombo.getDate().getMonth() + 1).toString();
+        	if(month.length() == 1){
+        		sb.append('0');
+        	}
+        	sb.append(month);
+        	sb.append('-');
+        	sb.append(date.substring(8, 10));
+        	sb.append(' ');
+        	sb.append(pickUpTimeString.substring(0, 5));
+        	sb.append(":00");
+        	java.util.Date result;
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        	try {
+				result = formatter.parse (sb.toString());
+				PickUpTimeDate = new java.sql.Date(result.getTime());
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+            
+            
+        	StringBuilder sb1 = new StringBuilder();
+            String date1 = ReturnDateCombo.getDate().toString();
+            sb1.append(date1.substring(24, 28));
+            sb1.append('-');
+        	String month1 = new Integer(ReturnDateCombo.getDate().getMonth() + 1).toString();
+        	if(month1.length() == 1){
+        		sb1.append('0');
+        	}
+        	sb1.append(month1);
+        	sb1.append('-');
+        	sb1.append(date1.substring(8, 10));
+        	sb1.append(' ');
+        	sb1.append(returnTimeString.substring(0, 5));
+        	sb1.append(":00");
+        	java.util.Date result1;
+        	SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        	try {
+				result1 = formatter1.parse (sb1.toString());
+				ReturnTimeDate = new java.sql.Date(result1.getTime());
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+            
             locationString = (String) LocationCombo.getSelectedItem();
             carTypeString = (String) CarTypesCombo.getSelectedItem();
             carModelString = (String) CarsCombo.getSelectedItem();
 
-            String statement = "CREATE VIEW CAR_INFO AS SELECT Model_Name, Car_Type, Location_Name, "
+            String statement = "SELECT Model_Name, Car_Type, Location_Name, "
                 + "Color, Hourly_Rate, Daily_Rate, Seating_Cap, Transmission_Type, Bluetooth, "
                 + "Auxiliary_Cable, Estimated_Cost FROM Car NATURAL JOIN Reservation WHERE Car_Type = ? "
                 + "AND Model_Name = ? AND Car.Location_Name = ? AND "
                 + "? > ?";
-            // /////////////////////////TAKE CARE of date
+            ////////////////////TAKE CARE of Date
             Connection conn = connection.createConnection();
             Object[][] rowDataArr = null;
             int rowcount = 0;
@@ -255,10 +300,11 @@ public class RentCarPanel extends JPanel {
                 prep.close();
                 connection.closeConnection(conn);
             } catch (SQLException e) {
+            	e.printStackTrace();
                 connection.closeConnection(conn);
             }
 
-            String statement1 = "CREATE VIEW TILL AS SELECT Pick_Up_Date_Time AS Available_till, "
+            String statement1 = "SELECT Pick_Up_Date_Time AS Available_till, "
                 + "FROM Car NATURAL JOIN Reservation WHERE Car_Type = ? AND "
                 + "Model_Name = ? AND Car.Location_Name = ? AND " + "? > ?";
             try {
