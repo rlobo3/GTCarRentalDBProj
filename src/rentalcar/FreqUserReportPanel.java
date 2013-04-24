@@ -39,16 +39,7 @@ public class FreqUserReportPanel extends JPanel {
         pageHeading = new JLabel("Frequent User Report");
         pageHeading.setFont(new Font("Helvetica", Font.BOLD, 70));
         back = new JButton("Back");
-        back.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFrame mainFrame = MainFrame.getMain();
-                mainFrame.setContentPane(new EmployeeHomePanel(employee));
-                mainFrame.setBounds(mainFrame.getContentPane().getBounds());
-                mainFrame.setVisible(true);
-                mainFrame.repaint();
-            }
-        });
+        back.addActionListener(new backButtonListener());
         subPanel.add(pageHeading, BorderLayout.WEST);
         subPanel.add(back, BorderLayout.EAST);
         subPanel.setBackground(Color.green);
@@ -64,6 +55,16 @@ public class FreqUserReportPanel extends JPanel {
 
         this.setBackground(Color.green);
         this.setBounds(0, 0, screenSize.width, screenSize.height);
+    }
+    
+    private class backButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            JFrame mainFrame = MainFrame.getMain();
+            mainFrame.setContentPane(new EmployeeHomePanel(employee));
+            mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+            mainFrame.setVisible(true);
+            mainFrame.repaint();
+        }
     }
 }
 
