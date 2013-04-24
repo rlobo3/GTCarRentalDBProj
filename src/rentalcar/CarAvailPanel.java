@@ -101,5 +101,4 @@ public class CarAvailPanel extends JPanel {
 			}
 		}
 	}
-
 }

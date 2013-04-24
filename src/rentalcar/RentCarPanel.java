@@ -278,7 +278,6 @@ public class RentCarPanel extends JPanel {
 								new JFrame(),
 								"You cannot book a car for more than 2 days! Please choose a another return time before.",
 								"Inane error", JOptionPane.ERROR_MESSAGE);
-
 			} else {
 				locationString = (String) LocationCombo.getSelectedItem();
 				carTypeString = (String) CarTypesCombo.getSelectedItem();
@@ -418,7 +417,6 @@ public class RentCarPanel extends JPanel {
 					mainFrame.repaint();
 				}
 			}
-
 		}
 	}
 }
