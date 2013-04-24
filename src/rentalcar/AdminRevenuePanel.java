@@ -46,18 +46,28 @@ public class AdminRevenuePanel extends JPanel {
 
 		Connection conn = connection.createConnection();
 		try {
-			String statement = "SELECT  Vehicle_Sno, Car_Type, Model_Name, SUM( Estimated_Cost )" +
-					" AS Reservation_Revenue, SUM( Late_Fees ) FROM Car NATURAL JOIN Reservation " +
+			String statement = "SELECT  Vehicle_Sno, Car_Type, Model_Name, SUM(Estimated_Cost)" +
+					" AS Reservation_Revenue, SUM(Late_Fees) FROM Car NATURAL JOIN Reservation " +
 					"WHERE 0 <= DATEDIFF( CURRENT_DATE, Return_Date_Time ) /30 <=3 AND " +
 					"Return_Date_Time < CURRENT_DATE + GROUP BY Vehicle_Sno";
 
 			PreparedStatement prep = conn.prepareStatement(statement);
 			ResultSet rs = (ResultSet) prep.executeQuery();
-			while (rs.next()) {
-			}
+			int rowcount = 0;
+            if (rs.last()) {
+                rowcount = rs.getRow();
+                rs.beforeFirst();
+            }
+            rowData = new Object[rowcount][5];
+            for(int i = 0; rs.next(); i++){
+				rowData[i][0] = rs.getString("Vehicle_Sno");
+				rowData[i][1] = rs.getString("Car_Type");
+				rowData[i][2] = rs.getString("Model_Name");
+				rowData[i][3] = rs.getString("Reservation_Revenue");
+				rowData[i][4] = rs.getString("Late_Fees");
+            }
 			prep.close();
 			connection.closeConnection(conn);
-			// return tableElement;
 		} catch (SQLException e) {
 			connection.closeConnection(conn);
 		}

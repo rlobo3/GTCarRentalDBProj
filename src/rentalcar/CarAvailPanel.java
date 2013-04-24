@@ -87,7 +87,6 @@ public class CarAvailPanel extends JPanel {
 //        				prep.setDate(3, (java.sql.Date) rowData[i][14]);
 //        				prep.setInt(4, (Integer) rowData[i][14]);
 //        				prep.setString(5, (String) rowData[i][2]);
-        				
         				prep.close();
         				connection.closeConnection(conn);
         			} catch (SQLException e) {

@@ -279,7 +279,6 @@ public class RentCarPanel extends JPanel {
                     .getString("Available_till");
                     j++;
                 }
-
                 prep1.close();
                 connection.closeConnection(conn);
             } catch (SQLException e) {
