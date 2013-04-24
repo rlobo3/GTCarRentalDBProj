@@ -1,7 +1,6 @@
 package core.User;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -16,7 +15,7 @@ public class UserDao {
     static DBConnection connection = new DBConnection();
     String username, password, firstName, middleInit, lastName, email,
     phone, address, plan_Type, nameOnCard, billingAddress;
-    Date expiryDate;
+    String expiryDate;
     Integer cardNo, cvv;
 
     public User addUser(String username, String password, UserType type) {
@@ -126,7 +125,7 @@ public class UserDao {
                                     drivingPlan = new DrivingPlan(PlanType.DAILY);
                                 cardNo = rs.getInt("Card_No");
                                 cvv = rs.getInt("CVV");
-                                expiryDate = rs.getDate("Expiry_Date");
+                                expiryDate = rs.getString("Expiry_Date");
                                 nameOnCard = rs.getString("Name_on_card");
                                 billingAddress = rs.getString("Billing_Address");
                                 CreditCard creditCard = new CreditCard(cardNo, nameOnCard,
@@ -202,7 +201,7 @@ public class UserDao {
                 prep = conn.prepareStatement(statement);
                 prep.setString(1, member.creditCard.getNameOnCard());
                 prep.setInt(2, member.creditCard.getCvv());
-                prep.setDate(3, member.creditCard.getExpiryDate());
+                prep.setString(3, member.creditCard.getExpiryDate());
                 prep.setString(4, member.creditCard.getBillingAddress());
                 prep.setString(5, member.username);
                 prep.execute();
@@ -222,7 +221,7 @@ public class UserDao {
                 prep = conn.prepareStatement(statement);
                 prep.setString(1, member.creditCard.getNameOnCard());
                 prep.setInt(2, member.creditCard.getCvv());
-                prep.setDate(3, member.creditCard.getExpiryDate());
+                prep.setString(3, member.creditCard.getExpiryDate());
                 prep.setString(4, member.creditCard.getBillingAddress());
                 prep.setString(5, member.username);
                 prep.close();

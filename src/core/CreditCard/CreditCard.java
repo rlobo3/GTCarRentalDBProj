@@ -5,10 +5,10 @@ import java.sql.Date;
 public class CreditCard {
     private Integer cardNumber, cvv;
     private String nameOnCard, billingAddress;
-    private Date expiryDate;
+    private String expiryDate;
     
     
-    public CreditCard(int cardNumber, String nameOnCard, int cvv, Date expiryDate,
+    public CreditCard(int cardNumber, String nameOnCard, int cvv, String expiryDate,
             String billingAddress){
         this.cardNumber = cardNumber;
         this.nameOnCard = nameOnCard;
@@ -80,14 +80,14 @@ public class CreditCard {
     /**
      * @return the expiryDate
      */
-    public Date getExpiryDate() {
+    public String getExpiryDate() {
         return expiryDate;
     }
 
     /**
      * @param expiryDate the expiryDate to set
      */
-    public void setExpiryDate(Date expiryDate) {
+    public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
     }
 }
