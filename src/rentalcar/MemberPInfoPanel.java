@@ -229,7 +229,12 @@ public class MemberPInfoPanel extends JPanel {
             creditCard.setNameOnCard(nameCardField.getText());
             creditCard.setBillingAddress(billingAddressField.getText());
             creditCard.setExpiryDate(expiryDateField.getText());
-            creditCard.setCardNumber(Integer.parseInt(cardNumberField.getText()));
+            String cardNum = cardNumberField.getText();
+            try{
+            	creditCard.setCardNumber(Integer.parseInt(cardNum));
+            }catch(NumberFormatException e){
+            	JOptionPane.showMessageDialog(new JFrame(), "Please enter a valid credit number!","Inane error", JOptionPane.ERROR_MESSAGE);
+            }
             creditCard.setCvv(Integer.parseInt(cVVField.getText()));
             member.setCreditCard(creditCard);
             // Update operations if anything changes
