@@ -228,13 +228,7 @@ public class MemberPInfoPanel extends JPanel {
             CreditCard creditCard = new CreditCard();
             creditCard.setNameOnCard(nameCardField.getText());
             creditCard.setBillingAddress(billingAddressField.getText());
-//            Integer mm = Integer.parseInt(expiryDateField.getText().substring(
-//                    5, 7));
-//            Integer yyyy = Integer.parseInt(expiryDateField.getText()
-//                    .substring(0, 4));
-//            String d = yyyy.toString()+"-"+mm.toString()+"-01";
-//            Date sqlDate = Date.valueOf(d);
-//            creditCard.setExpiryDate(sqlDate);
+            creditCard.setExpiryDate(expiryDateField.getText());
             creditCard.setCardNumber(Integer.parseInt(cardNumberField.getText()));
             creditCard.setCvv(Integer.parseInt(cVVField.getText()));
             member.setCreditCard(creditCard);
