@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -82,7 +83,7 @@ public class RentCarPanel extends JPanel {
 	java.sql.Date PickUpTimeDate, ReturnTimeDate;
 	String pickUpTimeString, returnTimeString;
 
-	String locationString, carTypeString, carModelString;
+	String locationString, carTypeString, carModelString, VehicleNumber;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public RentCarPanel(MemberUser member) {
@@ -271,21 +272,20 @@ public class RentCarPanel extends JPanel {
 								new JFrame(),
 								"Return time is before pick up time! Please choose a another return/pickup time",
 								"Inane error", JOptionPane.ERROR_MESSAGE);
-			} else if(diff > 172800000){
+			} else if (diff > 172800000) {
 				JOptionPane
-				.showMessageDialog(
-						new JFrame(),
-						"You cannot book a car for more than 2 days! Please choose a another return time before.",
-						"Inane error", JOptionPane.ERROR_MESSAGE);
+						.showMessageDialog(
+								new JFrame(),
+								"You cannot book a car for more than 2 days! Please choose a another return time before.",
+								"Inane error", JOptionPane.ERROR_MESSAGE);
 
 			} else {
 				locationString = (String) LocationCombo.getSelectedItem();
 				carTypeString = (String) CarTypesCombo.getSelectedItem();
 				carModelString = (String) CarsCombo.getSelectedItem();
-
 				String statement = "SELECT Model_Name, Car_Type, Location_Name, "
 						+ "Color, Hourly_Rate, Daily_Rate, Seating_Cap, Transmission_Type, Bluetooth, "
-						+ "Auxiliary_Cable, Estimated_Cost FROM Car NATURAL JOIN Reservation WHERE Car_Type = ? "
+						+ "Auxiliary_Cable, Estimated_Cost, Vehicle_Sno FROM Car NATURAL JOIN Reservation WHERE Car_Type = ? "
 						+ "AND Model_Name = ? AND Car.Location_Name = ? AND "
 						+ "? > ?";
 				Connection conn = connection.createConnection();
@@ -331,6 +331,8 @@ public class RentCarPanel extends JPanel {
 						rowDataArr[i][13] = rsCarAvailability
 								.getString("Estimated_Cost");
 						rowDataArr[i][14] = new JRadioButton();
+						VehicleNumber = rsCarAvailability
+								.getString("Vehicle_Sno");
 						i++;
 					}
 					prep.close();
@@ -403,8 +405,13 @@ public class RentCarPanel extends JPanel {
 									"No Car Available For these Times. Please enter a new pick up time or return time!",
 									"Inane error", JOptionPane.ERROR_MESSAGE);
 				} else {
+					ArrayList<Object> tempArr = new ArrayList();
+					tempArr.add(PickUpTimeDate);
+					tempArr.add(ReturnTimeDate);
+					tempArr.add(VehicleNumber);
+					tempArr.add(locationString);
 					CarAvailPanel panel = new CarAvailPanel(member, rowDataArr,
-							rowcount);
+							rowcount, tempArr);
 					mainFrame.setContentPane(panel);
 					mainFrame.setBounds(mainFrame.getContentPane().getBounds());
 					mainFrame.setVisible(true);
