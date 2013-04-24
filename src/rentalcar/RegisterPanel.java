@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,17 +24,21 @@ import core.User.UserType;
  * @author Rochelle Lobo
  * This class helps the user in register in the system.
  */
- 
+
+@SuppressWarnings("rawtypes")
 public class RegisterPanel extends JPanel implements ActionListener{
-    final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	private static final long serialVersionUID = 1L;
+
+	final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     
     JLabel userN, passw, confPwd, type;
     JTextField userName, password, confirmP;
     JButton register, cancel;
-    JComboBox userType;
+	JComboBox userType;
     UserType[] newTypes;
         
-    public RegisterPanel() {
+    @SuppressWarnings("unchecked")
+	public RegisterPanel() {
         this.setLayout(new FlowLayout());
         setBounds(screenSize.width/2-200, screenSize.height/2-100, 
                 375, 190);

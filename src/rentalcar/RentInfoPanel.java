@@ -35,6 +35,7 @@ import core.User.MemberUser;
  * This Panel shows the rental information of the car such as current and previous reservations.
  */
 
+@SuppressWarnings("rawtypes")
 public class RentInfoPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private MemberUser member;
@@ -70,6 +71,7 @@ public class RentInfoPanel extends JPanel {
 			"07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM", "09:00 PM",
 			"09:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM" };
 
+	@SuppressWarnings("unchecked")
 	public RentInfoPanel(MemberUser member) {
 		this.member = member;
 		this.setBounds(screenSize.width / 3, screenSize.height / 3,
@@ -202,7 +204,8 @@ public class RentInfoPanel extends JPanel {
                 String date = ReturnDateCombo.getDate().toString();
             	sb.append(date.substring(24, 28));
             	sb.append('-');
-            	String month = new Integer(ReturnDateCombo.getDate().getMonth() + 1).toString();
+            	@SuppressWarnings("deprecation")
+				String month = new Integer(ReturnDateCombo.getDate().getMonth() + 1).toString();
             	if(month.length() == 1){
             		sb.append('0');
             	}

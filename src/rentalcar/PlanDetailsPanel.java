@@ -5,20 +5,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import com.mysql.jdbc.ResultSet;
-
-import core.DBConnection;
 import core.DrivingPlan.DrivingPlan;
 import core.DrivingPlan.DrivingPlanDao;
 import core.User.MemberUser;

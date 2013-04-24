@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -197,6 +196,7 @@ public class RentCarPanel extends JPanel {
 	}
 
 	private class SearchButtonListener implements ActionListener {
+		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent event) {
 			pickUpTimeString = (String) PickUpTimeCombo.getSelectedItem();
 			returnTimeString = (String) ReturnTimeCombo.getSelectedItem();
@@ -404,7 +404,7 @@ public class RentCarPanel extends JPanel {
 									"No Car Available For these Times. Please enter a new pick up time or return time!",
 									"Inane error", JOptionPane.ERROR_MESSAGE);
 				} else {
-					ArrayList<Object> tempArr = new ArrayList();
+					ArrayList<Object> tempArr = new ArrayList<Object>();
 					tempArr.add(PickUpTimeDate);
 					tempArr.add(ReturnTimeDate);
 					tempArr.add(VehicleNumber);

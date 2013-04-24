@@ -1,6 +1,5 @@
 package core.CreditCard;
 
-import java.sql.Date;
 
 public class CreditCard {
     private Integer cardNumber, cvv;

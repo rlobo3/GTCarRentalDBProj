@@ -5,7 +5,23 @@ public class Location {
     private int capacity;
     
     public Location(String locName, int capacity) {
-        this.locName = locName;
-        this.capacity = capacity;
+        this.setLocName(locName);
+        this.setCapacity(capacity);
     }
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+
+	public String getLocName() {
+		return locName;
+	}
+
+	public void setLocName(String locName) {
+		this.locName = locName;
+	}
 }
