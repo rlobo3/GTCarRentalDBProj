@@ -7,8 +7,6 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
-import java.util.Calendar;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -20,10 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-
-import org.jdesktop.swingx.JXDatePicker;
-
-import com.sun.tools.javac.resources.javac;
 
 import core.DBConnection;
 import core.CreditCard.CreditCard;
