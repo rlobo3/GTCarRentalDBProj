@@ -97,8 +97,8 @@ public class LoginPanel extends JPanel{
                 else if(userObj.getType() == UserType.ADMIN) {
                     JFrame mainFrame = MainFrame.getMain();
                     AdminUser adminUser = (AdminUser) userObj;
-//                    AdminRevenuePanel panel = new AdminRevenuePanel(adminUser);
-//                    mainFrame.setContentPane(panel);
+                    AdminRevenuePanel panel = new AdminRevenuePanel(adminUser);
+                    mainFrame.setContentPane(panel);
                     mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                     mainFrame.setVisible(true);
                     mainFrame.repaint();

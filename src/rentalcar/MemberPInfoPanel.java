@@ -21,6 +21,10 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import org.jdesktop.swingx.JXDatePicker;
+
+import com.sun.tools.javac.resources.javac;
+
 import core.DBConnection;
 import core.CreditCard.CreditCard;
 import core.DrivingPlan.DrivingPlan;
@@ -125,7 +129,7 @@ public class MemberPInfoPanel extends JPanel {
         cVV = new JLabel("CVV");
         cVVField = new JTextField(3);
 
-        expiryDate = new JLabel("Expiry Date (mm-yyyy)");
+        expiryDate = new JLabel("Expiry Date (yyyy-mm-dd)");
         expiryDateField = new JTextField(20);
 
         billingAddress = new JLabel("Billing Address");
@@ -230,33 +234,22 @@ public class MemberPInfoPanel extends JPanel {
             CreditCard creditCard = new CreditCard();
             creditCard.setNameOnCard(nameCardField.getText());
             creditCard.setBillingAddress(billingAddressField.getText());
-            Integer mm = Integer.parseInt(expiryDateField.getText().substring(
-                    0, 2));
-            Integer yyyy = Integer.parseInt(expiryDateField.getText()
-                    .substring(3, 7));
-            Calendar calendar = Calendar.getInstance();
-
-            // set Date portion to January 1, 1970
-            calendar.set(Calendar.YEAR, mm);
-            calendar.set(Calendar.MONTH, yyyy);
-            calendar.set(Calendar.DATE, 1);
-
-            // normalize the object
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
-
-            Date date = new Date(calendar.getTime().getTime());
-            creditCard.setExpiryDate(date);
+//            Integer mm = Integer.parseInt(expiryDateField.getText().substring(
+//                    5, 7));
+//            Integer yyyy = Integer.parseInt(expiryDateField.getText()
+//                    .substring(0, 4));
+//            String d = yyyy.toString()+"-"+mm.toString()+"-01";
+//            Date sqlDate = Date.valueOf(d);
+//            creditCard.setExpiryDate(sqlDate);
             creditCard.setCardNumber(Integer.parseInt(cardNumberField.getText()));
             creditCard.setCvv(Integer.parseInt(cVVField.getText()));
+            member.setCreditCard(creditCard);
             // Update operations if anything changes
             UserDao userDao = new UserDao();
-            member = userDao.editMemberInfo(member);
-            if(member != null) {
+            MemberUser mem = userDao.editMemberInfo(member);
+            if(mem != null) {
                 JFrame mainFrame = MainFrame.getMain();
-                MemberHomePanel panel = new MemberHomePanel(member);
+                MemberHomePanel panel = new MemberHomePanel(mem);
                 mainFrame.setContentPane(panel);
                 mainFrame.setBounds(mainFrame.getContentPane().getBounds());
                 mainFrame.setVisible(true);

@@ -2,6 +2,11 @@ package rentalcar;
 
 import javax.swing.JPanel;
 
-public class AdminRevenuePanel extends JPanel {
+import core.User.AdminUser;
 
+public class AdminRevenuePanel extends JPanel {
+    
+    public AdminRevenuePanel(AdminUser admin) {
+        
+    }
 }

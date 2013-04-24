@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -81,7 +82,8 @@ public class RentCarPanel extends JPanel {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public RentCarPanel(MemberUser member) {
         this.setBackground(Color.green);
-        this.setBounds(0, 0, screenSize.width, screenSize.height-30);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBounds(300, 150, 450, 400);
         this.member = member;
 
         RentACar = new JLabel("Rent A Car");
@@ -94,7 +96,7 @@ public class RentCarPanel extends JPanel {
 
         ReturnTime = new JLabel("Return Time:");
         java.util.Date returndate = new java.util.Date();
-        PickUpDateCombo = new JXDatePicker(returndate);
+        ReturnDateCombo = new JXDatePicker(returndate);
         ReturnTimeCombo = new JComboBox(returnTimeStrings);
 
         Connection conn = connection.createConnection();
@@ -167,7 +169,7 @@ public class RentCarPanel extends JPanel {
 
         Location = new JLabel("Location:");
         this.add(Location);
-        LocationCombo = new JComboBox(carsModelStrings);
+        LocationCombo = new JComboBox(locationStrings);
         this.add(LocationCombo);
 
         Cars = new JLabel("Cars:");
@@ -203,7 +205,7 @@ public class RentCarPanel extends JPanel {
 
             String statement = "CREATE VIEW CAR_INFO AS SELECT Model_Name, Car_Type, Location_Name, "
                 + "Color, Hourly_Rate, Daily_Rate, Seating_Cap, Transmission_Type, Bluetooth, "
-                + "Auxiliary_Cable Estimated_Cost FROM Car NATURAL JOIN Reservation WHERE Car_Type = ? "
+                + "Auxiliary_Cable, Estimated_Cost FROM Car NATURAL JOIN Reservation WHERE Car_Type = ? "
                 + "AND Model_Name = ? AND Car.Location_Name = ? AND "
                 + "? > ?";
             // /////////////////////////TAKE CARE of date
