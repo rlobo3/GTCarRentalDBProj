@@ -26,7 +26,6 @@ public class AdminRevenuePanel extends JPanel {
     DBConnection connection = new DBConnection();
 
     AdminUser admin;
-    int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
 
     Object[] tableElement;
     Object[] columnNames = { "Vehicle Sno", "Type", "Car Model",
@@ -38,8 +37,6 @@ public class AdminRevenuePanel extends JPanel {
 
     public AdminRevenuePanel(AdminUser admin) {
         this.admin = admin;
-        this.setBounds(screenSize.width / 3, screenSize.height / 3,
-                DIALOGWIDTH, DIALOGHEIGHT);
 
         pageHeading = new JLabel("Revenue Generated");
         pageHeading.setFont(new Font("Helvetica", Font.BOLD, 70));
@@ -49,7 +46,7 @@ public class AdminRevenuePanel extends JPanel {
             String statement = "SELECT  Vehicle_Sno, Car_Type, Model_Name, SUM(Estimated_Cost)" +
             " AS Reservation_Revenue, SUM(Late_Fees) FROM Car NATURAL JOIN Reservation " +
             "WHERE 0 <= DATEDIFF( CURRENT_DATE, Return_Date_Time ) /30 <=3 AND " +
-            "Return_Date_Time < CURRENT_DATE + GROUP BY Vehicle_Sno";
+            "Return_Date_Time < CURRENT_DATE GROUP BY Vehicle_Sno";
 
             PreparedStatement prep = conn.prepareStatement(statement);
             ResultSet rs = (ResultSet) prep.executeQuery();
@@ -64,7 +61,7 @@ public class AdminRevenuePanel extends JPanel {
                 rowData[i][1] = rs.getString("Car_Type");
                 rowData[i][2] = rs.getString("Model_Name");
                 rowData[i][3] = rs.getString("Reservation_Revenue");
-                rowData[i][4] = rs.getString("Late_Fees");
+                rowData[i][4] = rs.getString(5);
             }
             prep.close();
             connection.closeConnection(conn);
@@ -79,6 +76,6 @@ public class AdminRevenuePanel extends JPanel {
         this.add(new JScrollPane(table), BorderLayout.CENTER);
 
         this.setBackground(Color.green);
-        this.setBounds(400, 300, screenSize.width, screenSize.height);
+        this.setBounds(0, 0, screenSize.width, screenSize.height);
     }
 }

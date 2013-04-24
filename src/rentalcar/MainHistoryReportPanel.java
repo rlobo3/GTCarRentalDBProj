@@ -26,7 +26,6 @@ public class MainHistoryReportPanel extends JPanel {
     DBConnection connection = new DBConnection();
 
     EmployeeUser employee;
-    int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
 
     Object[] tableElement;
     Object[] columnNames = { "Car" , "Date-Time", "Employee", "Problem"};
@@ -37,10 +36,8 @@ public class MainHistoryReportPanel extends JPanel {
 
     public MainHistoryReportPanel(EmployeeUser employee) {
         this.employee = employee;
-        this.setBounds(screenSize.width / 3, screenSize.height / 3,
-                DIALOGWIDTH, DIALOGHEIGHT);
 
-        pageHeading = new JLabel("Frequent User Report");
+        pageHeading = new JLabel("Maintenance History Report");
         pageHeading.setFont(new Font("Helvetica", Font.BOLD, 70));
 
         Connection conn = connection.createConnection();
@@ -56,12 +53,12 @@ public class MainHistoryReportPanel extends JPanel {
                 rowcount = rs.getRow();
                 rs.beforeFirst();
             }
-            rowData = new Object[rowcount][3];
+            rowData = new Object[rowcount][4];
             for(int i = 0; rs.next(); i++){
                 rowData[i][0] = rs.getString("Model_Name");
                 rowData[i][1] = rs.getString("Date_Time");
                 rowData[i][2] = rs.getString("Username");
-                rowData[i][3] = rs.getString("Problem");
+                rowData[i][3] = rs.getString("Problems");
             }
             prep.close();
             connection.closeConnection(conn);
@@ -76,6 +73,6 @@ public class MainHistoryReportPanel extends JPanel {
         this.add(new JScrollPane(table), BorderLayout.CENTER);
 
         this.setBackground(Color.green);
-        this.setBounds(400, 300, screenSize.width, screenSize.height);
+        this.setBounds(0, 0, screenSize.width, screenSize.height);
     }
 }
