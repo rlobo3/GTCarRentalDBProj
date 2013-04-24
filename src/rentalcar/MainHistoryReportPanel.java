@@ -20,65 +20,62 @@ import core.DBConnection;
 import core.User.EmployeeUser;
 
 public class MainHistoryReportPanel extends JPanel {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-	DBConnection connection = new DBConnection();
+    DBConnection connection = new DBConnection();
 
-	EmployeeUser employee;
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
+    EmployeeUser employee;
+    int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
 
-	Object[] tableElement;
-	Object[] columnNames = { "Car" , "Date-Time", "Employee", "Problem"};
-	Object[][] rowData;
+    Object[] tableElement;
+    Object[] columnNames = { "Car" , "Date-Time", "Employee", "Problem"};
+    Object[][] rowData;
 
-	JTable table;
-	JLabel pageHeading;
+    JTable table;
+    JLabel pageHeading;
 
-	public MainHistoryReportPanel(EmployeeUser employee) {
-		this.employee = employee;
-		this.setBounds(screenSize.width / 3, screenSize.height / 3,
-				DIALOGWIDTH, DIALOGHEIGHT);
+    public MainHistoryReportPanel(EmployeeUser employee) {
+        this.employee = employee;
+        this.setBounds(screenSize.width / 3, screenSize.height / 3,
+                DIALOGWIDTH, DIALOGHEIGHT);
 
-		pageHeading = new JLabel("Frequent User Report");
-		pageHeading.setFont(new Font("Helvetica", Font.BOLD, 70));
+        pageHeading = new JLabel("Frequent User Report");
+        pageHeading.setFont(new Font("Helvetica", Font.BOLD, 70));
 
-		Connection conn = connection.createConnection();
-		try {
-			String statement = "CREATE VIEW NUM_PROBLEMS AS SELECT COUNT(*) AS " +
-					"Num_Prob,Vehicle_Sno,Date_Time FROM Maintenance_Request NATURAL JOIN Problems " +
-					"GROUP BY Vehicle_Sno, Date_Time " +
-					"SELECT Model_Name, Date_Time,Username,Problems " +
-					"FROM Car NATURAL JOIN Maintenance_Request NATURAL JOIN Problems NATURAL JOIN NUM_PROBLEMS " +
-					"ORDER BY Num_Prob DESC";
+        Connection conn = connection.createConnection();
+        try {
+            String statement = "SELECT Model_Name,Date_Time,Username,Problems " +
+                "FROM Car NATURAL JOIN Maintenance_Request NATURAL JOIN Problems NATURAL JOIN NUM_PROBLEMS " +
+                "ORDER BY Num_Prob DESC";
 
-			PreparedStatement prep = conn.prepareStatement(statement);
-			ResultSet rs = (ResultSet) prep.executeQuery();
-			int rowcount = 0;
+            PreparedStatement prep = conn.prepareStatement(statement);
+            ResultSet rs = (ResultSet) prep.executeQuery();
+            int rowcount = 0;
             if (rs.last()) {
                 rowcount = rs.getRow();
                 rs.beforeFirst();
             }
             rowData = new Object[rowcount][3];
             for(int i = 0; rs.next(); i++){
-				rowData[i][0] = rs.getString("Model_Name");
-				rowData[i][1] = rs.getString("Date_Time");
-				rowData[i][2] = rs.getString("Username");
-				rowData[i][3] = rs.getString("Problems");
+                rowData[i][0] = rs.getString("Model_Name");
+                rowData[i][1] = rs.getString("Date_Time");
+                rowData[i][2] = rs.getString("Username");
+                rowData[i][3] = rs.getString("Problems");
             }
-			prep.close();
-			connection.closeConnection(conn);
-		} catch (SQLException e) {
-			connection.closeConnection(conn);
-		}
+            prep.close();
+            connection.closeConnection(conn);
+        } catch (SQLException e) {
+            connection.closeConnection(conn);
+        }
 
-		table = new JTable(rowData, columnNames);
+        table = new JTable(rowData, columnNames);
 
-		this.setLayout(new BorderLayout());
-		this.add(pageHeading, BorderLayout.NORTH);
-		this.add(new JScrollPane(table), BorderLayout.CENTER);
+        this.setLayout(new BorderLayout());
+        this.add(pageHeading, BorderLayout.NORTH);
+        this.add(new JScrollPane(table), BorderLayout.CENTER);
 
-		this.setBackground(Color.green);
-		this.setBounds(400, 300, 500, 200);
-	}
+        this.setBackground(Color.green);
+        this.setBounds(400, 300, screenSize.width, screenSize.height);
+    }
 }

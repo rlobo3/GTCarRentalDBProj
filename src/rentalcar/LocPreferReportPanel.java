@@ -20,65 +20,62 @@ import core.DBConnection;
 import core.User.EmployeeUser;
 
 public class LocPreferReportPanel extends JPanel {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	DBConnection connection = new DBConnection();
+    DBConnection connection = new DBConnection();
 
-	EmployeeUser employee;
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
+    EmployeeUser employee;
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-	Object[] tableElement;
-	Object[] columnNames = { "Month" , "Location", "No of Reservations", "Total no of hours"};
-	Object[][] rowData;
+    Object[] tableElement;
+    Object[] columnNames = { "Month" , "Location", "No of Reservations", "Total no of hours"};
+    Object[][] rowData;
 
-	JTable table;
-	JLabel pageHeading;
+    JTable table;
+    JLabel pageHeading;
 
-	public LocPreferReportPanel(EmployeeUser employee) {
-		this.employee = employee;
-		this.setBounds(screenSize.width / 3, screenSize.height / 3,
-				DIALOGWIDTH, DIALOGHEIGHT);
+    public LocPreferReportPanel(EmployeeUser employee) {
+        this.employee = employee;
 
-		pageHeading = new JLabel("Location Preference Report");
-		pageHeading.setFont(new Font("Helvetica", Font.BOLD, 70));
+        pageHeading = new JLabel("Location Preference Report");
+        pageHeading.setFont(new Font("Helvetica", Font.BOLD, 70));
 
-		Connection conn = connection.createConnection();
-		try {
-			String statement = "SELECT YEAR( Pick_Up_Date_Time ), MONTH( Pick_Up_Date_Time ), Location_Name, COUNT( * ) " +
-					"AS NumOfReservation, SUM( TIMEDIFF( Return_Date_Time, Pick_Up_Date_Time ) + Late_By ) AS TotalNoOfHours " +
-					"FROM Reservation NATURAL JOIN Car WHERE (DATEDIFF( CURRENT_DATE, Pick_Up_Date_Time ) /30) >=0 AND " +
-					"(DATEDIFF( CURRENT_DATE, Pick_Up_Date_Time ) /30) <=3 AND Pick_Up_Date_Time < CURRENT_DATE " +
-					"GROUP BY Location_Name, MONTH( Pick_Up_Date_Time ) , YEAR( Pick_Up_Date_Time ) " +
-					"ORDER BY YEAR( Pick_Up_Date_Time ) , MONTH( Pick_Up_Date_Time ) DESC ";
+        Connection conn = connection.createConnection();
+        try {
+            String statement = "SELECT YEAR( Pick_Up_Date_Time ), MONTH( Pick_Up_Date_Time ), Location_Name, COUNT( * ) " +
+            "AS NumOfReservation, SUM( TIMEDIFF( Return_Date_Time, Pick_Up_Date_Time ) + Late_By ) AS TotalNoOfHours " +
+            "FROM Reservation NATURAL JOIN Car WHERE (DATEDIFF( CURRENT_DATE, Pick_Up_Date_Time ) /30) >=0 AND " +
+            "(DATEDIFF( CURRENT_DATE, Pick_Up_Date_Time ) /30) <=3 AND Pick_Up_Date_Time < CURRENT_DATE " +
+            "GROUP BY Location_Name, MONTH( Pick_Up_Date_Time ) , YEAR( Pick_Up_Date_Time ) " +
+            "ORDER BY YEAR( Pick_Up_Date_Time ) , MONTH( Pick_Up_Date_Time ) DESC ";
 
-			PreparedStatement prep = conn.prepareStatement(statement);
-			ResultSet rs = (ResultSet) prep.executeQuery();
-			int rowcount = 0;
+            PreparedStatement prep = conn.prepareStatement(statement);
+            ResultSet rs = (ResultSet) prep.executeQuery();
+            int rowcount = 0;
             if (rs.last()) {
                 rowcount = rs.getRow();
                 rs.beforeFirst();
             }
             rowData = new Object[rowcount][4];
             for(int i = 0; rs.next(); i++){
-				rowData[i][0] = rs.getString("YEAR");
-				rowData[i][1] = rs.getString("MONTH");
-				rowData[i][2] = rs.getString("NumOfReservation");
-				rowData[i][3] = rs.getString("TotalNoOfHours");
+                rowData[i][0] = rs.getString(1);
+                rowData[i][1] = rs.getString(2);
+                rowData[i][2] = rs.getString("NumOfReservation");
+                rowData[i][3] = rs.getString("TotalNoOfHours");
             }
-			prep.close();
-			connection.closeConnection(conn);
-		} catch (SQLException e) {
-			connection.closeConnection(conn);
-		}
+            prep.close();
+            connection.closeConnection(conn);
+        } catch (SQLException e) {
+            connection.closeConnection(conn);
+        }
 
-		table = new JTable(rowData, columnNames);
+        table = new JTable(rowData, columnNames);
 
-		this.setLayout(new BorderLayout());
-		this.add(pageHeading, BorderLayout.NORTH);
-		this.add(new JScrollPane(table), BorderLayout.CENTER);
+        this.setLayout(new BorderLayout());
+        this.add(pageHeading, BorderLayout.NORTH);
+        this.add(new JScrollPane(table), BorderLayout.CENTER);
 
-		this.setBackground(Color.green);
-		this.setBounds(400, 300, 500, 200);
-	}
+        this.setBackground(Color.green);
+        this.setBounds(400, 300, screenSize.width, screenSize.height);
+    }
 }

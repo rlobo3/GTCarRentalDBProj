@@ -20,65 +20,65 @@ import core.DBConnection;
 import core.User.AdminUser;
 
 public class AdminRevenuePanel extends JPanel {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-	DBConnection connection = new DBConnection();
+    DBConnection connection = new DBConnection();
 
-	AdminUser admin;
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
+    AdminUser admin;
+    int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
 
-	Object[] tableElement;
-	Object[] columnNames = { "Vehicle Sno", "Type", "Car Model",
-			"Reservation revenue", "Late Fees Reveue" };
-	Object[][] rowData;
+    Object[] tableElement;
+    Object[] columnNames = { "Vehicle Sno", "Type", "Car Model",
+            "Reservation revenue", "Late Fees Reveue" };
+    Object[][] rowData;
 
-	JTable table;
-	JLabel pageHeading;
+    JTable table;
+    JLabel pageHeading;
 
-	public AdminRevenuePanel(AdminUser admin) {
-		this.admin = admin;
-		this.setBounds(screenSize.width / 3, screenSize.height / 3,
-				DIALOGWIDTH, DIALOGHEIGHT);
+    public AdminRevenuePanel(AdminUser admin) {
+        this.admin = admin;
+        this.setBounds(screenSize.width / 3, screenSize.height / 3,
+                DIALOGWIDTH, DIALOGHEIGHT);
 
-		pageHeading = new JLabel("Revenue Generated");
-		pageHeading.setFont(new Font("Helvetica", Font.BOLD, 70));
+        pageHeading = new JLabel("Revenue Generated");
+        pageHeading.setFont(new Font("Helvetica", Font.BOLD, 70));
 
-		Connection conn = connection.createConnection();
-		try {
-			String statement = "SELECT  Vehicle_Sno, Car_Type, Model_Name, SUM(Estimated_Cost)" +
-					" AS Reservation_Revenue, SUM(Late_Fees) FROM Car NATURAL JOIN Reservation " +
-					"WHERE 0 <= DATEDIFF( CURRENT_DATE, Return_Date_Time ) /30 <=3 AND " +
-					"Return_Date_Time < CURRENT_DATE + GROUP BY Vehicle_Sno";
+        Connection conn = connection.createConnection();
+        try {
+            String statement = "SELECT  Vehicle_Sno, Car_Type, Model_Name, SUM(Estimated_Cost)" +
+            " AS Reservation_Revenue, SUM(Late_Fees) FROM Car NATURAL JOIN Reservation " +
+            "WHERE 0 <= DATEDIFF( CURRENT_DATE, Return_Date_Time ) /30 <=3 AND " +
+            "Return_Date_Time < CURRENT_DATE + GROUP BY Vehicle_Sno";
 
-			PreparedStatement prep = conn.prepareStatement(statement);
-			ResultSet rs = (ResultSet) prep.executeQuery();
-			int rowcount = 0;
+            PreparedStatement prep = conn.prepareStatement(statement);
+            ResultSet rs = (ResultSet) prep.executeQuery();
+            int rowcount = 0;
             if (rs.last()) {
                 rowcount = rs.getRow();
                 rs.beforeFirst();
             }
             rowData = new Object[rowcount][5];
             for(int i = 0; rs.next(); i++){
-				rowData[i][0] = rs.getString("Vehicle_Sno");
-				rowData[i][1] = rs.getString("Car_Type");
-				rowData[i][2] = rs.getString("Model_Name");
-				rowData[i][3] = rs.getString("Reservation_Revenue");
-				rowData[i][4] = rs.getString("Late_Fees");
+                rowData[i][0] = rs.getString("Vehicle_Sno");
+                rowData[i][1] = rs.getString("Car_Type");
+                rowData[i][2] = rs.getString("Model_Name");
+                rowData[i][3] = rs.getString("Reservation_Revenue");
+                rowData[i][4] = rs.getString("Late_Fees");
             }
-			prep.close();
-			connection.closeConnection(conn);
-		} catch (SQLException e) {
-			connection.closeConnection(conn);
-		}
+            prep.close();
+            connection.closeConnection(conn);
+        } catch (SQLException e) {
+            connection.closeConnection(conn);
+        }
 
-		table = new JTable(rowData, columnNames);
+        table = new JTable(rowData, columnNames);
 
-		this.setLayout(new BorderLayout());
-		this.add(pageHeading, BorderLayout.NORTH);
-		this.add(new JScrollPane(table), BorderLayout.CENTER);
+        this.setLayout(new BorderLayout());
+        this.add(pageHeading, BorderLayout.NORTH);
+        this.add(new JScrollPane(table), BorderLayout.CENTER);
 
-		this.setBackground(Color.green);
-		this.setBounds(400, 300, 500, 200);
-	}
+        this.setBackground(Color.green);
+        this.setBounds(400, 300, screenSize.width, screenSize.height);
+    }
 }

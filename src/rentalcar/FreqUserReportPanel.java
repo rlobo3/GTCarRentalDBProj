@@ -21,11 +21,11 @@ import core.User.EmployeeUser;
 
 public class FreqUserReportPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
 	DBConnection connection = new DBConnection();
 
 	EmployeeUser employee;
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
 
 	Object[] tableElement;
@@ -76,6 +76,6 @@ public class FreqUserReportPanel extends JPanel {
 		this.add(new JScrollPane(table), BorderLayout.CENTER);
 
 		this.setBackground(Color.green);
-		this.setBounds(400, 300, 500, 200);
+		this.setBounds(400, 300, screenSize.width, screenSize.height);
 	}
 }
