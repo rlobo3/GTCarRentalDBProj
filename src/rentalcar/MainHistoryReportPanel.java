@@ -61,7 +61,7 @@ public class MainHistoryReportPanel extends JPanel {
                 rowData[i][0] = rs.getString("Model_Name");
                 rowData[i][1] = rs.getString("Date_Time");
                 rowData[i][2] = rs.getString("Username");
-                rowData[i][3] = rs.getString("Problems");
+                rowData[i][3] = rs.getString("Problem");
             }
             prep.close();
             connection.closeConnection(conn);
