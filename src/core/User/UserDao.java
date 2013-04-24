@@ -172,32 +172,33 @@ public class UserDao {
         }
         return null;
     }
-    
+
     public MemberUser editMemberInfo(MemberUser member) {
         Connection conn = connection.createConnection();
-        try {            
-            String statement = "UPDATE Member SET First_Name = ?, Middle_Initial = ?, "
-                + "Last_Name = ?,Email_Address = ?, Phone= ?,"
-                + "Address= ?, Plan_Type= ?, Card_No=? "
-                + "WHERE Username= ?";
+        try {
+            if(isCreditCardExisting(member.creditCard.getCardNumber())){
+                String statement = "UPDATE Member SET First_Name = ?, " +
+                "Middle_Initial = ?, Last_Name = ?, Email_Address = ?, " +
+                "Phone = ?, Address = ?, Plan_Type = ?, Card_No = ? " +
+                "WHERE Username = ?";
+                PreparedStatement prep = conn.prepareStatement(statement);
+                prep.setString(1, member.firstName);
+                prep.setString(2, member.middleInit);
+                prep.setString(3, member.lastName);
+                prep.setString(4, member.email);
+                prep.setString(5, member.phone);
+                prep.setString(6, member.address);
+                prep.setString(7, member.drivingPlan.getName());
+                prep.setInt(8, member.creditCard.getCardNumber());
+                prep.setString(9, member.username);
+                prep.execute();
+                prep.close();
+                
+                statement = "UPDATE Credit_Card SET Name_on_card = ?, CVV = ?, " +
+                "Expiry_Date = ?, Billing_Address = ? " +
+                "WHERE Card_No = ( SELECT Card_No " +
+                "FROM Member WHERE Username = ?)";
 
-            PreparedStatement prep = conn.prepareStatement(statement);
-            prep.setString(1, member.firstName);
-            prep.setString(2, member.middleInit);
-            prep.setString(3, member.lastName);
-            prep.setString(4, member.email);
-            prep.setString(5, member.phone);
-            prep.setString(6, member.address);
-            prep.setString(7, member.drivingPlan.getName());
-            prep.setInt(8, member.creditCard.getCardNumber());
-            prep.setString(9, member.username);
-            prep.executeUpdate();
-            prep.close();
-            
-            if(isCreditCardExisting(member.creditCard.getCardNumber())) {
-                statement = "UPDATE Credit_Card SET Name_on_card= ?, "
-                    + "CVV= ?, Expiry_Date= ?, Billing_Address= ? "
-                    + "WHERE Card_No = ( SELECT Card_No FROM Member WHERE Username= ?)";
                 prep = conn.prepareStatement(statement);
                 prep.setString(1, member.creditCard.getNameOnCard());
                 prep.setInt(2, member.creditCard.getCvv());
@@ -206,35 +207,51 @@ public class UserDao {
                 prep.setString(5, member.username);
                 prep.execute();
                 prep.close();
-                connection.closeConnection(conn);
             }
             else {
-                statement = "INSERT INTO Credit_Card(Card_No) VALUES ?";
-                prep = conn.prepareStatement(statement);
+                String statement = "INSERT INTO Credit_Card VALUES (?,?,?,?,?)";
+                PreparedStatement prep = conn.prepareStatement(statement);
                 prep.setInt(1, member.creditCard.getCardNumber());
-                prep.executeUpdate();
+                prep.setString(2, member.creditCard.getNameOnCard());
+                prep.setInt(3, member.creditCard.getCvv());
+                prep.setString(4, member.creditCard.getExpiryDate());
+                prep.setString(5, member.creditCard.getBillingAddress());
+                prep.execute();
                 prep.close();
                 
-                statement = "UPDATE Credit_Card SET Name_on_card= ?, "
-                    + "CVV= ?, Expiry_Date= ?, Billing_Address= ? "
-                    + "WHERE Card_No = ( SELECT Card_No FROM Member WHERE Username= ?)";
+                statement = "DELETE FROM Credit_Card WHERE Name_on_card = ? AND Card_No <> ?";
                 prep = conn.prepareStatement(statement);
                 prep.setString(1, member.creditCard.getNameOnCard());
-                prep.setInt(2, member.creditCard.getCvv());
-                prep.setString(3, member.creditCard.getExpiryDate());
-                prep.setString(4, member.creditCard.getBillingAddress());
-                prep.setString(5, member.username);
+                prep.setInt(2, member.creditCard.getCardNumber());
+                prep.execute();
                 prep.close();
-                connection.closeConnection(conn);
+                
+                
+                statement = "UPDATE Member SET First_Name = ?, " +
+                "Middle_Initial = ?, Last_Name = ?, Email_Address = ?, " +
+                "Phone = ?, Address = ?, Plan_Type = ?, Card_No = ? " +
+                "WHERE Username = ?";
+                prep = conn.prepareStatement(statement);
+                prep.setString(1, member.firstName);
+                prep.setString(2, member.middleInit);
+                prep.setString(3, member.lastName);
+                prep.setString(4, member.email);
+                prep.setString(5, member.phone);
+                prep.setString(6, member.address);
+                prep.setString(7, member.drivingPlan.getName());
+                prep.setInt(8, member.creditCard.getCardNumber());
+                prep.setString(9, member.username);
+                prep.executeUpdate();
+                prep.close();
             }
-            
+            connection.closeConnection(conn);
             return member;
         } catch (SQLException e) {
             connection.closeConnection(conn);
             return null;
         }
     }
-    
+
     public boolean isCreditCardExisting(int cardNo) {
         Connection conn = connection.createConnection();
         try {
