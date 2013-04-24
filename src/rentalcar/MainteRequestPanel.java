@@ -13,7 +13,9 @@ import java.sql.SQLException;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.text.DefaultCaret;
@@ -120,6 +122,7 @@ public class MainteRequestPanel extends JPanel {
 		DefaultCaret caret = (DefaultCaret) ProblemDesc.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		ProblemDesc.setSize(100, 200);
+		this.add(ProblemDesc);
 
 		submitReqButton = new JButton("Submit Request");
 		submitReqButton.addActionListener(new submitReqButtonListener());
@@ -147,59 +150,62 @@ public class MainteRequestPanel extends JPanel {
                 while(rs.next()){
                 	VehicleNumber = rs.getString("Vehicle_Sno");
                 }
-				prep.executeUpdate();
 				prep.close();
-				connection.closeConnection(conn);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
-			String statement1 = "SELECT Vehicle_Sno, Date_Time, Username FROM Maintenance_Request WHERE Vehicle_Sno = ?";
-			java.sql.Date DateT = null;
-			String UserN = null;
-			PreparedStatement prep1;
-			try {
-				prep1 = conn.prepareStatement(statement1);
-				prep1.setString(1, VehicleNumber);
-                ResultSet rs1 = (ResultSet) prep1.executeQuery();
-                while(rs1.next()){
-                	VehicleNumber = rs1.getString("Vehicle_Sno");
-                	DateT = rs1.getDate("Date_Time");
-                	UserN = rs1.getString("Username");
-                }
-				prep1.executeUpdate();
-				prep1.close();
-				connection.closeConnection(conn);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			String statement2 = "INSERT INTO Maintenance_Request VALUES (?, ?, ?)";
-			PreparedStatement prep2;
-			try {
-				prep2 = conn.prepareStatement(statement2);
-				prep2.setString(1, VehicleNumber);
-				prep2.setDate(2, DateT);
-				prep2.setString(3, UserN);
-				prep2.executeUpdate();
-				prep2.close();
-				connection.closeConnection(conn);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			String statement3 = "INSERT INTO Problems VALUES (?, ?, ?)";
-			PreparedStatement prep3;
-			try {
-				prep3 = conn.prepareStatement(statement3);
-				prep3.setString(1, VehicleNumber);
-				prep3.setDate(2, DateT);
-				prep3.setString(3, UserN);
-				prep3.executeUpdate();
-				prep3.close();
-				connection.closeConnection(conn);
-			} catch (SQLException e) {
-				e.printStackTrace();
+			if(VehicleNumber == null){
+            	JOptionPane.showMessageDialog(new JFrame(), "Please choose a valid Location/Car combination!","Inane error", JOptionPane.ERROR_MESSAGE);
+			}else{
+				String statement1 = "SELECT Vehicle_Sno, Date_Time, Username FROM Maintenance_Request WHERE Vehicle_Sno = ?";
+				java.sql.Date DateT = null;
+				String UserN = null;
+				PreparedStatement prep1;
+				try {
+					prep1 = conn.prepareStatement(statement1);
+					prep1.setString(1, VehicleNumber);
+	                ResultSet rs1 = (ResultSet) prep1.executeQuery();
+	                while(rs1.next()){
+	                	VehicleNumber = rs1.getString("Vehicle_Sno");
+	                	DateT = rs1.getDate("Date_Time");
+	                	UserN = rs1.getString("Username");
+	                }
+					prep1.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				String statement2 = "INSERT INTO Maintenance_Request VALUES (?, ?, ?)";
+				PreparedStatement prep2;
+				try {
+					prep2 = conn.prepareStatement(statement2);
+					prep2.setString(1, VehicleNumber);
+					prep2.setDate(2, DateT);
+					prep2.setString(3, UserN);
+					prep2.executeUpdate();
+					prep2.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				String statement3 = "INSERT INTO Problems VALUES (?, ?, ?)";
+				PreparedStatement prep3;
+				try {
+					prep3 = conn.prepareStatement(statement3);
+					prep3.setString(1, VehicleNumber);
+					prep3.setDate(2, DateT);
+					prep3.setString(3, UserN);
+					prep3.executeUpdate();
+					prep3.close();
+					connection.closeConnection(conn);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+	            JFrame mainFrame = MainFrame.getMain();
+	            mainFrame.setContentPane(new EmployeeHomePanel(employee));
+	            mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+	            mainFrame.setVisible(true);
+	            mainFrame.repaint();
 			}
 		}
 	}
