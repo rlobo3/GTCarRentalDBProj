@@ -57,7 +57,7 @@ public class ManageCarsPanel extends JPanel {
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	public ManageCarsPanel(EmployeeUser employee) {
         this.setEmployee(employee);
-        this.setBounds(0, 0, screenSize.width, screenSize.height-35);
+        this.setBounds(50, 50, 1300, screenSize.height-100);
 
         this.setBackground(java.awt.Color.green);
         this.setLayout(new BorderLayout());
@@ -198,7 +198,6 @@ public class ManageCarsPanel extends JPanel {
 				carStrings[i++] = rs6.getString("Model_Name");
 			}
 			prep6.close();
-
 			
 			connection.closeConnection(conn);
 		} catch (SQLException e) {
