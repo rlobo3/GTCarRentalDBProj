@@ -279,11 +279,11 @@ public class UserDao {
     public Car insertCar(Car carAdded) {
         Connection conn = connection.createConnection();
         try {
-            String statement = "INSERT INTO Car (Vehicle_Sno, Location_Name, Auxiliary_Cable, " +
-            "Under_Maintenance_Flag, Model_Name, Car_Type, Color, Hourly_Rate, Daily_Rate," +
-            " Bluetooth, Seating_Cap, Transmission_Type) VALUES ? , ? , ? ," +
-            " ? , ? , ? , ? , ? , ? , ? , ? , ? " +
-            "WHERE NOT EXISTS (SELECT Vehicle_Sno FROM Car WHERE (Location_Name = ?))";
+            String statement = "INSERT INTO Car (Vehicle_Sno, Location_Name, Auxiliary_Cable, Under_Maintenance_Flag, "+
+                    "Model_Name, Car_Type, Color, Hourly_Rate, Daily_Rate, Bluetooth, Seating_Cap, "+
+                    "Transmission_Type) "+
+                    "Select ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? from Car "+
+                    "where NOT EXISTS (SELECT * FROM Car WHERE (Location_Name = ?))";
             PreparedStatement prep = conn.prepareStatement(statement);
             prep.setString(1, carAdded.getVehicleSNO());
             prep.setString(2, carAdded.getLocName());
