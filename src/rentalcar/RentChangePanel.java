@@ -31,7 +31,7 @@ public class RentChangePanel extends JPanel {
     JLabel RentalChangeReqHeading, RentalInfoHeading, UserAffectedHeading;
     JLabel enterUsername;
     JTextField enterUsernameField;
-    JLabel CarModel, Location, origRetTimeDate, NewArrTimeDate, origPickUpTime;
+    JLabel CarModel, Location, origRetTimeDate, UAorigRetTimeDate, NewArrTimeDate, origPickUpTime;
     JTextField CarModelTextField, LocationTextField;
 
     String[] RIOrigRetTimeStrings = {"12:00 AM", "12:30 AM", "1:00 AM",
@@ -102,9 +102,7 @@ public class RentChangePanel extends JPanel {
         this.add(RentalChangeReqHeading, BorderLayout.NORTH);
         
         enterUsername = new JLabel("Enter Username:");
-        enterUsernameField = new JTextField();
-
-        RentalInfoHeading.setFont(new Font("Helvetica", Font.BOLD, 40));
+        enterUsernameField = new JTextField(50);
 
         CarModel = new JLabel("Car Model:");
         Location = new JLabel("Location:");
@@ -129,6 +127,7 @@ public class RentChangePanel extends JPanel {
 		UAOrigPickTimeDate = new JXDatePicker(UAOrigPickDate);
 		UAOrigPickTimeCombo = new JComboBox(UAOrigPickTimeStrings);
 
+		UAorigRetTimeDate = new JLabel("Original Return Time:");
 		java.util.Date UAOrigRetDate = new java.util.Date();
 		UAOrigRetTimeDate = new JXDatePicker(UAOrigRetDate);
 		UAOrigRetTimeCombo = new JComboBox(UAOrigRetTimeStrings) ;
@@ -136,9 +135,9 @@ public class RentChangePanel extends JPanel {
         UAUsername = new JLabel("Username:");
         UAEmailAddress = new JLabel("Email Address:");
         UAPhone = new JLabel("Phone No:"); 
-        UAUsernameField = new JTextField();
-        UAEmailAddressField = new JTextField();
-        UAPhoneField = new JTextField();
+        UAUsernameField = new JTextField(50);
+        UAEmailAddressField = new JTextField(50);
+        UAPhoneField = new JTextField(15);
 
         CancelReservation = new JButton("Cancel Reservation");
         CancelReservation.addActionListener(new CancelReservationButtonListener());
@@ -152,6 +151,7 @@ public class RentChangePanel extends JPanel {
         RentalInfoPanel.setLayout(new BoxLayout(RentalInfoPanel, BoxLayout.PAGE_AXIS));
 
         RentalInfoHeading = new JLabel("Rental Inormation");
+        RentalInfoHeading.setFont(new Font("Helvetica", Font.BOLD, 40));
 
         JPanel p0 = new JPanel();
         p0.add(CarModel);
@@ -190,7 +190,7 @@ public class RentChangePanel extends JPanel {
         p22.add(UAOrigPickTimeDate);
         p22.add(UAOrigPickTimeCombo);
         JPanel p23 = new JPanel();
-        p23.add(origRetTimeDate);
+        p23.add(UAorigRetTimeDate);
         p23.add(UAOrigRetTimeDate);
         p23.add(UAOrigRetTimeCombo);
         JPanel p24 = new JPanel();
