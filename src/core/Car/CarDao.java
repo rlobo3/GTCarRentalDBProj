@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.JRadioButton;
+
 import com.mysql.jdbc.ResultSet;
 
 import core.DBConnection;
@@ -107,6 +109,7 @@ public class CarDao {
                     rowData[i][10] = rs.getString("Bluetooth");
                     rowData[i][11] = rs.getString("Auxiliary_Cable");
                     rowData[i][12] = rs.getDate("Available_till");
+                    rowData[i][14] = new JRadioButton("Extend?");
                 }
             }
             else{

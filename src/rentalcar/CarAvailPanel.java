@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -15,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import com.mysql.jdbc.PreparedStatement;
 
 import core.DBConnection;
 import core.Reservation.Reservation;
@@ -25,7 +28,6 @@ public class CarAvailPanel extends JPanel {
 	MemberUser member;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
-	static DBConnection connection = new DBConnection();
 
 	Object[][] rowData;
 
@@ -42,7 +44,7 @@ public class CarAvailPanel extends JPanel {
 	JButton reserveButton;
 	String ReservationTime;
 	JRadioButton Selected;
-
+	DBConnection connection = new DBConnection();
 
 	public CarAvailPanel(MemberUser member, Object[][] rowData, Reservation reservation) {
 		this.reservation = reservation;
@@ -59,6 +61,9 @@ public class CarAvailPanel extends JPanel {
 		for (int i = 0; i < rowData.length; i++) {
 			group.add((JRadioButton) rowData[i][14]);
 		}
+		for(int i = 0; i < rowData.length; i++){
+			rowData[i][14] = new JRadioButton();
+		}
 
 		reserveButton = new JButton("Reserve");
 		reserveButton.addActionListener(new ReserveButtonListener());
@@ -73,27 +78,28 @@ public class CarAvailPanel extends JPanel {
 
 	private class ReserveButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-//			for (int i = 0; i < rowData.length; i++) {
-//				Selected = (JRadioButton) rowData[i][14];
-//				if (Selected.isSelected()) {
-//					String statement = "INSERT INTO Reservation VALUES( ? , ? , ? , ? , ? , 0 , 0 , 0 , 0 )";
-//					Connection conn = connection.createConnection();
-//					try {
-//						PreparedStatement prep = conn
-//								.prepareStatement(statement);
-//						prep.setString(1, (String) member.getUsername());
-//						prep.setDate(2, (java.sql.Date) CarData.get(0));
-//						prep.setDate(3, (java.sql.Date) CarData.get(1));
-//						prep.setString(4, (String)  CarData.get(2));
-//						prep.setString(5, (String) CarData.get(3));
-//						prep.close();
-//						connection.closeConnection(conn);
-//					} catch (SQLException e) {
-//						connection.closeConnection(conn);
-//					}
-//
-//				}
-//			}
+			for (int i = 0; i < rowData.length; i++) {
+				Selected = (JRadioButton) rowData[i][14];
+				if (Selected.isSelected()) {
+					String statement = "INSERT INTO Reservation VALUES( ? , ? , ? , ? , ? , 0 , 0 , 0 , 0 )";
+					
+					Connection conn = connection.createConnection();
+					try {
+						PreparedStatement prep = conn
+								.prepareStatement(statement);
+						prep.setString(1, (String) member.getUsername());
+						prep.setDate(2, (java.sql.Date) CarData.get(0));
+						prep.setDate(3, (java.sql.Date) CarData.get(1));
+						prep.setString(4, (String)  CarData.get(2));
+						prep.setString(5, (String) CarData.get(3));
+						prep.close();
+						connection.closeConnection(conn);
+					} catch (SQLException e) {
+						connection.closeConnection(conn);
+					}
+
+				}
+			}
 		}
 	}
 }
