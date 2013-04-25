@@ -23,6 +23,7 @@ import com.mysql.jdbc.ResultSet;
 import core.DBConnection;
 import core.User.EmployeeUser;
 
+@SuppressWarnings("rawtypes")
 public class ManageCarsPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -54,7 +55,7 @@ public class ManageCarsPanel extends JPanel {
 
     JButton submitChanges;
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"unchecked" })
     public ManageCarsPanel(EmployeeUser employee) {
         this.setEmployee(employee);
         this.setBounds(50, 50, 1300, screenSize.height-100);

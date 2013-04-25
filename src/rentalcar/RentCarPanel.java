@@ -266,6 +266,7 @@ public class RentCarPanel extends JPanel {
 				e1.printStackTrace();
 			}
 			long diff = (ReturnTimeDate.getTime() - PickUpTimeDate.getTime());
+			long currTime = System.currentTimeMillis();
 			if (PickUpTimeDate.compareTo(ReturnTimeDate) > 0) {
 				JOptionPane
 						.showMessageDialog(
@@ -273,6 +274,18 @@ public class RentCarPanel extends JPanel {
 								"Return time is before pick up time! Please choose a another return/pickup time",
 								"Inane error", JOptionPane.ERROR_MESSAGE);
 			} else if (diff > 172800000) {
+				JOptionPane
+						.showMessageDialog(
+								new JFrame(),
+								"You cannot book a car for more than 2 days! Please choose a another return time before.",
+								"Inane error", JOptionPane.ERROR_MESSAGE);
+			} else if (currTime > ReturnTimeDate.getTime()) {
+				JOptionPane
+						.showMessageDialog(
+								new JFrame(),
+								"You cannot book a car before current time! Please choose a another return time in the future.",
+								"Inane error", JOptionPane.ERROR_MESSAGE);
+			} else if (currTime > PickUpTimeDate.getTime()) {
 				JOptionPane
 						.showMessageDialog(
 								new JFrame(),
