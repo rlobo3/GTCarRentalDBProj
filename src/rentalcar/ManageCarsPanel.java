@@ -320,7 +320,6 @@ public class ManageCarsPanel extends JPanel {
         ChangeCar.add(p26);
         ChangeCar.add(submitChanges);
 
-
         TwoPanel.add(AddCar);
         TwoPanel.add(ChangeCar);
         this.add(TwoPanel, BorderLayout.CENTER);
@@ -336,13 +335,13 @@ public class ManageCarsPanel extends JPanel {
 
     private class AddButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-
+        	
         }
     }
 
     private class SubmitButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-
+        	
         }
     }
 }

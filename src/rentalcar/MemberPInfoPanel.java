@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigInteger;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -234,7 +235,7 @@ public class MemberPInfoPanel extends JPanel {
             creditCard.setExpiryDate(expiryDateField.getText());
             String cardNum = cardNumberField.getText();
             try{
-            	creditCard.setCardNumber(Double.parseDouble(""+cardNum));
+            	creditCard.setCardNumber(new BigInteger(cardNum));
             }catch(NumberFormatException e){
             	JOptionPane.showMessageDialog(new JFrame(), "Please enter a valid credit number!","Inane error", JOptionPane.ERROR_MESSAGE);
             }

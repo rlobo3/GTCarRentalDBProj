@@ -1,14 +1,16 @@
 package core.CreditCard;
 
+import java.math.BigInteger;
+
 
 public class CreditCard {
     private Integer cvv;
-    private Double cardNumber;
+    private BigInteger cardNumber;
     private String nameOnCard, billingAddress;
     private String expiryDate;
     
     
-    public CreditCard(Double cardNumber, String nameOnCard, int cvv, String expiryDate,
+    public CreditCard(BigInteger cardNumber, String nameOnCard, int cvv, String expiryDate,
             String billingAddress){
         this.cardNumber = cardNumber;
         this.nameOnCard = nameOnCard;
@@ -24,14 +26,14 @@ public class CreditCard {
     /**
      * @return the cardNumber
      */
-    public Double getCardNumber() {
+    public BigInteger getCardNumber() {
         return cardNumber;
     }
 
     /**
      * @param cardNumber the cardNumber to set
      */
-    public void setCardNumber(Double cardNumber) {
+    public void setCardNumber(BigInteger cardNumber) {
         this.cardNumber = cardNumber;
     }
 

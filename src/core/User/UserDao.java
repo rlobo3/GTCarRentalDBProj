@@ -1,5 +1,7 @@
 package core.User;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -16,7 +18,7 @@ public class UserDao {
     String username, password, firstName, middleInit, lastName, email,
     phone, address, plan_Type, nameOnCard, billingAddress;
     String expiryDate;
-    Double cardNo;
+    BigInteger cardNo;
     Integer cvv;
 
     public User addUser(String username, String password, UserType type) {
@@ -124,7 +126,9 @@ public class UserDao {
                                     drivingPlan = new DrivingPlan(PlanType.FREQUENT);
                                 else if(PlanType.DAILY.toString().equals(plan_Type))
                                     drivingPlan = new DrivingPlan(PlanType.DAILY);
-                                cardNo = rs.getDouble("Card_No");
+                                Long tempL = rs.getLong("Card_No");
+                                BigInteger temp = new BigInteger(tempL.toString());
+                                cardNo = temp;
                                 cvv = rs.getInt("CVV");
                                 expiryDate = rs.getString("Expiry_Date");
                                 nameOnCard = rs.getString("Name_on_card");
@@ -190,7 +194,7 @@ public class UserDao {
                 prep.setString(5, member.phone);
                 prep.setString(6, member.address);
                 prep.setString(7, member.drivingPlan.getName());
-                prep.setDouble(8, member.creditCard.getCardNumber());
+                prep.setBigDecimal(8, new BigDecimal(member.creditCard.getCardNumber()));
                 prep.setString(9, member.username);
                 prep.execute();
                 prep.close();
@@ -212,7 +216,7 @@ public class UserDao {
             else {
                 String statement = "INSERT INTO Credit_Card VALUES (?,?,?,?,?)";
                 PreparedStatement prep = conn.prepareStatement(statement);
-                prep.setDouble(1, member.creditCard.getCardNumber());
+                prep.setBigDecimal(1, new BigDecimal(member.creditCard.getCardNumber()));
                 prep.setString(2, member.creditCard.getNameOnCard());
                 prep.setInt(3, member.creditCard.getCvv());
                 prep.setString(4, member.creditCard.getExpiryDate());
@@ -223,7 +227,7 @@ public class UserDao {
                 statement = "DELETE FROM Credit_Card WHERE Name_on_card = ? AND Card_No <> ?";
                 prep = conn.prepareStatement(statement);
                 prep.setString(1, member.creditCard.getNameOnCard());
-                prep.setDouble(2, member.creditCard.getCardNumber());
+                prep.setBigDecimal(2, new BigDecimal(member.creditCard.getCardNumber()));
                 prep.execute();
                 prep.close();
                 
@@ -240,7 +244,7 @@ public class UserDao {
                 prep.setString(5, member.phone);
                 prep.setString(6, member.address);
                 prep.setString(7, member.drivingPlan.getName());
-                prep.setDouble(8, member.creditCard.getCardNumber());
+                prep.setBigDecimal(8, new BigDecimal(member.creditCard.getCardNumber()));
                 prep.setString(9, member.username);
                 prep.executeUpdate();
                 prep.close();
@@ -253,14 +257,16 @@ public class UserDao {
         }
     }
 
-    public boolean isCreditCardExisting(Double cardNo) {
+    public boolean isCreditCardExisting(BigInteger cardNo) {
         Connection conn = connection.createConnection();
         try {
             String statement = "SELECT Card_No FROM Credit_Card";
             PreparedStatement prep = conn.prepareStatement(statement);
             ResultSet rs = (ResultSet) prep.executeQuery();
             while(rs.next()) {
-                if(rs.getDouble("Card_No") == cardNo)
+            	Long tempL = rs.getLong("Card_No");
+            	BigInteger tempB = new BigInteger(tempL.toString());
+                if(tempB == cardNo)
                     return true;
             }
             return false;
