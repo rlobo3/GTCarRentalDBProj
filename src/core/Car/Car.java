@@ -30,6 +30,10 @@ public class Car {
         this.location.setLocName(locName);
         this.modelType = modelType;
     }
+    
+    public Car() {
+        this(null, null, null, null, null, null, false, false, false, 0, 0, 0);
+    }
 
     /**
      * @return the vehicleSNO

@@ -33,7 +33,7 @@ public class ManageCarsPanel extends JPanel {
     final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     EmployeeUser employee;
-    private Car carToBeAdded;
+    private Car carToBeAdded = new Car();
     DBConnection connection = new DBConnection();
 
     JLabel ManageCars, AddACar, ChangeCarLocation, BriefDescription;
@@ -87,8 +87,8 @@ public class ManageCarsPanel extends JPanel {
         CarType = new JLabel("Car Type:");
         Location = new JLabel("Location:");
         Color = new JLabel("Color:");
-        HourlyRate = new JLabel("Hourly Rate:");
-        DailyRate = new JLabel("Daily Rate:");
+        HourlyRate = new JLabel("Hourly Rate (ex: $5):");
+        DailyRate = new JLabel("Daily Rate (ex: $5):");
         SeatingCapacity = new JLabel("Seating Capacity:");
         TransmissionType = new JLabel("Transmission Type:");
         BluetoothConnectivity = new JLabel("Bluetooth Connectivity:");
@@ -384,10 +384,10 @@ public class ManageCarsPanel extends JPanel {
             	carToBeAdded.setModelType(CarModelTextField.getText());
             	carToBeAdded.setCarType((String) CarTypeCombo.getSelectedItem());
             	carToBeAdded.setLocName((String) LocationCombo.getSelectedItem());
-            	carToBeAdded.setColor(ColorTextField.getSelectedText());
+            	carToBeAdded.setColor(ColorTextField.getText());
             	carToBeAdded.setHourlyRate(hourlyRate);
             	carToBeAdded.setDailyRate(dailyRate);
-            	carToBeAdded.setSeatCapacity(Integer.parseInt(SeatingCapacityTextField.getSelectedText()));
+            	carToBeAdded.setSeatCapacity(Integer.parseInt(SeatingCapacityTextField.getText()));
             	carToBeAdded.setTransmission((String) TransmissionTypeCombo.getSelectedItem());
             	boolean tempB;
             	String tempS = (String) BluetoothConnectivityCombo.getSelectedItem();
