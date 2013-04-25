@@ -8,6 +8,10 @@ public class Location {
         this.setLocName(locName);
         this.setCapacity(capacity);
     }
+    
+    public Location(){
+        this(null, 0);
+    }
 
 	public int getCapacity() {
 		return capacity;

@@ -208,9 +208,6 @@ public class RentCarPanel extends JPanel {
             sb.append('-');
             String month = new Integer(PickUpDateCombo.getDate().getMonth() + 1)
             .toString();
-            if (month.length() == 1) {
-                sb.append('0');
-            }
             sb.append(month);
             sb.append('-');
             sb.append(date.substring(8, 10));
@@ -218,17 +215,17 @@ public class RentCarPanel extends JPanel {
             String[] str = pickUpTimeString.substring(0, 5).split(":");
 
             String pickDetect = pickUpTimeString.substring(6, 8);
-            if (str[0].length() == 1) {
+            if (month.length() == 1) {
                 if(pickDetect.equals("PM")){
-                    Integer tempI = Integer.parseInt(pickUpTimeString.substring(2, 4)) + 12;
-                    sb.append('0').append(str[0]).append(':').append(tempI.toString());
+                    Integer tempI = Integer.parseInt(pickUpTimeString.substring(0, 2)) + 12;
+                    sb.append(str[0]).append(':').append(tempI.toString());
                 }else{
-                    sb.append('0').append(str[0]).append(':').append(pickUpTimeString.substring(2, 4));
+                    sb.append(str[0]).append(':').append(pickUpTimeString.substring(3, 5));
                 }
             } else {
                 if(pickDetect.equals("PM")){
-                    Integer tempI = Integer.parseInt(pickUpTimeString.substring(2, 4)) + 12;
-                    sb.append(str[0]).append(':').append(str[1]).append(tempI.toString());
+                    Integer tempI = Integer.parseInt(pickUpTimeString.substring(0, 2)) + 12;
+                    sb.append(tempI.toString()).append(':').append(str[1]);
                 } else{
                     sb.append(str[0]).append(':').append(str[1]);
                 }
@@ -258,26 +255,23 @@ public class RentCarPanel extends JPanel {
             sb1.append('-');
             sb1.append(date1.substring(8, 10));
             sb1.append(' ');
-            if (month1.length() == 1) {
-                sb1.append('0');
-            }
             String[] str1 = returnTimeString.substring(0, 5).split(":");
 
             String retDetect = returnTimeString.substring(6, 8);
-            if (str1[0].length() == 1) {
+            if (month1.length() == 1) {
                 if(retDetect.equals("PM")){
-                    Integer tempI1 = Integer.parseInt(returnTimeString.substring(2, 4)) + 12;
-                    sb.append('0').append(str[0]).append(':').append(tempI1.toString());
+                    Integer tempI1 = Integer.parseInt(returnTimeString.substring(0, 2)) + 12;
+                    sb1.append(tempI1.toString()).append(':').append(str[1]);
                 }else{
-                    sb.append('0').append(str[0]).append(':').append(returnTimeString.substring(2, 4));
+                    sb1.append(str[0]).append(':').append(returnTimeString.substring(3, 5));
                 }
             }
             else {
                 if(retDetect.equals("PM")){
-                    Integer tempI1 = Integer.parseInt(returnTimeString.substring(2, 4)) + 12;
-                    sb.append(str[0]).append(':').append(str[1]).append(tempI1.toString());
+                    Integer tempI1 = Integer.parseInt(returnTimeString.substring(0, 2)) + 12;
+                    sb1.append(tempI1.toString()).append(':').append(str[1]);
                 }else{
-                    sb.append(str[0]).append(':').append(str[1]);
+                    sb1.append(str[0]).append(':').append(str[1]);
                 }
             }
             sb1.append(":00");
@@ -317,14 +311,17 @@ public class RentCarPanel extends JPanel {
                         "You cannot book a car for more than 2 days! Please choose a another return time before.",
                         "Inane error", JOptionPane.ERROR_MESSAGE);
             } else {
-                locationString = (String) LocationCombo.getSelectedItem();
-                carTypeString = (String) CarTypesCombo.getSelectedItem();
-                carModelString = (String) CarsCombo.getSelectedItem();
+                locationString = LocationCombo.getSelectedItem().toString();
+                carTypeString = CarTypesCombo.getSelectedItem().toString();
+                carModelString = CarsCombo.getSelectedItem().toString();
+                Reservation reservation = new Reservation(member.getUsername(),
+                        VehicleNumber, locationString, PickUpTimeDate, 
+                        ReturnTimeDate);
                 Car car = new Car(carTypeString, locationString, carModelString);
                 Object[][] rowDataArr = null;
 
                 CarDao carDao = new CarDao();
-                rowDataArr = carDao.getCarAvailablity(car);
+                rowDataArr = carDao.getCarAvailablity(car, reservation);
 
                 if (rowDataArr == null) {
                     JOptionPane
@@ -333,9 +330,6 @@ public class RentCarPanel extends JPanel {
                             "No Car Available For these Times. Please enter a new pick up time or return time!",
                             "Inane error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    Reservation reservation = new Reservation(member.getUsername(),
-                            VehicleNumber, locationString, PickUpTimeDate, 
-                            ReturnTimeDate);
                     for(int i=0; i<rowDataArr.length; i++) {
                         if (member.getDrivingPlan().getName() == "Frequent Driving Plan") {
                             long sec = diff/1000;

@@ -6,7 +6,7 @@ public class Car {
     private String vehicleSNO, modelType, carType, color, transmission;
     private boolean auxCable, underMaintainance, bluetooth;
     private int hourlyRate, dailyRate, seatCapacity;
-    private Location location;
+    private Location location = new Location();
     
     public Car(String vehicleSNO, String locName, String modelType, String carType, 
             String color, String transmission, boolean auxCable, boolean underMaintenance,
@@ -26,7 +26,9 @@ public class Car {
     }
     
     public Car(String carType, String locName, String modelType) {
-        this(null,locName,modelType, carType, null, null, false, false, false, 0, 0, 0);
+        this.carType = carType;
+        this.location.setLocName(locName);
+        this.modelType = modelType;
     }
 
     /**
