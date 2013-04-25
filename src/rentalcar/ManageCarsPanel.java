@@ -55,7 +55,7 @@ public class ManageCarsPanel extends JPanel {
     JButton submitChanges;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	public ManageCarsPanel(EmployeeUser employee) {
+    public ManageCarsPanel(EmployeeUser employee) {
         this.setEmployee(employee);
         this.setBounds(50, 50, 1300, screenSize.height-100);
 
@@ -94,126 +94,126 @@ public class ManageCarsPanel extends JPanel {
         HourlyRateTextField = new JTextField(10);
         DailyRateTextField = new JTextField(10);
         SeatingCapacityTextField = new JTextField(10);
-        
-		Connection conn = connection.createConnection();
-		try {
-			String statement = "SELECT distinct Car_Type FROM Car";
-			PreparedStatement prep = conn.prepareStatement(statement);
-			ResultSet rs = (ResultSet) prep.executeQuery();
 
-			int rowcount = 0;
-			if (rs.last()) {
-				rowcount = rs.getRow();
-				rs.beforeFirst();
-			}
-			carTypeStrings = new String[rowcount];
+        Connection conn = connection.createConnection();
+        try {
+            String statement = "SELECT distinct Car_Type FROM Car";
+            PreparedStatement prep = conn.prepareStatement(statement);
+            ResultSet rs = (ResultSet) prep.executeQuery();
 
-			int i = 0;
-			while (rs.next()) {
-				carTypeStrings[i++] = rs.getString("Car_Type");
-			}
-			prep.close();
+            int rowcount = 0;
+            if (rs.last()) {
+                rowcount = rs.getRow();
+                rs.beforeFirst();
+            }
+            carTypeStrings = new String[rowcount];
 
-			String statement2 = "SELECT distinct Location_Name FROM Car";
-			PreparedStatement prep2 = conn.prepareStatement(statement2);
-			ResultSet rs2 = (ResultSet) prep2.executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                carTypeStrings[i++] = rs.getString("Car_Type");
+            }
+            prep.close();
 
-			rowcount = 0;
-			if (rs2.last()) {
-				rowcount = rs2.getRow();
-				rs2.beforeFirst();
-			}
-			locationStrings = new String[rowcount];
+            String statement2 = "SELECT distinct Location_Name FROM Car";
+            PreparedStatement prep2 = conn.prepareStatement(statement2);
+            ResultSet rs2 = (ResultSet) prep2.executeQuery();
 
-			i = 0;
-			while (rs2.next()) {
-				locationStrings[i++] = rs2.getString("Location_Name");
-			}
-			prep2.close();
-			
-			String statement3 = "SELECT distinct Transmission_Type FROM Car";
-			PreparedStatement prep3 = conn.prepareStatement(statement3);
-			ResultSet rs3 = (ResultSet) prep3.executeQuery();
+            rowcount = 0;
+            if (rs2.last()) {
+                rowcount = rs2.getRow();
+                rs2.beforeFirst();
+            }
+            locationStrings = new String[rowcount];
 
-			rowcount = 0;
-			if (rs3.last()) {
-				rowcount = rs3.getRow();
-				rs3.beforeFirst();
-			}
-			transmissionTypeStrings = new String[rowcount];
+            i = 0;
+            while (rs2.next()) {
+                locationStrings[i++] = rs2.getString("Location_Name");
+            }
+            prep2.close();
 
-			i = 0;
-			while (rs3.next()) {
-				transmissionTypeStrings[i++] = rs3.getString("Transmission_Type");
-			}
-			prep3.close();
-			
-			String statement4 = "SELECT distinct Bluetooth FROM Car";
-			PreparedStatement prep4 = conn.prepareStatement(statement4);
-			ResultSet rs4 = (ResultSet) prep4.executeQuery();
+            String statement3 = "SELECT distinct Transmission_Type FROM Car";
+            PreparedStatement prep3 = conn.prepareStatement(statement3);
+            ResultSet rs3 = (ResultSet) prep3.executeQuery();
 
-			rowcount = 0;
-			if (rs4.last()) {
-				rowcount = rs4.getRow();
-				rs4.beforeFirst();
-			}
-			bluetoothConnectivityStrings = new String[rowcount];
+            rowcount = 0;
+            if (rs3.last()) {
+                rowcount = rs3.getRow();
+                rs3.beforeFirst();
+            }
+            transmissionTypeStrings = new String[rowcount];
 
-			i = 0;
-			while (rs4.next()) {
-				bluetoothConnectivityStrings[i++] = rs4.getString("Bluetooth");
-			}
-			prep4.close();
-			
-			String statement5 = "SELECT distinct Auxiliary_Cable FROM Car";
-			PreparedStatement prep5 = conn.prepareStatement(statement5);
-			ResultSet rs5 = (ResultSet) prep5.executeQuery();
+            i = 0;
+            while (rs3.next()) {
+                transmissionTypeStrings[i++] = rs3.getString("Transmission_Type");
+            }
+            prep3.close();
 
-			rowcount = 0;
-			if (rs5.last()) {
-				rowcount = rs5.getRow();
-				rs5.beforeFirst();
-			}
-			auxilliaryCableStrings = new String[rowcount];
+            String statement4 = "SELECT distinct Bluetooth FROM Car";
+            PreparedStatement prep4 = conn.prepareStatement(statement4);
+            ResultSet rs4 = (ResultSet) prep4.executeQuery();
 
-			i = 0;
-			while (rs5.next()) {
-				auxilliaryCableStrings[i++] = rs5.getString("Auxiliary_Cable");
-			}
-			prep5.close();
-			
-			String statement6 = "SELECT distinct Model_Name FROM Car";
-			PreparedStatement prep6 = conn.prepareStatement(statement6);
-			ResultSet rs6 = (ResultSet) prep6.executeQuery();
-			
-			rowcount = 0;
-			if (rs6.last()) {
-				rowcount = rs6.getRow();
-				rs6.beforeFirst();
-			}
-			carStrings = new String[rowcount];
+            rowcount = 0;
+            if (rs4.last()) {
+                rowcount = rs4.getRow();
+                rs4.beforeFirst();
+            }
+            bluetoothConnectivityStrings = new String[rowcount];
 
-			i = 0;
-			while (rs6.next()) {
-				carStrings[i++] = rs6.getString("Model_Name");
-			}
-			prep6.close();
-			
-			connection.closeConnection(conn);
-		} catch (SQLException e) {
-			connection.closeConnection(conn);
-		}
-		
+            i = 0;
+            while (rs4.next()) {
+                bluetoothConnectivityStrings[i++] = rs4.getString("Bluetooth");
+            }
+            prep4.close();
+
+            String statement5 = "SELECT distinct Auxiliary_Cable FROM Car";
+            PreparedStatement prep5 = conn.prepareStatement(statement5);
+            ResultSet rs5 = (ResultSet) prep5.executeQuery();
+
+            rowcount = 0;
+            if (rs5.last()) {
+                rowcount = rs5.getRow();
+                rs5.beforeFirst();
+            }
+            auxilliaryCableStrings = new String[rowcount];
+
+            i = 0;
+            while (rs5.next()) {
+                auxilliaryCableStrings[i++] = rs5.getString("Auxiliary_Cable");
+            }
+            prep5.close();
+
+            String statement6 = "SELECT distinct Model_Name FROM Car";
+            PreparedStatement prep6 = conn.prepareStatement(statement6);
+            ResultSet rs6 = (ResultSet) prep6.executeQuery();
+
+            rowcount = 0;
+            if (rs6.last()) {
+                rowcount = rs6.getRow();
+                rs6.beforeFirst();
+            }
+            carStrings = new String[rowcount];
+
+            i = 0;
+            while (rs6.next()) {
+                carStrings[i++] = rs6.getString("Model_Name");
+            }
+            prep6.close();
+
+            connection.closeConnection(conn);
+        } catch (SQLException e) {
+            connection.closeConnection(conn);
+        }
+
         CarTypeCombo = new JComboBox(carTypeStrings);
         LocationCombo = new JComboBox(locationStrings);
-        
+
         TransmissionTypeCombo = new JComboBox(transmissionTypeStrings);
         BluetoothConnectivityCombo = new JComboBox(bluetoothConnectivityStrings);
         AuxilliaryCableCombo = new JComboBox(auxilliaryCableStrings);
 
         add = new JButton("Add");
         add.addActionListener(new AddButtonListener());
-        
+
         JPanel p0 = new JPanel();
         p0.add(VehicleSno);
         p0.add(VehicleSnoTextField);
@@ -308,7 +308,7 @@ public class ManageCarsPanel extends JPanel {
         JPanel p26 = new JPanel();
         p26.add(NewLocation);
         p26.add(NewLocationCombo);
-        
+
         ChangeCar.add(ChangeCarLocation);
         ChangeCar.add(p20);
         ChangeCar.add(p21);
@@ -327,14 +327,14 @@ public class ManageCarsPanel extends JPanel {
     }
 
     public EmployeeUser getEmployee() {
-		return employee;
-	}
+        return employee;
+    }
 
-	public void setEmployee(EmployeeUser employee) {
-		this.employee = employee;
-	}
+    public void setEmployee(EmployeeUser employee) {
+        this.employee = employee;
+    }
 
-	private class AddButtonListener implements ActionListener {
+    private class AddButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
 
         }

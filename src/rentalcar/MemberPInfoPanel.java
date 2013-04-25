@@ -145,11 +145,14 @@ public class MemberPInfoPanel extends JPanel {
         if(member.getAddress() != null)
             addressField.setText(member.getAddress());
         if(member.getDrivingPlan() != null){
-            if (member.getDrivingPlan().getName().equals("Occasional Driving")) {
+            if (member.getDrivingPlan().getName() == null){
                 occasionalDriving.setSelected(true);
-            } else if (member.getDrivingPlan().getName().equals("Frequent Driving")) {
+            }
+            else if (member.getDrivingPlan().getName().equals("Occasional Driving Plan")) {
+                occasionalDriving.setSelected(true);
+            } else if (member.getDrivingPlan().getName().equals("Frequent Driving Plan")) {
                 frequentDriving.setSelected(true);
-            } else if (member.getDrivingPlan().getName().equals("Daily Driving")) {
+            } else if (member.getDrivingPlan().getName().equals("Daily Driving Plan")) {
                 dailyDriving.setSelected(true);
             }
         }
@@ -231,7 +234,7 @@ public class MemberPInfoPanel extends JPanel {
             creditCard.setExpiryDate(expiryDateField.getText());
             String cardNum = cardNumberField.getText();
             try{
-            	creditCard.setCardNumber(Integer.parseInt(cardNum));
+            	creditCard.setCardNumber(Double.parseDouble(""+cardNum));
             }catch(NumberFormatException e){
             	JOptionPane.showMessageDialog(new JFrame(), "Please enter a valid credit number!","Inane error", JOptionPane.ERROR_MESSAGE);
             }

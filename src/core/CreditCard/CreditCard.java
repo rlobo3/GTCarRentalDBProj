@@ -2,12 +2,13 @@ package core.CreditCard;
 
 
 public class CreditCard {
-    private Integer cardNumber, cvv;
+    private Integer cvv;
+    private Double cardNumber;
     private String nameOnCard, billingAddress;
     private String expiryDate;
     
     
-    public CreditCard(int cardNumber, String nameOnCard, int cvv, String expiryDate,
+    public CreditCard(Double cardNumber, String nameOnCard, int cvv, String expiryDate,
             String billingAddress){
         this.cardNumber = cardNumber;
         this.nameOnCard = nameOnCard;
@@ -17,20 +18,20 @@ public class CreditCard {
     }
     
     public CreditCard() {
-        this(0, null, 0, null, null);
+        this(null, null, 0, null, null);
     }
 
     /**
      * @return the cardNumber
      */
-    public int getCardNumber() {
+    public Double getCardNumber() {
         return cardNumber;
     }
 
     /**
      * @param cardNumber the cardNumber to set
      */
-    public void setCardNumber(int cardNumber) {
+    public void setCardNumber(Double cardNumber) {
         this.cardNumber = cardNumber;
     }
 

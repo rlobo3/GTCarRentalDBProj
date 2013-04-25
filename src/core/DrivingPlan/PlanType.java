@@ -1,9 +1,9 @@
 package core.DrivingPlan;
 
 public enum PlanType {
-    OCCASIONAL("Occasional Driving",50,0,0),
-    FREQUENT("Frequent Driving",0,60,Float.parseFloat("0.10")),
-    DAILY("Daily Driving",0,100,Float.parseFloat("0.15"));
+    OCCASIONAL("Occasional Driving Plan",50,0,0),
+    FREQUENT("Frequent Driving Plan",0,60,Float.parseFloat("0.10")),
+    DAILY("Daily Driving Plan",0,100,Float.parseFloat("0.15"));
     
     private PlanType(final String type, final int annualFees, 
             final int monthlyPay, final float discount) {

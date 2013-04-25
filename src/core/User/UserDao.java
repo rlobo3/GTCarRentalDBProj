@@ -16,7 +16,8 @@ public class UserDao {
     String username, password, firstName, middleInit, lastName, email,
     phone, address, plan_Type, nameOnCard, billingAddress;
     String expiryDate;
-    Integer cardNo, cvv;
+    Double cardNo;
+    Integer cvv;
 
     public User addUser(String username, String password, UserType type) {
         if(isUsernameExistent(username)) {
@@ -123,7 +124,7 @@ public class UserDao {
                                     drivingPlan = new DrivingPlan(PlanType.FREQUENT);
                                 else if(PlanType.DAILY.toString().equals(plan_Type))
                                     drivingPlan = new DrivingPlan(PlanType.DAILY);
-                                cardNo = rs.getInt("Card_No");
+                                cardNo = rs.getDouble("Card_No");
                                 cvv = rs.getInt("CVV");
                                 expiryDate = rs.getString("Expiry_Date");
                                 nameOnCard = rs.getString("Name_on_card");
@@ -189,7 +190,7 @@ public class UserDao {
                 prep.setString(5, member.phone);
                 prep.setString(6, member.address);
                 prep.setString(7, member.drivingPlan.getName());
-                prep.setInt(8, member.creditCard.getCardNumber());
+                prep.setDouble(8, member.creditCard.getCardNumber());
                 prep.setString(9, member.username);
                 prep.execute();
                 prep.close();
@@ -211,7 +212,7 @@ public class UserDao {
             else {
                 String statement = "INSERT INTO Credit_Card VALUES (?,?,?,?,?)";
                 PreparedStatement prep = conn.prepareStatement(statement);
-                prep.setInt(1, member.creditCard.getCardNumber());
+                prep.setDouble(1, member.creditCard.getCardNumber());
                 prep.setString(2, member.creditCard.getNameOnCard());
                 prep.setInt(3, member.creditCard.getCvv());
                 prep.setString(4, member.creditCard.getExpiryDate());
@@ -222,7 +223,7 @@ public class UserDao {
                 statement = "DELETE FROM Credit_Card WHERE Name_on_card = ? AND Card_No <> ?";
                 prep = conn.prepareStatement(statement);
                 prep.setString(1, member.creditCard.getNameOnCard());
-                prep.setInt(2, member.creditCard.getCardNumber());
+                prep.setDouble(2, member.creditCard.getCardNumber());
                 prep.execute();
                 prep.close();
                 
@@ -239,7 +240,7 @@ public class UserDao {
                 prep.setString(5, member.phone);
                 prep.setString(6, member.address);
                 prep.setString(7, member.drivingPlan.getName());
-                prep.setInt(8, member.creditCard.getCardNumber());
+                prep.setDouble(8, member.creditCard.getCardNumber());
                 prep.setString(9, member.username);
                 prep.executeUpdate();
                 prep.close();
@@ -252,14 +253,14 @@ public class UserDao {
         }
     }
 
-    public boolean isCreditCardExisting(int cardNo) {
+    public boolean isCreditCardExisting(Double cardNo) {
         Connection conn = connection.createConnection();
         try {
             String statement = "SELECT Card_No FROM Credit_Card";
             PreparedStatement prep = conn.prepareStatement(statement);
             ResultSet rs = (ResultSet) prep.executeQuery();
             while(rs.next()) {
-                if(rs.getInt("Card_No") == cardNo)
+                if(rs.getDouble("Card_No") == cardNo)
                     return true;
             }
             return false;
