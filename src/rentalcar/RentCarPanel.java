@@ -52,24 +52,24 @@ public class RentCarPanel extends JPanel {
     JXDatePicker PickUpDateCombo, ReturnDateCombo;
 
     // Had to hard code it because there was no way out.
-    private String[] pickUpTimeStrings = { "12:00 AM", "12:30 AM", "1:00 AM",
-            "1:30 AM", "2:00 AM", "02:30 AM", "03:00 AM", "3:30 AM",
+    private String[] pickUpTimeStrings = { "12:00 AM", "12:30 AM", "01:00 AM",
+            "01:30 AM", "02:00 AM", "02:30 AM", "03:00 AM", "03:30 AM",
             "04:00 AM", "04:30 AM", "05:00 AM", "05:30 AM", "06:00 AM",
             "06:30 AM", "07:00 AM", "07:30 AM", "08:00 AM", "08:30 AM",
             "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM",
-            "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM",
-            "2:00 PM", "2:30 PM", "03:00 PM", "3:30 PM", "04:00 PM",
+            "11:30 AM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM",
+            "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM", "04:00 PM",
             "04:30 PM", "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM",
             "07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM", "09:00 PM",
             "09:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM" };
 
-    private String[] returnTimeStrings = { "12:00 AM", "12:30 AM", "1:00 AM",
-            "1:30 AM", "2:00 AM", "02:30 AM", "03:00 AM", "3:30 AM",
+    private String[] returnTimeStrings = { "12:00 AM", "12:30 AM", "01:00 AM",
+            "01:30 AM", "02:00 AM", "02:30 AM", "03:00 AM", "03:30 AM",
             "04:00 AM", "04:30 AM", "05:00 AM", "05:30 AM", "06:00 AM",
             "06:30 AM", "07:00 AM", "07:30 AM", "08:00 AM", "08:30 AM",
             "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM",
-            "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM",
-            "2:00 PM", "02:30 PM", "03:00 PM", "3:30 PM", "04:00 PM",
+            "11:30 AM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM",
+            "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM", "04:00 PM",
             "04:30 PM", "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM",
             "07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM", "09:00 PM",
             "09:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM" };
@@ -229,7 +229,6 @@ public class RentCarPanel extends JPanel {
                 } else{
                     sb.append(str[0]).append(':').append(str[1]);
                 }
-                    
             }
             sb.append(":00");
             java.util.Date result;
@@ -256,14 +255,13 @@ public class RentCarPanel extends JPanel {
             sb1.append(date1.substring(8, 10));
             sb1.append(' ');
             String[] str1 = returnTimeString.substring(0, 5).split(":");
-
             String retDetect = returnTimeString.substring(6, 8);
             if (month1.length() == 1) {
                 if(retDetect.equals("PM")){
                     Integer tempI1 = Integer.parseInt(returnTimeString.substring(0, 2)) + 12;
-                    sb1.append(tempI1.toString()).append(':').append(str[1]);
+                    sb1.append(tempI1.toString()).append(':').append(str1[1]);
                 }else{
-                    sb1.append(str[0]).append(':').append(returnTimeString.substring(3, 5));
+                    sb1.append(str1[0]).append(':').append(returnTimeString.substring(3, 5));
                 }
             }
             else {
@@ -271,7 +269,7 @@ public class RentCarPanel extends JPanel {
                     Integer tempI1 = Integer.parseInt(returnTimeString.substring(0, 2)) + 12;
                     sb1.append(tempI1.toString()).append(':').append(str[1]);
                 }else{
-                    sb1.append(str[0]).append(':').append(str[1]);
+                    sb1.append(str1[0]).append(':').append(str1[1]);
                 }
             }
             sb1.append(":00");
@@ -302,13 +300,13 @@ public class RentCarPanel extends JPanel {
                 JOptionPane
                 .showMessageDialog(
                         new JFrame(),
-                        "You cannot book a car before current time! Please choose a another return time in the future.",
+                        "You cannot return a car before current time! Please choose a another return time in the future.",
                         "Inane error", JOptionPane.ERROR_MESSAGE);
             } else if (currTime > PickUpTimeDate.getTime()) {
                 JOptionPane
                 .showMessageDialog(
                         new JFrame(),
-                        "You cannot book a car for more than 2 days! Please choose a another return time before.",
+                        "You cannot pick a car before current time! Please choose a another return time in the future.",
                         "Inane error", JOptionPane.ERROR_MESSAGE);
             } else {
                 locationString = LocationCombo.getSelectedItem().toString();
