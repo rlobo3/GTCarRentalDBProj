@@ -19,11 +19,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import core.Car.*;
 
 import com.mysql.jdbc.ResultSet;
 
 import core.DBConnection;
+import core.Car.Car;
 import core.User.EmployeeUser;
 import core.User.UserDao;
 
@@ -425,7 +425,6 @@ public class ManageCarsPanel extends JPanel {
                             "Inane error",
                             JOptionPane.ERROR_MESSAGE);
                 }
-
         	}
         }
     }
@@ -433,6 +432,52 @@ public class ManageCarsPanel extends JPanel {
     private class SubmitButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
         	
+        	String currentCarLocation = (String) CurrentLocationCombo.getSelectedItem();
+        	String chooseCar = (String) CarCombo.getSelectedItem();
+        	String CarType = CarType2TextField.getText();
+        	String Color = Color2TextField.getText();
+        	Integer SeatingCapacity = Integer.parseInt(SeatingCapacity2TextField.getText());
+        	String TransmissionType = TransmissionType2TextField.getText();
+        	String ChooseNewLocation = (String) NewLocationCombo.getSelectedItem();
+        	int Location_Total = 0,  Location_Capacity = 0;
+            Connection conn = connection.createConnection();
+            try {
+                String statement = "SELECT COUNT(*) AS Location_Total FROM Car WHERE Location_Name = ?";
+                PreparedStatement prep = conn.prepareStatement(statement);
+                prep.setString(1, ChooseNewLocation);
+                ResultSet rs = (ResultSet) prep.executeQuery();
+                while (rs.next()) {
+                	Location_Total = rs.getInt("Location_Total");
+                }
+                prep.close();
+                
+                String statement1 = "SELECT Capacity AS Location_Capacity FROM Location WHERE Location_Name = ?";
+                PreparedStatement prep1 = conn.prepareStatement(statement1);
+                prep1.setString(1, ChooseNewLocation);
+                ResultSet rs1 = (ResultSet) prep1.executeQuery();
+                while (rs1.next()) {
+                	Location_Capacity = rs1.getInt("Location_Capacity");
+                }
+                prep1.close();
+                
+                String statement2 = "UPDATE Car SET Location_Name = ? " +
+                		"WHERE (NOT EXISTS (SELECT Location_Name, Model_Name FROM Car " +
+                		"WHERE (Location_Name= ? AND Model_Name = ? )))";
+                PreparedStatement prep2 = conn.prepareStatement(statement2);
+                prep2.setString(1, ChooseNewLocation);
+                prep2.setString(2, ChooseNewLocation);
+                prep2.setString(3, CarType);
+                prep2.setInt(4, Location_Total);
+                prep2.setInt(5, Location_Capacity);
+                prep.executeUpdate();
+                prep.close();
+
+                connection.closeConnection(conn);
+            } catch (SQLException e) {
+            	e.printStackTrace();
+                connection.closeConnection(conn);
+            }
+
         }
     }
 }
