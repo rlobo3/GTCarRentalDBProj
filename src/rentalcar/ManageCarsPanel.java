@@ -38,7 +38,7 @@ public class ManageCarsPanel extends JPanel {
     JTextField VehicleSnoTextField, CarModelTextField, ColorTextField,
     HourlyRateTextField, DailyRateTextField, SeatingCapacityTextField;
 
-    JComboBox<?> CarTypeCombo, LocationCombo, TransmissionTypeCombo, BluetoothConnectivityCombo, AuxilliaryCableCombo;
+    JComboBox CarTypeCombo, LocationCombo, TransmissionTypeCombo, BluetoothConnectivityCombo, AuxilliaryCableCombo;
 
     JButton add;
 
@@ -48,7 +48,7 @@ public class ManageCarsPanel extends JPanel {
     SeatingCapacity2, TransmissionType2, NewLocation;
     JTextField CarType2TextField, Color2TextField,SeatingCapacity2TextField,
     TransmissionType2TextField;
-    JComboBox<?> CurrentLocationCombo, CarCombo, NewLocationCombo;
+    JComboBox CurrentLocationCombo, CarCombo, NewLocationCombo;
 
     private String[] carStrings;
 
