@@ -14,14 +14,18 @@ import java.sql.SQLException;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import core.Car.*;
 
 import com.mysql.jdbc.ResultSet;
 
 import core.DBConnection;
 import core.User.EmployeeUser;
+import core.User.UserDao;
 
 @SuppressWarnings("rawtypes")
 public class ManageCarsPanel extends JPanel {
@@ -29,6 +33,7 @@ public class ManageCarsPanel extends JPanel {
     final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     EmployeeUser employee;
+    private Car carToBeAdded;
     DBConnection connection = new DBConnection();
 
     JLabel ManageCars, AddACar, ChangeCarLocation, BriefDescription;
@@ -336,7 +341,92 @@ public class ManageCarsPanel extends JPanel {
 
     private class AddButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
+        	/*
+        	INSERT INTO Car (Vehicle_Sno, Location_Name, Auxilirary_Cable, Under_Maintenance_Flag, Model_Name, Car_Type, Color, Hourly_Rate, Daily_Rate, Bluetooth, Seating_Cap, Transmission_Type) VALUES $Vsn,$LOCATION$Yes/No,$Yes/No,$Model,
+        	$Type,$COLOR,$HOURLYRATE,$DAILYRATE,$Yes/No,$CAPACITY, $TRANSMISSION,
+        	WHERE NOT EXISTS (SELECT Vehicle_Sno 
+        	FROM Car
+        	WHERE (Location_Name=$Location_Name));
         	
+        	VehicleSnoTextField, CarModelTextField, ColorTextField,
+    HourlyRateTextField, DailyRateTextField, SeatingCapacityTextField;
+    
+    CarTypeCombo, LocationCombo, TransmissionTypeCombo, BluetoothConnectivityCombo, AuxilliaryCableCombo;
+			*/
+        	boolean flag = true;
+        	String hourR = HourlyRateTextField.getText();
+        	if(hourR.charAt(0) != '$'){
+        		flag = false;
+				JOptionPane
+				.showMessageDialog(
+						new JFrame(),
+						"Enter the Hourly Rate in the right format!",
+						"Inane error", JOptionPane.ERROR_MESSAGE);
+
+        	}
+        	Float tempF = Float.parseFloat(hourR.toString().substring(1));
+        	int hourlyRate = (int) Math.floor(tempF);
+        	
+        	String dailyR = DailyRateTextField.getText();
+        	if(dailyR.charAt(0) != '$'){
+        		flag = false;
+				JOptionPane
+				.showMessageDialog(
+						new JFrame(),
+						"Enter the Daily Rate in the right format!",
+						"Inane error", JOptionPane.ERROR_MESSAGE);
+        	}
+        	
+        	Float tempF1 = Float.parseFloat(dailyR.toString().substring(1));
+        	int dailyRate = (int) Math.floor(tempF1);
+        	if(flag == true){
+            	carToBeAdded.setVehicleSNO(VehicleSnoTextField.getText());
+            	carToBeAdded.setModelType(CarModelTextField.getText());
+            	carToBeAdded.setCarType((String) CarTypeCombo.getSelectedItem());
+            	carToBeAdded.setLocName((String) LocationCombo.getSelectedItem());
+            	carToBeAdded.setColor(ColorTextField.getSelectedText());
+            	carToBeAdded.setHourlyRate(hourlyRate);
+            	carToBeAdded.setDailyRate(dailyRate);
+            	carToBeAdded.setSeatCapacity(Integer.parseInt(SeatingCapacityTextField.getSelectedText()));
+            	carToBeAdded.setTransmission((String) TransmissionTypeCombo.getSelectedItem());
+            	boolean tempB;
+            	String tempS = (String) BluetoothConnectivityCombo.getSelectedItem();
+            	if (tempS.equals("Yes")){
+            		tempB = true;
+            	}else{
+            		tempB = false;
+            	}
+            	carToBeAdded.setBluetooth(tempB);
+            	boolean tempB1;
+            	String tempS1 = (String) AuxilliaryCableCombo.getSelectedItem();
+            	if (tempS1.equals("Yes")){
+            		tempB1 = true;
+            	}else{
+            		tempB1 = false;
+            	}
+            	carToBeAdded.setAuxCable(tempB1);
+            	UserDao userdao = new UserDao();
+            	Car carAddition = userdao.insertCar(carToBeAdded);
+                if(carAddition != null) {
+                    JFrame mainFrame = MainFrame.getMain();
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Car Added!",
+                            "No error",
+                            JOptionPane.PLAIN_MESSAGE);
+                    EmployeeHomePanel panel = new EmployeeHomePanel(employee);
+                    mainFrame.setContentPane(panel);
+                    mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+                    mainFrame.setVisible(true);
+                    mainFrame.repaint();
+                }
+                else {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Error in adding car, please try again",
+                            "Inane error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+
+        	}
         }
     }
 

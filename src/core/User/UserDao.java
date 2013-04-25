@@ -6,9 +6,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.swing.JLabel;
+
 import com.mysql.jdbc.ResultSet;
 
 import core.DBConnection;
+import core.Car.Car;
 import core.CreditCard.CreditCard;
 import core.DrivingPlan.DrivingPlan;
 import core.DrivingPlan.PlanType;
@@ -274,6 +277,51 @@ public class UserDao {
         catch (SQLException e){}
         return false;
     }
+    
+	public Car insertCar(Car carAdded) {
+        Connection conn = connection.createConnection();
+        try {
+                String statement = "INSERT INTO Car (Vehicle_Sno, Location_Name, Auxilirary_Cable, " +
+                		"Under_Maintenance_Flag, Model_Name, Car_Type, Color, Hourly_Rate, Daily_Rate," +
+                		" Bluetooth, Seating_Cap, Transmission_Type) VALUES ? , ? , ? ," +
+                		" ? , ? , ? , ? , ? , ? , ? , " +
+                		"WHERE NOT EXISTS (SELECT Vehicle_Sno FROM Car WHERE (Location_Name = ?))";
+                PreparedStatement prep = conn.prepareStatement(statement);
+                prep.setString(1, carAdded.getVehicleSNO());
+                prep.setString(2, carAdded.getLocName());
+                prep.setString(3, "No");
+                String tempStr;
+                if(carAdded.isAuxCable() == true){
+                	tempStr = "Yes";
+                }else{
+                	tempStr = "No";
+                }
+                prep.setString(4, tempStr);
+                prep.setString(5, carAdded.getModelType());
+                prep.setString(6, carAdded.getCarType());
+                prep.setString(7, carAdded.getColor());
+                prep.setInt(8, carAdded.getHourlyRate());
+                prep.setInt(9, carAdded.getDailyRate());
+                String tempS;
+                if(carAdded.isBluetooth() == true){
+                	tempS = "Yes";
+                }else{
+                	tempS = "No";
+                }
+                prep.setString(10, tempS);
+                prep.setInt(11, carAdded.getSeatCapacity());
+                prep.setString(12, carAdded.getTransmission());
+                prep.setString(13, carAdded.getLocName());
+                prep.executeUpdate();
+                prep.close();
+            connection.closeConnection(conn);
+            return carAdded;
+        } catch (SQLException e) {
+            connection.closeConnection(conn);
+            return null;
+        }
+	}
+
     //    public static void main(String[] args) {
     //        UserDao acc = new UserDao();       
     //        AdminUser admin1 = (AdminUser) acc.login("Bohr", "electron1");
@@ -312,4 +360,5 @@ public class UserDao {
     //        else
     //            System.out.println("Failed");
     //    }
+
 } 
