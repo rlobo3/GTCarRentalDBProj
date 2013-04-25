@@ -467,8 +467,6 @@ public class ManageCarsPanel extends JPanel {
                 prep2.setString(1, ChooseNewLocation);
                 prep2.setString(2, ChooseNewLocation);
                 prep2.setString(3, CarType);
-                prep2.setInt(4, Location_Total);
-                prep2.setInt(5, Location_Capacity);
                 prep.executeUpdate();
                 prep.close();
 
