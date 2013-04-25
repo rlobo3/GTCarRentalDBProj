@@ -7,10 +7,6 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -21,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import core.DBConnection;
+import core.Reservation.Reservation;
 import core.User.MemberUser;
 
 public class CarAvailPanel extends JPanel {
@@ -37,7 +34,7 @@ public class CarAvailPanel extends JPanel {
 			"Transmission_Type", "Bluetooth", "Auxiliary_Cable",
 			"Estimated_Cost", "Annual_Fees" };
 	
-	ArrayList<Object> CarData;
+	Reservation reservation;
 	JTable table;
 	ButtonGroup group;
 
@@ -46,12 +43,10 @@ public class CarAvailPanel extends JPanel {
 	String ReservationTime;
 	JRadioButton Selected;
 
-	int numRows;
 
-	public CarAvailPanel(MemberUser member, Object[][] rowData, int numRows, ArrayList<Object> tempArr) {
-		this.CarData = tempArr;
+	public CarAvailPanel(MemberUser member, Object[][] rowData, Reservation reservation) {
+		this.reservation = reservation;
 		this.member = member;
-		this.numRows = numRows;
 		this.rowData = rowData;
 		this.setBounds(screenSize.width / 3, screenSize.height / 3,
 				DIALOGWIDTH, DIALOGHEIGHT);
@@ -61,7 +56,7 @@ public class CarAvailPanel extends JPanel {
 
 		table = new JTable(rowData, columnNames);
 
-		for (int i = 0; i < numRows; i++) {
+		for (int i = 0; i < rowData.length; i++) {
 			group.add((JRadioButton) rowData[i][14]);
 		}
 
@@ -78,27 +73,27 @@ public class CarAvailPanel extends JPanel {
 
 	private class ReserveButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			for (int i = 0; i < numRows; i++) {
-				Selected = (JRadioButton) rowData[i][14];
-				if (Selected.isSelected()) {
-					String statement = "INSERT INTO Reservation VALUES( ? , ? , ? , ? , ? , 0 , 0 , 0 , 0 )";
-					Connection conn = connection.createConnection();
-					try {
-						PreparedStatement prep = conn
-								.prepareStatement(statement);
-						prep.setString(1, (String) member.getUsername());
-						prep.setDate(2, (java.sql.Date) CarData.get(0));
-						prep.setDate(3, (java.sql.Date) CarData.get(1));
-						prep.setString(4, (String)  CarData.get(2));
-						prep.setString(5, (String) CarData.get(3));
-						prep.close();
-						connection.closeConnection(conn);
-					} catch (SQLException e) {
-						connection.closeConnection(conn);
-					}
-
-				}
-			}
+//			for (int i = 0; i < rowData.length; i++) {
+//				Selected = (JRadioButton) rowData[i][14];
+//				if (Selected.isSelected()) {
+//					String statement = "INSERT INTO Reservation VALUES( ? , ? , ? , ? , ? , 0 , 0 , 0 , 0 )";
+//					Connection conn = connection.createConnection();
+//					try {
+//						PreparedStatement prep = conn
+//								.prepareStatement(statement);
+//						prep.setString(1, (String) member.getUsername());
+//						prep.setDate(2, (java.sql.Date) CarData.get(0));
+//						prep.setDate(3, (java.sql.Date) CarData.get(1));
+//						prep.setString(4, (String)  CarData.get(2));
+//						prep.setString(5, (String) CarData.get(3));
+//						prep.close();
+//						connection.closeConnection(conn);
+//					} catch (SQLException e) {
+//						connection.closeConnection(conn);
+//					}
+//
+//				}
+//			}
 		}
 	}
 }

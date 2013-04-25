@@ -1,16 +1,16 @@
 package core.Reservation;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Reservation {
-    private String userName, vehicleSNO, locName, retStatus;
+    private String username, vehicleSNO, locName, retStatus;
     private Date pickupDateTime, retDateTime;
     private int lateBy, lateFees, estimatedCost;
     
-    public Reservation(String userName, String vehicleSNO, String locName, String retStatus,
+    public Reservation(String username, String vehicleSNO, String locName, String retStatus,
             Date pickupDateTime, Date retDateTime, int lateBy, int lateFees, 
             int estimatedCost) {
-        this.userName = userName;
+        this.username = username;
         this.vehicleSNO = vehicleSNO;
         this.locName = locName;
         this.pickupDateTime = pickupDateTime;
@@ -19,19 +19,24 @@ public class Reservation {
         this.lateFees = lateFees;
         this.estimatedCost = estimatedCost;
     }
+    
+    public Reservation(String username, String vehicleSNO, String locName,
+            Date pickupDateTime, Date retDateTime){
+        this(username, vehicleSNO, locName, null, pickupDateTime, retDateTime, 0, 0, 0);
+    }
 
     /**
      * @return the userName
      */
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     /**
      * @param userName the userName to set
      */
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /**

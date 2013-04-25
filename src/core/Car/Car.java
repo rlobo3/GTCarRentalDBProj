@@ -1,15 +1,18 @@
 package core.Car;
 
+import core.Location.Location;
+
 public class Car {
-    private String vehicleSNO, locName, modelType, carType, color, transmission;
+    private String vehicleSNO, modelType, carType, color, transmission;
     private boolean auxCable, underMaintainance, bluetooth;
     private int hourlyRate, dailyRate, seatCapacity;
+    private Location location;
     
     public Car(String vehicleSNO, String locName, String modelType, String carType, 
             String color, String transmission, boolean auxCable, boolean underMaintenance,
             boolean bluetooth, int hourlyRate, int dailyRate, int seatCapacity) {
         this.vehicleSNO = vehicleSNO;
-        this.locName = locName;
+        this.location.setLocName(locName);
         this.modelType = modelType;
         this.carType = carType;
         this.color = color;
@@ -20,6 +23,10 @@ public class Car {
         this.hourlyRate = hourlyRate;
         this.dailyRate = dailyRate;
         this.seatCapacity = seatCapacity;
+    }
+    
+    public Car(String carType, String locName, String modelType) {
+        this(null,locName,modelType, carType, null, null, false, false, false, 0, 0, 0);
     }
 
     /**
@@ -40,14 +47,14 @@ public class Car {
      * @return the locName
      */
     public String getLocName() {
-        return locName;
+        return location.getLocName();
     }
 
     /**
      * @param locName the locName to set
      */
     public void setLocName(String locName) {
-        this.locName = locName;
+        this.location.setLocName(locName);
     }
 
     /**
