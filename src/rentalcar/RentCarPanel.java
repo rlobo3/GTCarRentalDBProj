@@ -322,6 +322,21 @@ public class RentCarPanel extends JPanel {
                             long min = sec/60;
                             int hr = (int) min/60;
                             rowDataArr[i][13] = (Integer)rowDataArr[i][5] * hr;
+                            reservation.setEstimatedCost((Integer) rowDataArr[i][13]);
+                        }
+                        else if(member.getDrivingPlan().getName() == "Daily Driving Plan") {
+                            long sec = diff/1000;
+                            long min = sec/60;
+                            int hr = (int) min/60;
+                            rowDataArr[i][13] = (Integer)rowDataArr[i][6] * hr;
+                            reservation.setEstimatedCost((Integer) rowDataArr[i][13]);
+                        }
+                        else if(member.getDrivingPlan().getName() == "Occasional Driving Plan") {
+                            long sec = diff/1000;
+                            long min = sec/60;
+                            int hr = (int) min/60;
+                            rowDataArr[i][13] = (Integer)rowDataArr[i][4] * hr;
+                            reservation.setEstimatedCost((Integer) rowDataArr[i][13]);
                         }
                     }
                     JFrame mainFrame = MainFrame.getMain();
