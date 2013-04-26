@@ -199,7 +199,9 @@ public class MainteRequestPanel extends JPanel {
                     prep3.close();
                     connection.closeConnection(conn);
                 } catch (SQLException e) {
-                    e.printStackTrace();
+					JOptionPane.showMessageDialog(new JFrame(),
+							"Error in insertion, please select correct car location and car model!",
+							"Inane error", JOptionPane.ERROR_MESSAGE);
                 }
                 JFrame mainFrame = MainFrame.getMain();
                 mainFrame.setContentPane(new EmployeeHomePanel(employee));

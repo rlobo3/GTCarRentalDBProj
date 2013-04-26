@@ -14,6 +14,12 @@ import core.CreditCard.CreditCard;
 import core.DrivingPlan.DrivingPlan;
 import core.DrivingPlan.PlanType;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ * This class represents the User access object where connections to the database are made and SQL queries are handled.
+ */
+
 public class UserDao {
     static DBConnection connection = new DBConnection();
     String username, password, firstName, middleInit, lastName, email, phone,
@@ -336,47 +342,4 @@ public class UserDao {
             return null;
         }
     }
-
-    // public static void main(String[] args) {
-    // UserDao acc = new UserDao();
-    // AdminUser admin1 = (AdminUser) acc.login("Bohr", "electron1");
-    // AdminUser admin2 = (AdminUser) acc.login("Newton", "secret");
-    // AdminUser admin3 = (AdminUser) acc.login("rlobo3", "pass123");
-    // MemberUser mem1 = (MemberUser) acc.login("mem1", "M1");
-    // MemberUser mem2 = (MemberUser) acc.login("mem2", "M3");
-    // MemberUser mem3 = (MemberUser) acc.login("rlobo", "pass123");
-    // EmployeeUser emp1 = (EmployeeUser) acc.login("emp1", "pass1");
-    // EmployeeUser emp2 = (EmployeeUser) acc.login("emp2", "pass3");
-    // EmployeeUser emp3 = (EmployeeUser) acc.login("rlobo", "pass123");
-    // AdminUser admin1 = (AdminUser) acc.addUser("hvu", "1A", UserType.ADMIN);
-    // AdminUser admin2 = (AdminUser) acc.addUser("rlobo", "pass123",
-    // UserType.ADMIN);
-    // MemberUser mem1 = (MemberUser) acc.addUser("m1", "pass",
-    // UserType.MEMBER);
-    // MemberUser mem2 = (MemberUser) acc.addUser("rlobo", "pass123",
-    // UserType.MEMBER);
-    // EmployeeUser emp1 = acc.addUser("Emp1", "pass");
-    // EmployeeUser emp2 = acc.addUser("rlobo", "pass123");
-    // if(admin1 != null)
-    // if(mem1 != null)
-    // if(emp1 != null)
-    // System.out.println("Found");
-    // else
-    // System.out.println("Failed");
-    //
-    // if(admin2 != null)
-    // if(mem2 != null)
-    // if(emp2 != null)
-    // System.out.println("Found");
-    // else
-    // System.out.println("Failed");
-    //
-    // if(admin3 != null)
-    // if(mem3 != null)
-    // if(emp3 != null)
-    // System.out.println("Added");
-    // else
-    // System.out.println("Failed");
-    // }
-
 }
