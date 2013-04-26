@@ -2,6 +2,7 @@ package rentalcar;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -20,6 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.JXDatePicker;
 
@@ -121,7 +125,6 @@ public class RentInfoPanel extends JPanel {
                 rowDataCurrRes[i][2] = rs.getString("Model_Name");
                 rowDataCurrRes[i][3] = rs.getString("Location_Name");
                 rowDataCurrRes[i][4] = rs.getInt("Estimated_Cost");
-                rowDataCurrRes[i][5] = new JRadioButton();
             }
             prep.close();
         } catch (SQLException e) {
@@ -164,7 +167,6 @@ public class RentInfoPanel extends JPanel {
                 rowDataPrevRes[i][2] = rs1.getString("Model_Name");
                 rowDataPrevRes[i][3] = rs1.getString("Location_Name");
                 rowDataPrevRes[i][4] = rs1.getInt("Estimated_Cost");
-                rowDataPrevRes[i][5] = new JRadioButton();
             }
             prep1.close();
         } catch (SQLException e) {
@@ -176,6 +178,7 @@ public class RentInfoPanel extends JPanel {
         this.add(currRes);
         if (rowcount != 0) {
             tableCurrRes = new JTable(rowDataCurrRes, columnNamesCurrRes);
+            tableCurrRes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             chooseRetTime = new JLabel("Choose Return Time: ");
             java.util.Date returndate = new java.util.Date();
             ReturnDateCombo = new JXDatePicker(returndate);
@@ -183,6 +186,7 @@ public class RentInfoPanel extends JPanel {
             updateButton = new JButton("Update");
             updateButton.addActionListener(new UpdateButtonListener());
             this.add(tableCurrRes);
+            this.add(new JScrollPane(tableCurrRes), BorderLayout.CENTER);
             this.add(chooseRetTime);
             this.add(ReturnDateCombo);
             this.add(ReturnTimeCombo);
@@ -197,6 +201,8 @@ public class RentInfoPanel extends JPanel {
         this.add(PrevRes);
         if (rowcount1 != 0) {
             tablePrevRes = new JTable(rowDataPrevRes, columnNamesPrevRes);
+            tablePrevRes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            this.add(new JScrollPane(tableCurrRes), BorderLayout.CENTER);
             this.add(tablePrevRes);
         } else {
             prevError = new JLabel("No Previous Reservations");
@@ -217,6 +223,7 @@ public class RentInfoPanel extends JPanel {
             JRadioButton temp = (JRadioButton) rowDataCurrRes[0][5];
             if(temp.isSelected()){
 
+                int row = tableCurrRes.getSelectedRow();
                 StringBuilder sb = new StringBuilder();
                 String returnTString = (String) ReturnTimeCombo.getSelectedItem();
 
@@ -279,4 +286,23 @@ public class RentInfoPanel extends JPanel {
             connection.closeConnection(conn);
         }
     }
+    
+    public class LineWrapCellRenderer  extends JTextArea implements TableCellRenderer {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+        public Component getTableCellRendererComponent(
+                JTable table,
+                Object value,
+                boolean isSelected,
+                boolean hasFocus,
+                int row,
+                int column) {
+            this.setText((String)value);
+            this.setWrapStyleWord(true);            
+            this.setLineWrap(true);         
+            return this;
+        }
+    }
+
 }

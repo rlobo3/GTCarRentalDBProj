@@ -71,9 +71,6 @@ public class CarAvailPanel extends JPanel {
 
         table = new JTable(rowData, columnNames);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//        table.getColumn("Select Car!").setCellRenderer(new RadioButtonRenderer());
-//        table.getColumn("Select Car!").setCellEditor(new RadioButtonEditor(new JCheckBox()));
-
 
         reserveButton = new JButton("Reserve");
         reserveButton.addActionListener(new ReserveButtonListener());
@@ -122,8 +119,9 @@ public class CarAvailPanel extends JPanel {
     }
 
     public class LineWrapCellRenderer  extends JTextArea implements TableCellRenderer {
+		private static final long serialVersionUID = 1L;
 
-        @Override
+		@Override
         public Component getTableCellRendererComponent(
                 JTable table,
                 Object value,

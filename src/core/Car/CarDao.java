@@ -1,12 +1,10 @@
 package core.Car;
 
-import java.sql.Timestamp;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-
-import javax.swing.JRadioButton;
 
 import com.mysql.jdbc.ResultSet;
 

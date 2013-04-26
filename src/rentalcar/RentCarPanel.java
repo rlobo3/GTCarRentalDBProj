@@ -40,7 +40,6 @@ public class RentCarPanel extends JPanel {
     .getScreenSize();
 
     protected MemberUser member;
-    private JFrame mainFrame;
     static DBConnection connection = new DBConnection();
 
     JLabel RentACar;
@@ -201,7 +200,7 @@ public class RentCarPanel extends JPanel {
         public void actionPerformed(ActionEvent event) {
             pickUpTimeString = (String) PickUpTimeCombo.getSelectedItem();
             returnTimeString = (String) ReturnTimeCombo.getSelectedItem();
-
+            Integer tempI = null, tempI1 = null;
             StringBuilder sb = new StringBuilder();
             String date = PickUpDateCombo.getDate().toString();
             sb.append(date.substring(24, 28));
@@ -217,14 +216,14 @@ public class RentCarPanel extends JPanel {
             String pickDetect = pickUpTimeString.substring(6, 8);
             if (month.length() == 1) {
                 if(pickDetect.equals("PM")){
-                    Integer tempI = Integer.parseInt(pickUpTimeString.substring(0, 2)) + 12;
+                    tempI = Integer.parseInt(pickUpTimeString.substring(0, 2)) + 12;
                     sb.append(str[0]).append(':').append(tempI.toString());
                 }else{
                     sb.append(str[0]).append(':').append(pickUpTimeString.substring(3, 5));
                 }
             } else {
                 if(pickDetect.equals("PM")){
-                    Integer tempI = Integer.parseInt(pickUpTimeString.substring(0, 2)) + 12;
+                    tempI = Integer.parseInt(pickUpTimeString.substring(0, 2)) + 12;
                     sb.append(tempI.toString()).append(':').append(str[1]);
                 } else{
                     sb.append(str[0]).append(':').append(str[1]);
@@ -258,7 +257,7 @@ public class RentCarPanel extends JPanel {
             String retDetect = returnTimeString.substring(6, 8);
             if (month1.length() == 1) {
                 if(retDetect.equals("PM")){
-                    Integer tempI1 = Integer.parseInt(returnTimeString.substring(0, 2)) + 12;
+                    tempI1 = Integer.parseInt(returnTimeString.substring(0, 2)) + 12;
                     sb1.append(tempI1.toString()).append(':').append(str1[1]);
                 }else{
                     sb1.append(str1[0]).append(':').append(returnTimeString.substring(3, 5));
@@ -266,7 +265,7 @@ public class RentCarPanel extends JPanel {
             }
             else {
                 if(retDetect.equals("PM")){
-                    Integer tempI1 = Integer.parseInt(returnTimeString.substring(0, 2)) + 12;
+                    tempI1 = Integer.parseInt(returnTimeString.substring(0, 2)) + 12;
                     sb1.append(tempI1.toString()).append(':').append(str[1]);
                 }else{
                     sb1.append(str1[0]).append(':').append(str1[1]);
@@ -283,7 +282,6 @@ public class RentCarPanel extends JPanel {
                 e1.printStackTrace();
             }
             long diff = (ReturnTimeDate.getTime() - PickUpTimeDate.getTime());
-            long currTime = System.currentTimeMillis();
             if (PickUpTimeDate.compareTo(ReturnTimeDate) > 0) {
                 JOptionPane
                 .showMessageDialog(
