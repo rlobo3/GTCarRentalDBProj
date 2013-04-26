@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.swing.ButtonGroup;
@@ -17,89 +18,87 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import com.mysql.jdbc.PreparedStatement;
+import java.sql.PreparedStatement;
 
 import core.DBConnection;
 import core.Reservation.Reservation;
 import core.User.MemberUser;
 
 public class CarAvailPanel extends JPanel {
-	private static final long serialVersionUID = 1L;
-	MemberUser member;
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
+    private static final long serialVersionUID = 1L;
+    MemberUser member;
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    int DIALOGWIDTH = 500, DIALOGHEIGHT = 500;
 
-	Object[][] rowData;
+    Object[][] rowData;
 
-	Object[] columnNames = { "Model_Name", "Car_Type", "Location_Name",
-			"Color", "Hourly_Rate", "Daily_Rate", "Seating_Cap",
-			"Transmission_Type", "Bluetooth", "Auxiliary_Cable",
-			"Estimated_Cost", "Annual_Fees" };
-	
-	Reservation reservation;
-	JTable table;
-	ButtonGroup group;
+    Object[] columnNames = { "Model_Name", "Car_Type", "Location_Name",
+            "Color", "Hourly_Rate", "Daily_Rate", "Seating_Cap",
+            "Transmission_Type", "Bluetooth", "Auxiliary_Cable",
+            "Estimated_Cost", "Annual_Fees" };
 
-	JLabel pageHeading;
-	JButton reserveButton;
-	String ReservationTime;
-	JRadioButton Selected;
-	DBConnection connection = new DBConnection();
+    Reservation reservation;
+    JTable table;
+    ButtonGroup group = new ButtonGroup();
 
-	public CarAvailPanel(MemberUser member, Object[][] rowData, Reservation reservation) {
-		this.reservation = reservation;
-		this.member = member;
-		this.rowData = rowData;
-		this.setBounds(screenSize.width / 3, screenSize.height / 3,
-				DIALOGWIDTH, DIALOGHEIGHT);
+    JLabel pageHeading;
+    JButton reserveButton;
+    String ReservationTime;
+    JRadioButton Selected;
+    DBConnection connection = new DBConnection();
 
-		pageHeading = new JLabel("Car Availability");
-		pageHeading.setFont(new Font("Helvetica", Font.BOLD, 70));
+    public CarAvailPanel(MemberUser member, Object[][] rowData, Reservation reservation) {
+        this.reservation = reservation;
+        this.member = member;
+        this.rowData = rowData;
+        this.setBounds(screenSize.width / 3, screenSize.height / 3,
+                DIALOGWIDTH, DIALOGHEIGHT);
 
-		table = new JTable(rowData, columnNames);
+        pageHeading = new JLabel("Car Availability");
+        pageHeading.setFont(new Font("Helvetica", Font.BOLD, 70));
+        
+        for (int i = 0; i < rowData.length; i++) {
+            rowData[i][14] = new JRadioButton("Extend?");
+            group.add((JRadioButton)rowData[i][14]);
+        };
 
-		for (int i = 0; i < rowData.length; i++) {
-			group.add((JRadioButton) rowData[i][14]);
-		}
-		for(int i = 0; i < rowData.length; i++){
-			rowData[i][14] = new JRadioButton();
-		}
+        table = new JTable(rowData, columnNames);
+        if(rowData.length != 0){
 
-		reserveButton = new JButton("Reserve");
-		reserveButton.addActionListener(new ReserveButtonListener());
+            reserveButton = new JButton("Reserve");
+            reserveButton.addActionListener(new ReserveButtonListener());
 
-		this.setLayout(new BorderLayout());
-		this.add(pageHeading, BorderLayout.NORTH);
-		this.add(new JScrollPane(table), BorderLayout.CENTER);
+            this.setLayout(new BorderLayout());
+            this.add(new JScrollPane(table), BorderLayout.CENTER);
 
-		this.setBackground(Color.green);
-		this.setBounds(400, 300, 500, 200);
-	}
+        }
+        this.setBackground(Color.green);
+        this.setBounds(400, 300, 500, 200);
+        this.add(pageHeading, BorderLayout.NORTH);
+    }
 
-	private class ReserveButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent event) {
-			for (int i = 0; i < rowData.length; i++) {
-				Selected = (JRadioButton) rowData[i][14];
-				if (Selected.isSelected()) {
-					String statement = "INSERT INTO Reservation VALUES( ? , ? , ? , ? , ? , 0 , 0 , 0 , 0 )";
-					
-					Connection conn = connection.createConnection();
-					try {
-						PreparedStatement prep = conn
-								.prepareStatement(statement);
-						prep.setString(1, (String) member.getUsername());
-						prep.setDate(2, (java.sql.Date) CarData.get(0));
-						prep.setDate(3, (java.sql.Date) CarData.get(1));
-						prep.setString(4, (String)  CarData.get(2));
-						prep.setString(5, (String) CarData.get(3));
-						prep.close();
-						connection.closeConnection(conn);
-					} catch (SQLException e) {
-						connection.closeConnection(conn);
-					}
+    private class ReserveButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            for (int i = 0; i < rowData.length; i++) {
+                Selected = (JRadioButton) rowData[i][14];
+                if (Selected.isSelected()) {
+                    Connection conn = connection.createConnection();
+                    try {
+                        String statement = "INSERT INTO Reservation VALUES( ? , ? , ? , ? , ? , 0 , 0 , 0 , 0 )";
+                        PreparedStatement prep = conn.prepareStatement(statement);
+                        prep.setString(1, (String) member.getUsername());
+                        prep.setDate(2, (java.sql.Date) reservation.getPickupDateTime());
+                        prep.setDate(3, (java.sql.Date) reservation.getRetDateTime());
+                        prep.setString(4, (String)  reservation.getVehicleSNO());
+                        prep.setString(5, (String) reservation.getLocName());
+                        prep.close();
+                        connection.closeConnection(conn);
+                    } catch (SQLException e) {
+                        connection.closeConnection(conn);
+                    }
 
-				}
-			}
-		}
-	}
+                }
+            }
+        }
+    }
 }

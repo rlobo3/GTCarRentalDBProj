@@ -47,7 +47,7 @@ public class CarDao {
             deleteTableIfExisiting();
             String statement = "CREATE VIEW CAR_INFO AS SELECT Model_Name, Car_Type, " +
             "Location_Name, Color, Hourly_Rate, Daily_Rate, Seating_Cap, " +
-            "Transmission_Type, Bluetooth, Auxiliary_Cable FROM Car " +
+            "Transmission_Type, Bluetooth, Auxiliary_Cable, Vehicle_Sno FROM Car " +
             "NATURAL JOIN Reservation WHERE Car_Type = ? AND " +
             "Model_Name = ? AND Car.Location_Name = ? " +
             "AND Pick_Up_Date_Time > ? AND Under_Maintenance_Flag = 'No'";
@@ -59,7 +59,7 @@ public class CarDao {
             prep.execute();
             prep.close();
 
-            statement = "CREATE VIEW TILL AS SELECT Pick_Up_Date_Time AS Available_till " +
+            statement = "CREATE VIEW TILL AS SELECT Pick_Up_Date_Time AS Available_till, Vehicle_Sno " +
             "FROM Car NATURAL JOIN Reservation WHERE Car_Type = ? " +
             "AND Model_Name = ? AND Car.Location_Name = ? " +
             "AND Pick_Up_Date_Time > ? AND Under_Maintenance_Flag = 'No'";
@@ -73,7 +73,7 @@ public class CarDao {
 
             statement = "CREATE VIEW FINAL_DISCOUNTED AS SELECT " +
             "Frequent_DRate*Hourly_Rate+Hourly_Rate AS Frequent_Discount_Rate, " +
-            "Daily_DRate*Hourly_Rate+Hourly_Rate AS Daily_Discount_Rate " +
+            "Daily_DRate*Hourly_Rate+Hourly_Rate AS Daily_Discount_Rate, Vehicle_Sno " +
             "FROM DISCOUNTED, Car WHERE Car_Type = ? AND " +
             "Model_Name = ? AND Car.Location_Name = ? " +
             "AND Under_Maintenance_Flag = 'No'";
@@ -84,7 +84,7 @@ public class CarDao {
             prep.execute();
             prep.close();
 
-            statement = "SELECT * FROM CAR_INFO, TILL, FINAL_DISCOUNTED";
+            statement = "SELECT * FROM CAR_INFO NATURAL JOIN TILL NATURAL JOIN FINAL_DISCOUNTED";
             prep = conn.prepareStatement(statement);
             ResultSet rs = (ResultSet) prep.executeQuery();
             int rowcount = 0;
@@ -94,7 +94,7 @@ public class CarDao {
             }
 
             if(rowcount != 0) {
-                rowData = new Object[rowcount][15];
+                rowData = new Object[rowcount][16];
                 for(int i = 0; rs.next(); i++){
                     rowData[i][0] = rs.getString("Model_Name");
                     rowData[i][1] = rs.getString("Car_Type");
@@ -109,7 +109,7 @@ public class CarDao {
                     rowData[i][10] = rs.getString("Bluetooth");
                     rowData[i][11] = rs.getString("Auxiliary_Cable");
                     rowData[i][12] = rs.getDate("Available_till");
-                    rowData[i][14] = new JRadioButton("Extend?");
+                    rowData[i][15] = rs.getString("Vehicle_Sno");
                 }
             }
             else{

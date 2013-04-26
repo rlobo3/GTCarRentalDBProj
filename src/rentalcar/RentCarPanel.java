@@ -296,18 +296,6 @@ public class RentCarPanel extends JPanel {
                         new JFrame(),
                         "You cannot book a car for more than 2 days! Please choose a another return time before.",
                         "Inane error", JOptionPane.ERROR_MESSAGE);
-            } else if (currTime > ReturnTimeDate.getTime()) {
-                JOptionPane
-                .showMessageDialog(
-                        new JFrame(),
-                        "You cannot return a car before current time! Please choose a another return time in the future.",
-                        "Inane error", JOptionPane.ERROR_MESSAGE);
-            } else if (currTime > PickUpTimeDate.getTime()) {
-                JOptionPane
-                .showMessageDialog(
-                        new JFrame(),
-                        "You cannot pick a car before current time! Please choose a another return time in the future.",
-                        "Inane error", JOptionPane.ERROR_MESSAGE);
             } else {
                 locationString = LocationCombo.getSelectedItem().toString();
                 carTypeString = CarTypesCombo.getSelectedItem().toString();
@@ -336,6 +324,7 @@ public class RentCarPanel extends JPanel {
                             rowDataArr[i][13] = (Integer)rowDataArr[i][5] * hr;
                         }
                     }
+                    JFrame mainFrame = MainFrame.getMain();
                     CarAvailPanel panel = new CarAvailPanel(member, rowDataArr,
                             reservation);
                     mainFrame.setContentPane(panel);

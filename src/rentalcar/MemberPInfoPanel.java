@@ -157,16 +157,18 @@ public class MemberPInfoPanel extends JPanel {
                 dailyDriving.setSelected(true);
             }
         }
-        if(member.getCreditCard().getNameOnCard() != null)
-            nameCardField.setText(member.getCreditCard().getNameOnCard());
-        if(""+member.getCreditCard().getCardNumber() != "")
-            cardNumberField.setText(""+member.getCreditCard().getCardNumber());
-        if(""+member.getCreditCard().getCvv() != "")
-            cVVField.setText(""+member.getCreditCard().getCvv());
-        if(member.getCreditCard().getExpiryDate().toString() != null)
-            expiryDateField.setText(member.getCreditCard().getExpiryDate().toString());
-        if(member.getCreditCard().getBillingAddress() != null)
-            billingAddressField.setText(member.getCreditCard().getBillingAddress());
+        if(member.getCreditCard() != null) {
+	        if(member.getCreditCard().getNameOnCard() != null)
+	            nameCardField.setText(member.getCreditCard().getNameOnCard());
+	        if(""+member.getCreditCard().getCardNumber() != "")
+	            cardNumberField.setText(""+member.getCreditCard().getCardNumber());
+	        if(""+member.getCreditCard().getCvv() != "")
+	            cVVField.setText(""+member.getCreditCard().getCvv());
+	        if(member.getCreditCard().getExpiryDate().toString() != null)
+	            expiryDateField.setText(member.getCreditCard().getExpiryDate().toString());
+	        if(member.getCreditCard().getBillingAddress() != null)
+	            billingAddressField.setText(member.getCreditCard().getBillingAddress());
+        }
 
         this.add(personalInformation);
         this.add(generalInformation);
@@ -239,6 +241,7 @@ public class MemberPInfoPanel extends JPanel {
             }catch(NumberFormatException e){
             	JOptionPane.showMessageDialog(new JFrame(), "Please enter a valid credit number!","Inane error", JOptionPane.ERROR_MESSAGE);
             }
+           
             creditCard.setCvv(Integer.parseInt(cVVField.getText()));
             member.setCreditCard(creditCard);
             // Update operations if anything changes

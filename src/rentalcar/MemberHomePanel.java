@@ -66,11 +66,19 @@ public class MemberHomePanel extends JPanel {
     private class NextButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             if (carRental.isSelected()) {
-                JFrame mainFrame = MainFrame.getMain();
-                mainFrame.setContentPane(new RentCarPanel(member));
-                mainFrame.setBounds(mainFrame.getContentPane().getBounds());
-                mainFrame.setVisible(true);
-                mainFrame.repaint();
+            	if(member.getDrivingPlan() == null || member.getCreditCard() == null || member.getFirstName() == null){
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Must fill in personal information, driving plan and credit card information!",
+                            "Inane error",
+                            JOptionPane.ERROR_MESSAGE);
+
+            	}else{
+                    JFrame mainFrame = MainFrame.getMain();
+                    mainFrame.setContentPane(new RentCarPanel(member));
+                    mainFrame.setBounds(mainFrame.getContentPane().getBounds());
+                    mainFrame.setVisible(true);
+                    mainFrame.repaint();
+            	}
             } else if (enterViewPI.isSelected()) {
                 JFrame mainFrame = MainFrame.getMain();
                 MemberPInfoPanel pInfoPanel = new MemberPInfoPanel(member);

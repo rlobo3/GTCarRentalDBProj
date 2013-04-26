@@ -103,7 +103,6 @@ public class LoginPanel extends JPanel{
                     mainFrame.setVisible(true);
                     mainFrame.repaint();
                 }
-                    
             }
         }
     }
