@@ -1,5 +1,13 @@
 package core.User;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ * 
+ * This represents the User object model and all it's attributes.
+ *
+ */
+
 public class User {
     private String username;
     private String password;

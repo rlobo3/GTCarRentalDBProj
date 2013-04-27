@@ -2,6 +2,14 @@ package core.MaintenanceRequests;
 
 import java.sql.Date;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ *
+ * This class represents the model for Maintenance Object Model and all it's attributes.
+ *
+ */
+
 public class MaintenanceRequest {
     private String vehicleSNO, username;
     private Date dateTime;

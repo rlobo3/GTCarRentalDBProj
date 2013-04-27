@@ -19,6 +19,14 @@ import core.DBConnection;
 import core.Report.ReportDao;
 import core.User.EmployeeUser;
 
+/**
+ * 
+ * @author Sahil Gupta
+ * 
+ * This class creates the panel for Main History Report panel accessible to the employee user.
+ *
+ */
+
 public class MainHistoryReportPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

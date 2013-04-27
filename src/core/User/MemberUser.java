@@ -3,6 +3,14 @@ package core.User;
 import core.CreditCard.CreditCard;
 import core.DrivingPlan.DrivingPlan;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ * 
+ * This class represents the Member user for the application.
+ *
+ */
+
 public class MemberUser extends User{
     String username, firstName=null, lastName=null, email=null, phone=null, address=null, middleInit=null;
     UserType type;

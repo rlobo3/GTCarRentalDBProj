@@ -20,6 +20,14 @@ import org.jdesktop.swingx.JXDatePicker;
 import core.DBConnection;
 import core.User.EmployeeUser;
 
+/**
+ * 
+ * @author Sahil Gupta
+ *
+ * This class helps the Employee change the rental information of the user and reservation.
+ * 
+ */
+
 @SuppressWarnings("rawtypes")
 public class RentChangePanel extends JPanel {
     private static final long serialVersionUID = 1L;

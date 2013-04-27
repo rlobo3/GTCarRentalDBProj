@@ -2,6 +2,13 @@ package core.CreditCard;
 
 import java.math.BigInteger;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ * 
+ * This class represents the Credit Card Model Object which contains all the attributes of the car.
+ *
+ */
 
 public class CreditCard {
     private Integer cvv;

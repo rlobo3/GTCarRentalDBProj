@@ -30,6 +30,14 @@ import core.DBConnection;
 import core.Reservation.Reservation;
 import core.User.MemberUser;
 
+/**
+ * 
+ * @author Sahil Gupta
+ * 
+ * This class helps the user to view all the cars that are available for reservation and then make a reservation when the user selects an available car.
+ * 
+ */
+
 public class CarAvailPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     MemberUser member;

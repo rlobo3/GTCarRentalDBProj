@@ -1,5 +1,13 @@
 package core.User;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ * 
+ * This enum type contains the different kinds of users who use this application.
+ *
+ */
+
 public enum UserType {
     MEMBER("Georgia Tech Students/Faculty"),
     EMPLOYEE("GTCR Employee"),

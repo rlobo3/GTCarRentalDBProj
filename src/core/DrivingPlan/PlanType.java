@@ -1,5 +1,13 @@
 package core.DrivingPlan;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ * 
+ * This enum type contains the Car Rental Plan Types the member can choose.
+ *
+ */
+
 public enum PlanType {
     OCCASIONAL("Occasional Driving Plan",50,0,0),
     FREQUENT("Frequent Driving Plan",0,60,Float.parseFloat("0.10")),

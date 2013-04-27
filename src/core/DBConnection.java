@@ -4,6 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * @author Rochelle Lobo
+ * 
+ * This class helps in creating and closing the connection with the data base.
+ */
+
 public class DBConnection {
     String connStr, user, password, driverName;
     

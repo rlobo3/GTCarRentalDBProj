@@ -10,6 +10,14 @@ import com.mysql.jdbc.ResultSet;
 import core.DBConnection;
 import core.User.MemberUser;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ * 
+ * This class represents the driving plan data access object which helps the driving plan object in the accessing information from the database.
+ *
+ */
+
 public class DrivingPlanDao {
     DBConnection connection = new DBConnection();
     ArrayList<DrivingPlan> tableElement = new ArrayList<DrivingPlan>();

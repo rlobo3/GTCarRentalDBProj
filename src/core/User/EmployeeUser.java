@@ -1,5 +1,13 @@
 package core.User;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ * 
+ * This represents the Employee User Object.
+ *
+ */
+
 public class EmployeeUser extends User {
     String username;
     UserType type;

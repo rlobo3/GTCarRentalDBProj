@@ -2,6 +2,14 @@ package core.Car;
 
 import core.Location.Location;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ * 
+ * This class represents the Car object with all the attributes related to the car.
+ *
+ */
+
 public class Car {
     private String vehicleSNO, modelType, carType, color, transmission;
     private boolean auxCable, underMaintainance, bluetooth;

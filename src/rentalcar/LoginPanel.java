@@ -22,6 +22,7 @@ import core.User.UserType;
 /**
  * 
  * @author Rochelle Lobo
+ * 
  *	This class is the login screen where the user enters the system.
  */
 

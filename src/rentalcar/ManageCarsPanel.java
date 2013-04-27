@@ -27,6 +27,14 @@ import core.Car.Car;
 import core.User.EmployeeUser;
 import core.User.UserDao;
 
+/**
+ * 
+ * @author Sahil Gupta
+ *
+ * This code helps the user in managing cars by adding them to the database and changing/updating their information.
+ * 
+ */
+
 @SuppressWarnings("rawtypes")
 public class ManageCarsPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -512,6 +520,7 @@ public class ManageCarsPanel extends JPanel {
 				String TransmissionType = TransmissionType2TextField.getText();
 				String ChooseNewLocation = (String) NewLocationCombo
 						.getSelectedItem();
+				@SuppressWarnings("unused")
 				int Location_Total = 0, Location_Capacity = 0;
 				Connection conn = connection.createConnection();
 				try {

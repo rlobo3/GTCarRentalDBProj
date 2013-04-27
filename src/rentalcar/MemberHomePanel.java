@@ -9,8 +9,8 @@ import javax.swing.*;
 import core.User.MemberUser;
 
 /**
- * @author Sahil Gupta This class is the home page for students and Georgia Tech
- *         staff/faculty.
+ * @author Sahil Gupta 
+ * This class is the home page for students and Georgia Tech staff/faculty.
  */
 
 public class MemberHomePanel extends JPanel {

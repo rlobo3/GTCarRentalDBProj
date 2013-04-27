@@ -1,5 +1,13 @@
 package core.DrivingPlan;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ * 
+ * This class represents the driving plan object model.
+ *
+ */
+
 public class DrivingPlan {
     String name;
     Integer annualFees, monthlyPay;

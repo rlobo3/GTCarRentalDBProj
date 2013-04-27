@@ -19,6 +19,14 @@ import core.DBConnection;
 import core.Report.ReportDao;
 import core.User.EmployeeUser;
 
+/**
+ * 
+ * @author Sahil Gupta
+ *
+ * This class creates the panel for the Frequent user report.
+ *
+ */
+
 public class FreqUserReportPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

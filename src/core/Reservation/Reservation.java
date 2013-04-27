@@ -2,6 +2,14 @@ package core.Reservation;
 
 import java.sql.Date;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ * 
+ * This class represents the Reservation Model object.
+ *
+ */
+
 public class Reservation {
     private String username, vehicleSNO, locName, retStatus;
     private Date pickupDateTime, retDateTime;

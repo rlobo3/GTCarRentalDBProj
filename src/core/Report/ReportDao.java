@@ -8,6 +8,14 @@ import com.mysql.jdbc.ResultSet;
 
 import core.DBConnection;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ *
+ * This class helps the User in interacting with the database and user authentication.
+ *
+ */
+
 public class ReportDao {
     DBConnection connection = new DBConnection();
     Object[][] rowData;

@@ -1,5 +1,13 @@
 package core.Location;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ *
+ * This class represents the Location Model object and all it's attributes.
+ *
+ */
+
 public class Location {
     private String locName;
     private int capacity;

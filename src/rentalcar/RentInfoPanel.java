@@ -33,13 +33,13 @@ import org.jdesktop.swingx.JXDatePicker;
 import com.mysql.jdbc.ResultSet;
 
 import core.DBConnection;
-import core.Reservation.Reservation;
 import core.User.MemberUser;
 
 /**
  * @author Sahil Gupta
  *
  * This Panel shows the rental information of the car such as current and previous reservations.
+ * 
  */
 
 @SuppressWarnings("rawtypes")
@@ -243,16 +243,11 @@ public class RentInfoPanel extends JPanel {
                         "Row from Current Reservations is not selected, cannot update time.",
                         "Inane error",
                         JOptionPane.ERROR_MESSAGE);
-//                JFrame mainFrame = new JFrame();
-//                mainFrame.setContentPane(new RentInfoPanel(member));
-//                mainFrame.setBounds(mainFrame.getContentPane().getBounds());
-//                mainFrame.setVisible(true);
-//                mainFrame.repaint();
             }
             else {
-                Object[] rowDataCurrSelected = new Object[6];
+                @SuppressWarnings("unused")
+				Object[] rowDataCurrSelected = new Object[6];
                 rowDataCurrSelected = rowDataCurrRes[row];
-                /////Rochelle this object contains the data that can be used to fetch the correct result. see this
                 StringBuilder sb = new StringBuilder();
                 String returnTString = (String) ReturnTimeCombo.getSelectedItem();
 

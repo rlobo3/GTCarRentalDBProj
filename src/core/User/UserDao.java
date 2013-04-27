@@ -15,7 +15,6 @@ import core.DrivingPlan.DrivingPlan;
 import core.DrivingPlan.PlanType;
 
 /**
- * 
  * @author Rochelle Lobo
  * This class represents the User access object where connections to the database are made and SQL queries are handled.
  */

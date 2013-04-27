@@ -1,5 +1,12 @@
 package core.User;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ * This class represents the Admin User object model.
+ *
+ */
+
 public class AdminUser extends User {
     String username;
     UserType type;

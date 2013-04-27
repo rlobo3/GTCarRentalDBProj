@@ -19,6 +19,14 @@ import core.DBConnection;
 import core.Report.ReportDao;
 import core.User.EmployeeUser;
 
+/**
+ * 
+ * @author Sahil Gupta
+ * 
+ * This class creates the panel for Location preference report panel accessible to the employee user.
+ *
+ */
+
 public class LocPreferReportPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

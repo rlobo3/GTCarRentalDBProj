@@ -31,7 +31,9 @@ import core.Reservation.Reservation;
 import core.User.MemberUser;
 
 /**
- * @author Sahil Gupta This class is page for renting the car for members.
+ * @author Sahil Gupta 
+ * 
+ * This class is page for renting the car for members.
  */
 
 public class RentCarPanel extends JPanel {

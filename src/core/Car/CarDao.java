@@ -12,6 +12,14 @@ import core.DBConnection;
 import core.Reservation.Reservation;
 import core.User.MemberUser;
 
+/**
+ * 
+ * @author Rochelle Lobo
+ * 
+ * This author represents the car data access object which helps car object in interacting with the database.
+ *
+ */
+
 public class CarDao {
     DBConnection connection = new DBConnection();
 

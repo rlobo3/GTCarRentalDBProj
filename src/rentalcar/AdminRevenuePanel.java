@@ -19,6 +19,14 @@ import core.DBConnection;
 import core.Report.ReportDao;
 import core.User.AdminUser;
 
+/**
+ * 
+ * @author Sahil Gupta
+ * 
+ * This class represents the Administrator Revenue report.
+ *
+ */
+
 public class AdminRevenuePanel extends JPanel {
     private static final long serialVersionUID = 1L;
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

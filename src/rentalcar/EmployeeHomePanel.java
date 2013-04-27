@@ -25,6 +25,7 @@ import core.User.EmployeeUser;
  * @author Sahil Gupta
  *
  *This class is the home page for employees where can view, enter information and also access reports.
+ *
  */
 
 public class EmployeeHomePanel extends JPanel {

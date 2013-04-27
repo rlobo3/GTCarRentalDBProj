@@ -26,7 +26,10 @@ import core.DBConnection;
 import core.User.EmployeeUser;
 
 /**
- * @author Sahil Gupta This class is page for submitting maintenance requests.
+ * @author Sahil Gupta 
+ * 
+ * This class is page for submitting maintenance requests.
+ * 
  */
 
 public class MainteRequestPanel extends JPanel {
